@@ -1,0 +1,138 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model article {
+  id                Int               @id @default(autoincrement())
+  idRedacteur       Int
+  idCategorie       Int
+  titre             String            @db.VarChar(255)
+  slug              String            @unique(map: "slug") @db.VarChar(100)
+  illustration      String            @db.VarChar(255)
+  description       String            @db.Text
+  contenu           String            @db.LongText
+  top               Boolean
+  recommadee        Boolean
+  isPublier         Boolean
+  createdAt         DateTime          @default(now())
+  categorie_article categorie_article @relation(fields: [idCategorie], references: [id], onDelete: Cascade, map: "article_ibfk_1")
+  utilisateur       utilisateur       @relation(fields: [idRedacteur], references: [id], onDelete: Cascade, map: "article_ibfk_2")
+  commentaire       commentaire[]
+
+  @@index([idCategorie], map: "idCategorie")
+  @@index([idRedacteur], map: "idRedacteur")
+}
+
+model categorie_article {
+  id           Int       @id @default(autoincrement())
+  nomCategorie String    @db.VarChar(255)
+  article      article[]
+}
+
+model commentaire {
+  id            Int         @id @default(autoincrement())
+  idUtilisateur Int
+  idArticle     Int
+  contenu       String      @db.Text
+  createdAt     DateTime    @default(now())
+  utilisateur   utilisateur @relation(fields: [idUtilisateur], references: [id], onDelete: Cascade, map: "commentaire_ibfk_1")
+  article       article     @relation(fields: [idArticle], references: [id], onDelete: Cascade, map: "commentaire_ibfk_2")
+  reponse       reponse[]
+
+  @@index([idArticle], map: "idArticle")
+  @@index([idUtilisateur], map: "idUtilisateur")
+}
+
+model entreprise {
+  id            Int         @id @default(autoincrement())
+  idRedacteur   Int
+  illustration  String      @db.VarChar(255)
+  nom           String      @db.VarChar(255)
+  slug          String      @unique(map: "slug") @db.VarChar(100)
+  brand         String      @db.VarChar(255)
+  email         String      @db.VarChar(255)
+  telephone     String      @db.VarChar(255)
+  anneeCreation String      @db.VarChar(10)
+  urlWebsite    String      @db.VarChar(255)
+  descriptionA  String      @db.Text
+  descriptionB  String      @db.Text
+  textContact   String      @db.Text
+  statistique   Json
+  createdAt     DateTime    @default(now())
+  utilisateur   utilisateur @relation(fields: [idRedacteur], references: [id], onDelete: Cascade, map: "entreprise_ibfk_1")
+  evenement     evenement[]
+
+  @@index([idRedacteur], map: "idRedacteur")
+}
+
+model evenement {
+  id                    Int                     @id @default(autoincrement())
+  idEntreprise          Int
+  titre                 String                  @db.VarChar(255)
+  slug                  String                  @unique(map: "slug") @db.VarChar(100)
+  illustration          String                  @db.VarChar(255)
+  description           String                  @db.Text
+  contenu               String                  @db.LongText
+  deadline              DateTime                @db.Timestamp(0)
+  onHeader              Boolean
+  createdAt             DateTime                @default(now())
+  entreprise            entreprise              @relation(fields: [idEntreprise], references: [id], onDelete: Cascade, map: "evenement_ibfk_1")
+  inscription_evenement inscription_evenement[]
+
+  @@index([idEntreprise], map: "idEntreprise")
+}
+
+model inscription_evenement {
+  id            Int         @id @default(autoincrement())
+  idEvenement   Int
+  idUtilisateur Int
+  evenement     evenement   @relation(fields: [idEvenement], references: [id], onDelete: Cascade, map: "inscription_evenement_ibfk_1")
+  utilisateur   utilisateur @relation(fields: [idUtilisateur], references: [id], onDelete: Cascade, map: "inscription_evenement_ibfk_2")
+
+  @@index([idEvenement], map: "idEvenement")
+  @@index([idUtilisateur], map: "idUtilisateur")
+}
+
+model reponse {
+  id            Int         @id @default(autoincrement())
+  idUtilisateur Int
+  idCommentaire Int
+  contenu       String      @db.Text
+  createdAt     DateTime    @default(now())
+  utilisateur   utilisateur @relation(fields: [idUtilisateur], references: [id], onDelete: Cascade, map: "reponse_ibfk_1")
+  commentaire   commentaire @relation(fields: [idCommentaire], references: [id], onDelete: Cascade, map: "reponse_ibfk_2")
+
+  @@index([idCommentaire], map: "idCommentaire")
+  @@index([idUtilisateur], map: "idUtilisateur")
+}
+
+model role_utilisateur {
+  id          Int           @id @default(autoincrement())
+  nomRole     String        @db.VarChar(100)
+  utilisateur utilisateur[]
+}
+
+model utilisateur {
+  id                    Int                     @id @default(autoincrement())
+  nom                   String                  @db.VarChar(255)
+  prenom                String                  @db.VarChar(255)
+  illustration          String                  @db.VarChar(255)
+  email                 String                  @unique(map: "email") @db.VarChar(100)
+  telephone             String                  @db.VarChar(50)
+  role                  Int
+  motDePasse            String                  @db.VarChar(255)
+  createdAt             DateTime                @default(now())
+  role_utilisateur      role_utilisateur        @relation(fields: [role], references: [id], onDelete: Cascade, map: "utilisateur_ibfk_1")
+  article               article[]
+  commentaire           commentaire[]
+  entreprise            entreprise[]
+  inscription_evenement inscription_evenement[]
+  reponse               reponse[]
+
+  @@index([role], map: "role")
+}
