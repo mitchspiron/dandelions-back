@@ -9,7 +9,7 @@ export declare class AuthUserService {
     private mailService;
     constructor(prisma: PrismaService, jwtService: JwtService, mailService: MailService);
     signup(dto: AuthUserDtoSignup): Promise<void>;
-    confirm(data: any): Promise<User>;
+    confirm(data: any, res: any): Promise<User>;
     signin(dto: AuthUserDtoSignin): Promise<UserToken>;
     hashData(data: string): Promise<string>;
     getToken(idUser: number, emailUser: string): Promise<Token>;

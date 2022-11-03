@@ -24,8 +24,8 @@ let AuthUserController = class AuthUserController {
     signup(dto) {
         return this.authService.signup(dto);
     }
-    confirm(token) {
-        return this.authService.confirm(token);
+    confirm(token, res) {
+        return this.authService.confirm(token, res);
     }
     signinLocal(dto) {
         return this.authService.signin(dto);
@@ -45,8 +45,9 @@ __decorate([
     (0, common_1.Get)('/signup/confirm/:token'),
     (0, common_1.HttpCode)(common_1.HttpStatus.CREATED),
     __param(0, (0, common_1.Param)('token')),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthUserController.prototype, "confirm", null);
 __decorate([

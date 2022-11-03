@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable, Redirect } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { AuthUserDtoSignin, AuthUserDtoSignup } from './dto';
 import * as bcrypt from 'bcrypt';
@@ -18,7 +18,7 @@ export class AuthUserService {
     const token = await Promise.all([
       this.jwtService.signAsync(dto, {
         secret: 'super-secret',
-        expiresIn: '1d',
+        expiresIn: 60 * 1,
       }),
     ]);
 
@@ -35,27 +35,39 @@ export class AuthUserService {
 
     /* console.log(token[0]); */
 
-    this.mailService.sendMailConfirmation(dto.email, token[0]);
+    await this.mailService
+      .sendMailConfirmation(dto.email, token[0])
+      .then(() => console.log('Vérifier votre boîte email!'))
+      .catch((e) => {
+        throw new ForbiddenException(
+          "Un problème s'est produit, vérifier votre connexion internet!",
+        );
+      });
   }
 
-  async confirm(data): Promise<User> {
+  async confirm(data, res): Promise<User> {
     const secret = 'super-secret';
-    const newUser = this.jwtService.verify(data, { secret: secret });
-    delete newUser.iat;
-    delete newUser.exp;
-    newUser.motDePasse = await this.hashData(newUser.motDePasse);
-
-    return await this.prisma.utilisateur.create({
-      data: {
-        nom: newUser.nom,
-        prenom: newUser.prenom,
-        illustration: newUser.illustration,
-        email: newUser.email,
-        telephone: newUser.telephone,
-        role: Number(newUser.role),
-        motDePasse: newUser.motDePasse,
-      },
-    });
+    try {
+      const newUser = this.jwtService.verify(data, { secret: secret });
+      delete newUser.iat;
+      delete newUser.exp;
+      newUser.motDePasse = await this.hashData(newUser.motDePasse);
+      const newConfirmUser = await this.prisma.utilisateur.create({
+        data: {
+          nom: newUser.nom,
+          prenom: newUser.prenom,
+          illustration: newUser.illustration,
+          email: newUser.email,
+          telephone: newUser.telephone,
+          role: Number(newUser.role),
+          motDePasse: newUser.motDePasse,
+        },
+      });
+      res.redirect('http://localhost:8080/login');
+      return newConfirmUser;
+    } catch (e) {
+      res.redirect('http://localhost:8080/sfds');
+    }
   }
 
   async signin(dto: AuthUserDtoSignin): Promise<UserToken> {

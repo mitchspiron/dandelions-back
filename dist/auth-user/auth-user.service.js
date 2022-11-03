@@ -25,7 +25,7 @@ let AuthUserService = class AuthUserService {
         const token = await Promise.all([
             this.jwtService.signAsync(dto, {
                 secret: 'super-secret',
-                expiresIn: '1d',
+                expiresIn: 60 * 1,
             }),
         ]);
         const userEmail = await this.prisma.utilisateur.findUnique({
@@ -35,25 +35,37 @@ let AuthUserService = class AuthUserService {
         });
         if (userEmail)
             throw new common_1.ForbiddenException('Cet email appartient déjà à un utilisateur');
-        this.mailService.sendMailConfirmation(dto.email, token[0]);
-    }
-    async confirm(data) {
-        const secret = 'super-secret';
-        const newUser = this.jwtService.verify(data, { secret: secret });
-        delete newUser.iat;
-        delete newUser.exp;
-        newUser.motDePasse = await this.hashData(newUser.motDePasse);
-        return await this.prisma.utilisateur.create({
-            data: {
-                nom: newUser.nom,
-                prenom: newUser.prenom,
-                illustration: newUser.illustration,
-                email: newUser.email,
-                telephone: newUser.telephone,
-                role: Number(newUser.role),
-                motDePasse: newUser.motDePasse,
-            },
+        await this.mailService
+            .sendMailConfirmation(dto.email, token[0])
+            .then(() => console.log('Vérifier votre boîte email!'))
+            .catch((e) => {
+            throw new common_1.ForbiddenException("Un problème s'est produit, vérifier votre connexion internet!");
         });
+    }
+    async confirm(data, res) {
+        const secret = 'super-secret';
+        try {
+            const newUser = this.jwtService.verify(data, { secret: secret });
+            delete newUser.iat;
+            delete newUser.exp;
+            newUser.motDePasse = await this.hashData(newUser.motDePasse);
+            const newConfirmUser = await this.prisma.utilisateur.create({
+                data: {
+                    nom: newUser.nom,
+                    prenom: newUser.prenom,
+                    illustration: newUser.illustration,
+                    email: newUser.email,
+                    telephone: newUser.telephone,
+                    role: Number(newUser.role),
+                    motDePasse: newUser.motDePasse,
+                },
+            });
+            res.redirect('http://localhost:8080/login');
+            return newConfirmUser;
+        }
+        catch (e) {
+            res.redirect('http://localhost:8080/sfds');
+        }
     }
     async signin(dto) {
         const user = await this.prisma.utilisateur.findUnique({
