@@ -42,7 +42,7 @@ let AuthUserService = class AuthUserService {
             throw new common_1.ForbiddenException("Un problème s'est produit, vérifier votre connexion internet!");
         });
     }
-    async confirm(data, res) {
+    async confirm(data, res, req) {
         const secret = 'super-secret';
         try {
             const newUser = this.jwtService.verify(data, { secret: secret });
@@ -60,7 +60,8 @@ let AuthUserService = class AuthUserService {
                     motDePasse: newUser.motDePasse,
                 },
             });
-            res.redirect('http://localhost:8080/login');
+            req.flash('info', 'Flash is back!');
+            res.redirect('/bienvenu');
             return newConfirmUser;
         }
         catch (e) {

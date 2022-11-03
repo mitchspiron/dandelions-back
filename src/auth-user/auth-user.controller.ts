@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Res,
+  Req,
 } from '@nestjs/common';
 import { Public } from '../common/decorators';
 import { AuthUserService } from './auth-user.service';
@@ -27,8 +28,8 @@ export class AuthUserController {
   @Public()
   @Get('/signup/confirm/:token')
   @HttpCode(HttpStatus.CREATED)
-  confirm(@Param('token') token, @Res() res): Promise<User> {
-    return this.authService.confirm(token, res);
+  confirm(@Param('token') token, @Res() res, @Req() req): Promise<User> {
+    return this.authService.confirm(token, res, req);
   }
 
   @Public()

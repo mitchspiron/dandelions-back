@@ -1,10 +1,30 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
+import { join } from 'path';
+import * as session from 'express-session';
+import { flash } from 'express-flash-message';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useGlobalPipes(new ValidationPipe());
+
+  app.useStaticAssets(join(__dirname, '..', 'public'));
+  app.setBaseViewsDir(join(__dirname, '..', 'views'));
+  app.setViewEngine('ejs');
+
+  app.use(
+    session({
+      secret: 'secret',
+      resave: false,
+      saveUninitialized: true,
+      cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+      },
+    }),
+  );
+  app.use(flash({ sessionKeyName: 'flashMessage' }));
 
   app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');

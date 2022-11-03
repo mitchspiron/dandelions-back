@@ -6,8 +6,10 @@ import { UserRoleModule } from './user-role/user-role.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { MailModule } from './mailer/mailer.module';
 import { PostCategoryModule } from './post-category/post-category.module';
+import { AppController } from './app.controller';
 
 @Module({
+  controllers: [AppController],
   imports: [
     PrismaModule,
     AuthUserModule,

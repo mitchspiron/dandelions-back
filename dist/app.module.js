@@ -15,10 +15,12 @@ const user_role_module_1 = require("./user-role/user-role.module");
 const prisma_module_1 = require("./prisma/prisma.module");
 const mailer_module_1 = require("./mailer/mailer.module");
 const post_category_module_1 = require("./post-category/post-category.module");
+const app_controller_1 = require("./app.controller");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
+        controllers: [app_controller_1.AppController],
         imports: [
             prisma_module_1.PrismaModule,
             auth_user_module_1.AuthUserModule,

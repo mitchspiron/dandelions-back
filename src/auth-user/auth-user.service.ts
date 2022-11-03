@@ -45,7 +45,7 @@ export class AuthUserService {
       });
   }
 
-  async confirm(data, res): Promise<User> {
+  async confirm(data, res, req): Promise<User> {
     const secret = 'super-secret';
     try {
       const newUser = this.jwtService.verify(data, { secret: secret });
@@ -63,7 +63,9 @@ export class AuthUserService {
           motDePasse: newUser.motDePasse,
         },
       });
-      res.redirect('http://localhost:8080/login');
+      //res.redirect('http://localhost:8080/login');
+      req.flash('info', 'Flash is back!');
+      res.redirect('/bienvenu');
       return newConfirmUser;
     } catch (e) {
       res.redirect('http://localhost:8080/erreur-confirmation-email');
