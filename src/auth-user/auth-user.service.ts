@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, Redirect } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { AuthUserDtoSignin, AuthUserDtoSignup } from './dto';
 import * as bcrypt from 'bcrypt';
@@ -38,7 +38,7 @@ export class AuthUserService {
     await this.mailService
       .sendMailConfirmation(dto.email, token[0])
       .then(() => console.log('Vérifier votre boîte email!'))
-      .catch((e) => {
+      .catch(() => {
         throw new ForbiddenException(
           "Un problème s'est produit, vérifier votre connexion internet!",
         );
@@ -66,7 +66,7 @@ export class AuthUserService {
       res.redirect('http://localhost:8080/login');
       return newConfirmUser;
     } catch (e) {
-      res.redirect('http://localhost:8080/sfds');
+      res.redirect('http://localhost:8080/erreur-confirmation-email');
     }
   }
 

@@ -38,7 +38,7 @@ let AuthUserService = class AuthUserService {
         await this.mailService
             .sendMailConfirmation(dto.email, token[0])
             .then(() => console.log('Vérifier votre boîte email!'))
-            .catch((e) => {
+            .catch(() => {
             throw new common_1.ForbiddenException("Un problème s'est produit, vérifier votre connexion internet!");
         });
     }
@@ -64,7 +64,7 @@ let AuthUserService = class AuthUserService {
             return newConfirmUser;
         }
         catch (e) {
-            res.redirect('http://localhost:8080/sfds');
+            res.redirect('http://localhost:8080/erreur-confirmation-email');
         }
     }
     async signin(dto) {
