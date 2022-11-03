@@ -14,11 +14,18 @@ const guards_1 = require("./common/guards");
 const user_role_module_1 = require("./user-role/user-role.module");
 const prisma_module_1 = require("./prisma/prisma.module");
 const mailer_module_1 = require("./mailer/mailer.module");
+const post_category_module_1 = require("./post-category/post-category.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [prisma_module_1.PrismaModule, auth_user_module_1.AuthUserModule, user_role_module_1.UserRoleModule, mailer_module_1.MailModule],
+        imports: [
+            prisma_module_1.PrismaModule,
+            auth_user_module_1.AuthUserModule,
+            user_role_module_1.UserRoleModule,
+            mailer_module_1.MailModule,
+            post_category_module_1.PostCategoryModule,
+        ],
         providers: [
             {
                 provide: core_1.APP_GUARD,
