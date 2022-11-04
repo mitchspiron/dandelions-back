@@ -3,4 +3,5 @@ export declare class MailService {
     private readonly mailerService;
     constructor(mailerService: MailerService);
     sendMailConfirmation(to: any, token: any): Promise<SentMessageInfo>;
+    sendMailForgotPassword(to: any, token: any): Promise<SentMessageInfo>;
 }

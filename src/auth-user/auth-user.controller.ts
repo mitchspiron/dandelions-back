@@ -11,7 +11,12 @@ import {
 } from '@nestjs/common';
 import { Public } from '../common/decorators';
 import { AuthUserService } from './auth-user.service';
-import { AuthUserDtoSignin, AuthUserDtoSignup } from './dto';
+import {
+  AuthUserDtoSignin,
+  AuthUserDtoSignup,
+  forgotPasswordDto,
+  resetPasswordDto,
+} from './dto';
 import { User, UserToken } from './types';
 
 @Controller('auth-user')
@@ -37,5 +42,23 @@ export class AuthUserController {
   @HttpCode(HttpStatus.OK)
   signinLocal(@Body() dto: AuthUserDtoSignin): Promise<UserToken> {
     return this.authService.signin(dto);
+  }
+
+  @Public()
+  @Post('/forgot-password')
+  @HttpCode(HttpStatus.OK)
+  forgotPassword(@Body() dto: forgotPasswordDto) {
+    return this.authService.forgotPassword(dto);
+  }
+
+  @Public()
+  @Post('/reset-password/:token')
+  @HttpCode(HttpStatus.CREATED)
+  resetPassword(
+    @Body() dto: resetPasswordDto,
+    @Param('token') token,
+    @Res() res,
+  ): Promise<User> {
+    return this.authService.resetPassword(dto, token, res);
   }
 }

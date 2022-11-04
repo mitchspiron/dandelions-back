@@ -38,3 +38,15 @@ export class AuthUserDtoSignin {
   @IsString()
   motDePasse: string;
 }
+
+export class forgotPasswordDto {
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
+}
+
+export class resetPasswordDto {
+  @IsNotEmpty()
+  @IsString()
+  motDePasse: string;
+}

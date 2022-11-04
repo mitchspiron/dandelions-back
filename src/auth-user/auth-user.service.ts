@@ -1,6 +1,11 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { AuthUserDtoSignin, AuthUserDtoSignup } from './dto';
+import {
+  AuthUserDtoSignin,
+  AuthUserDtoSignup,
+  forgotPasswordDto,
+  resetPasswordDto,
+} from './dto';
 import * as bcrypt from 'bcrypt';
 import { Token, User, UserToken } from './types';
 import { JwtService } from '@nestjs/jwt';
@@ -91,6 +96,56 @@ export class AuthUserService {
     const token = await this.getToken(user.id, user.email);
 
     return [user, token];
+  }
+
+  async forgotPassword(dto: forgotPasswordDto) {
+    const token = await Promise.all([
+      this.jwtService.signAsync(dto, {
+        secret: 'super-secret',
+        expiresIn: 60 * 5,
+      }),
+    ]);
+
+    const userEmail = await this.prisma.utilisateur.findUnique({
+      where: {
+        email: dto.email,
+      },
+    });
+
+    if (!userEmail) throw new ForbiddenException("Ce compte n'éxiste pas");
+
+    /* console.log(token[0]); */
+
+    await this.mailService
+      .sendMailForgotPassword(dto.email, token[0])
+      .then(() => console.log('Vérifier votre boîte email!'))
+      .catch(() => {
+        throw new ForbiddenException(
+          "Un problème s'est produit, vérifier votre connexion internet!",
+        );
+      });
+  }
+
+  async resetPassword(dto: resetPasswordDto, data, res): Promise<User> {
+    const secret = 'super-secret';
+    try {
+      const newPassword = this.jwtService.verify(data, { secret: secret });
+      delete newPassword.iat;
+      delete newPassword.exp;
+      const hash = await this.hashData(dto.motDePasse);
+      const newUserPassword = await this.prisma.utilisateur.update({
+        data: {
+          motDePasse: hash,
+        },
+        where: {
+          email: newPassword.email,
+        },
+      });
+      res.redirect('http://localhost:8080/login');
+      return newUserPassword;
+    } catch (e) {
+      res.redirect('http://localhost:8080/erreur-recuperation-mot-de-passe');
+    }
   }
 
   hashData(data: string) {
