@@ -8,6 +8,7 @@ import { MailModule } from './mailer/mailer.module';
 import { PostCategoryModule } from './post-category/post-category.module';
 import { AppController } from './app.controller';
 import { UsersModule } from './users/users.module';
+import { PostModule } from './post/post.module';
 
 @Module({
   controllers: [AppController],
@@ -18,6 +19,7 @@ import { UsersModule } from './users/users.module';
     MailModule,
     PostCategoryModule,
     UsersModule,
+    PostModule,
   ],
   providers: [
     {

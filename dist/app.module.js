@@ -17,6 +17,7 @@ const mailer_module_1 = require("./mailer/mailer.module");
 const post_category_module_1 = require("./post-category/post-category.module");
 const app_controller_1 = require("./app.controller");
 const users_module_1 = require("./users/users.module");
+const post_module_1 = require("./post/post.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -29,6 +30,7 @@ AppModule = __decorate([
             mailer_module_1.MailModule,
             post_category_module_1.PostCategoryModule,
             users_module_1.UsersModule,
+            post_module_1.PostModule,
         ],
         providers: [
             {
