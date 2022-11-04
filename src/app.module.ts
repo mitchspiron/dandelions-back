@@ -7,6 +7,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { MailModule } from './mailer/mailer.module';
 import { PostCategoryModule } from './post-category/post-category.module';
 import { AppController } from './app.controller';
+import { UsersModule } from './users/users.module';
 
 @Module({
   controllers: [AppController],
@@ -16,6 +17,7 @@ import { AppController } from './app.controller';
     UserRoleModule,
     MailModule,
     PostCategoryModule,
+    UsersModule,
   ],
   providers: [
     {
