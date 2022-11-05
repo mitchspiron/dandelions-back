@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Post,
   Put,
 } from '@nestjs/common';
@@ -21,7 +22,7 @@ export class UsersController {
   }
 
   @Get('/:id')
-  async getUsersById(@Param('id') id: number): Promise<Users> {
+  async getUsersById(@Param('id', ParseIntPipe) id: number): Promise<Users> {
     return await this.usersService.getUsersById(id);
   }
 
@@ -32,7 +33,7 @@ export class UsersController {
 
   @Put('/info/:id')
   async updateUsersInfoById(
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @Body() dto: UsersInfoDto,
   ): Promise<UsersInfo> {
     return await this.usersService.updateUsersInfoById(id, dto);
@@ -40,14 +41,14 @@ export class UsersController {
 
   @Put('/password/:id')
   async updateUsersPasswordById(
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @Body() dto: UsersPasswordDto,
   ): Promise<UsersPassword> {
     return await this.usersService.updateUsersPasswordById(id, dto);
   }
 
   @Delete('/:id')
-  async deleteUsersById(@Param('id') id: number): Promise<Users> {
+  async deleteUsersById(@Param('id', ParseIntPipe) id: number): Promise<Users> {
     return await this.usersService.deleteUsersById(id);
   }
 }

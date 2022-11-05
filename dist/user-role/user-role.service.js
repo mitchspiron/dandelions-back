@@ -19,7 +19,7 @@ let UserRoleService = class UserRoleService {
     async getUserRoleById(id) {
         const UserRoleById = await this.prisma.role_utilisateur.findUnique({
             where: {
-                id: Number(id),
+                id,
             },
         });
         if (!UserRoleById)
@@ -40,27 +40,35 @@ let UserRoleService = class UserRoleService {
         });
     }
     async updateUserRoleById(id, dto) {
-        const UserRoleById = await this.prisma.role_utilisateur.update({
+        const UserRoleById = await this.prisma.role_utilisateur.findUnique({
+            where: {
+                id,
+            },
+        });
+        if (!UserRoleById)
+            throw new common_1.ForbiddenException("L'identifiant n'existe pas!");
+        return await this.prisma.role_utilisateur.update({
             data: {
                 nomRole: dto.nomRole,
             },
             where: {
-                id: Number(id),
+                id,
             },
         });
-        if (!UserRoleById)
-            throw new common_1.ForbiddenException("L'identifiant n'existe pas!");
-        return UserRoleById;
     }
     async deleteUserRoleById(id) {
-        const UserRoleById = await this.prisma.role_utilisateur.delete({
+        const UserRoleById = await this.prisma.role_utilisateur.findUnique({
             where: {
                 id: Number(id),
             },
         });
         if (!UserRoleById)
             throw new common_1.ForbiddenException("L'identifiant n'existe pas!");
-        return UserRoleById;
+        return await this.prisma.role_utilisateur.delete({
+            where: {
+                id,
+            },
+        });
     }
 };
 UserRoleService = __decorate([

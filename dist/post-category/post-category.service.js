@@ -19,7 +19,7 @@ let PostCategoryService = class PostCategoryService {
     async getPostCategoryById(id) {
         const PostCategoryById = await this.prisma.categorie_article.findUnique({
             where: {
-                id: Number(id),
+                id,
             },
         });
         if (!PostCategoryById)
@@ -40,27 +40,35 @@ let PostCategoryService = class PostCategoryService {
         });
     }
     async updatePostCategoryById(id, dto) {
-        const PostCategoryById = await this.prisma.categorie_article.update({
+        const PostCategoryById = await this.prisma.categorie_article.findUnique({
+            where: {
+                id,
+            },
+        });
+        if (!PostCategoryById)
+            throw new common_1.ForbiddenException("L'identifiant n'existe pas!");
+        return await this.prisma.categorie_article.update({
             data: {
                 nomCategorie: dto.nomCategorie,
             },
             where: {
-                id: Number(id),
+                id,
             },
         });
-        if (!PostCategoryById)
-            throw new common_1.ForbiddenException("L'identifiant n'existe pas!");
-        return PostCategoryById;
     }
     async deletePostCategoryById(id) {
-        const PostCategoryById = await this.prisma.categorie_article.delete({
+        const PostCategoryById = await this.prisma.categorie_article.findUnique({
             where: {
-                id: Number(id),
+                id,
             },
         });
         if (!PostCategoryById)
             throw new common_1.ForbiddenException("L'identifiant n'existe pas!");
-        return PostCategoryById;
+        return await this.prisma.categorie_article.delete({
+            where: {
+                id,
+            },
+        });
     }
 };
 PostCategoryService = __decorate([

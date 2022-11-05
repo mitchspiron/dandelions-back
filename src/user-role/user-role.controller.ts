@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Post,
   Put,
 } from '@nestjs/common';
@@ -21,7 +22,7 @@ export class UserRoleController {
   }
 
   @Get('/:id')
-  async getUserRoleById(@Param('id') id: number): Promise<UserRole> {
+  async getUserRoleById(@Param('id', ParseIntPipe) id: number): Promise<UserRole> {
     return await this.userRoleService.getUserRoleById(id);
   }
 
@@ -32,14 +33,14 @@ export class UserRoleController {
 
   @Put('/:id')
   async updateUserRoleById(
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @Body() dto: UserRoleDto,
   ): Promise<UserRole> {
     return await this.userRoleService.updateUserRoleById(id, dto);
   }
 
   @Delete('/:id')
-  async deleteUserRoleById(@Param('id') id: number): Promise<UserRole> {
+  async deleteUserRoleById(@Param('id', ParseIntPipe) id: number): Promise<UserRole> {
     return await this.userRoleService.deleteUserRoleById(id);
   }
 }

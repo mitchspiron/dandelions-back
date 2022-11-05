@@ -10,7 +10,7 @@ export class PostCategoryService {
   async getPostCategoryById(id: number): Promise<PostCategory> {
     const PostCategoryById = await this.prisma.categorie_article.findUnique({
       where: {
-        id: Number(id),
+        id,
       },
     });
 
@@ -39,29 +39,40 @@ export class PostCategoryService {
     id: number,
     dto: PostCategoryDto,
   ): Promise<PostCategory> {
-    const PostCategoryById = await this.prisma.categorie_article.update({
+    const PostCategoryById = await this.prisma.categorie_article.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!PostCategoryById)
+    throw new ForbiddenException("L'identifiant n'existe pas!");
+
+    return await this.prisma.categorie_article.update({
       data: {
         nomCategorie: dto.nomCategorie,
       },
       where: {
-        id: Number(id),
+        id,
       },
     });
 
-    if (!PostCategoryById)
-      throw new ForbiddenException("L'identifiant n'existe pas!");
-    return PostCategoryById;
   }
 
   async deletePostCategoryById(id: number): Promise<PostCategory> {
-    const PostCategoryById = await this.prisma.categorie_article.delete({
+    const PostCategoryById = await this.prisma.categorie_article.findUnique({
       where: {
-        id: Number(id),
+        id,
       },
     });
 
     if (!PostCategoryById)
-      throw new ForbiddenException("L'identifiant n'existe pas!");
-    return PostCategoryById;
+    throw new ForbiddenException("L'identifiant n'existe pas!");
+    
+    return await this.prisma.categorie_article.delete({
+      where: {
+        id,
+      },
+    });
   }
 }

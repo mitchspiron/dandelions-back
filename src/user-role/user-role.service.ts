@@ -10,12 +10,13 @@ export class UserRoleService {
   async getUserRoleById(id: number): Promise<UserRole> {
     const UserRoleById = await this.prisma.role_utilisateur.findUnique({
       where: {
-        id: Number(id),
+        id,
       },
     });
 
     if (!UserRoleById)
       throw new ForbiddenException("L'identifiant n'existe pas!");
+
     return UserRoleById;
   }
 
@@ -36,22 +37,27 @@ export class UserRoleService {
   }
 
   async updateUserRoleById(id: number, dto: UserRoleDto): Promise<UserRole> {
-    const UserRoleById = await this.prisma.role_utilisateur.update({
+    const UserRoleById = await this.prisma.role_utilisateur.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!UserRoleById)
+      throw new ForbiddenException("L'identifiant n'existe pas!");
+
+    return await this.prisma.role_utilisateur.update({
       data: {
         nomRole: dto.nomRole,
       },
       where: {
-        id: Number(id),
+        id,
       },
     });
-
-    if (!UserRoleById)
-      throw new ForbiddenException("L'identifiant n'existe pas!");
-    return UserRoleById;
   }
 
   async deleteUserRoleById(id: number): Promise<UserRole> {
-    const UserRoleById = await this.prisma.role_utilisateur.delete({
+    const UserRoleById = await this.prisma.role_utilisateur.findUnique({
       where: {
         id: Number(id),
       },
@@ -59,6 +65,11 @@ export class UserRoleService {
 
     if (!UserRoleById)
       throw new ForbiddenException("L'identifiant n'existe pas!");
-    return UserRoleById;
+
+    return await this.prisma.role_utilisateur.delete({
+      where: {
+        id,
+      },
+    });
   }
 }

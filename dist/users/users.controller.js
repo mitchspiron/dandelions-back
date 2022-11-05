@@ -47,7 +47,7 @@ __decorate([
 ], UsersController.prototype, "getUsers", null);
 __decorate([
     (0, common_1.Get)('/:id'),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
@@ -61,7 +61,7 @@ __decorate([
 ], UsersController.prototype, "createUsers", null);
 __decorate([
     (0, common_1.Put)('/info/:id'),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, dto_1.UsersInfoDto]),
@@ -69,7 +69,7 @@ __decorate([
 ], UsersController.prototype, "updateUsersInfoById", null);
 __decorate([
     (0, common_1.Put)('/password/:id'),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, dto_1.UsersPasswordDto]),
@@ -77,7 +77,7 @@ __decorate([
 ], UsersController.prototype, "updateUsersPasswordById", null);
 __decorate([
     (0, common_1.Delete)('/:id'),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)

@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Post,
   Put,
 } from '@nestjs/common';
@@ -21,7 +22,7 @@ export class PostCategoryController {
   }
 
   @Get('/:id')
-  async getPostCategoryById(@Param('id') id: number): Promise<PostCategory> {
+  async getPostCategoryById(@Param('id', ParseIntPipe) id: number): Promise<PostCategory> {
     return await this.postCategoryService.getPostCategoryById(id);
   }
 
@@ -34,14 +35,14 @@ export class PostCategoryController {
 
   @Put('/:id')
   async updatePostCategoryById(
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @Body() dto: PostCategoryDto,
   ): Promise<PostCategory> {
     return await this.postCategoryService.updatePostCategoryById(id, dto);
   }
 
   @Delete('/:id')
-  async deletePostCategoryById(@Param('id') id: number): Promise<PostCategory> {
+  async deletePostCategoryById(@Param('id', ParseIntPipe) id: number): Promise<PostCategory> {
     return await this.postCategoryService.deletePostCategoryById(id);
   }
 }

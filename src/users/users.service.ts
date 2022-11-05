@@ -11,7 +11,7 @@ export class UsersService {
   async getUsersById(id: number): Promise<Users> {
     const UsersById = await this.prisma.utilisateur.findUnique({
       where: {
-        id: Number(id),
+        id,
       },
     });
 
@@ -44,7 +44,7 @@ export class UsersService {
   async updateUsersInfoById(id: number, dto: UsersInfoDto): Promise<UsersInfo> {
     const UsersById = await this.prisma.utilisateur.findUnique({
       where: {
-        id: Number(id),
+        id,
       },
     });
 
@@ -69,7 +69,7 @@ export class UsersService {
           role: true,
         },
         where: {
-          id: Number(id),
+          id,
         },
       });
     }
@@ -101,7 +101,7 @@ export class UsersService {
             motDePasse: true,
           },
           where: {
-            id: Number(id),
+            id,
           },
         });
       }
@@ -109,14 +109,19 @@ export class UsersService {
   }
 
   async deleteUsersById(id: number): Promise<Users> {
-    const UsersById = await this.prisma.utilisateur.delete({
+    const UsersById = await this.prisma.utilisateur.findUnique({
       where: {
-        id: Number(id),
+        id,
       },
     });
 
     if (!UsersById) throw new ForbiddenException("L'identifiant n'existe pas!");
-    return UsersById;
+
+    return await this.prisma.utilisateur.delete({
+      where: {
+        id: Number(id),
+      },
+    });
   }
 
   hashData(data: string) {
