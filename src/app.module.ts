@@ -9,6 +9,7 @@ import { PostCategoryModule } from './post-category/post-category.module';
 import { AppController } from './app.controller';
 import { UsersModule } from './users/users.module';
 import { PostModule } from './post/post.module';
+import { EnterpriseModule } from './enterprise/enterprise.module';
 
 @Module({
   controllers: [AppController],
@@ -20,6 +21,7 @@ import { PostModule } from './post/post.module';
     PostCategoryModule,
     UsersModule,
     PostModule,
+    EnterpriseModule,
   ],
   providers: [
     {
