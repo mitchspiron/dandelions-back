@@ -22,7 +22,9 @@ export class PostCategoryController {
   }
 
   @Get('/:id')
-  async getPostCategoryById(@Param('id', ParseIntPipe) id: number): Promise<PostCategory> {
+  async getPostCategoryById(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<PostCategory> {
     return await this.postCategoryService.getPostCategoryById(id);
   }
 
@@ -42,7 +44,9 @@ export class PostCategoryController {
   }
 
   @Delete('/:id')
-  async deletePostCategoryById(@Param('id', ParseIntPipe) id: number): Promise<PostCategory> {
+  async deletePostCategoryById(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<PostCategory> {
     return await this.postCategoryService.deletePostCategoryById(id);
   }
 }

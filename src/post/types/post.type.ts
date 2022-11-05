@@ -34,8 +34,8 @@ export type GetPost = {
       idUtilisateur: number;
       contenu: string;
       createdAt: Date;
-    }[]
-  }[]
+    }[];
+  }[];
 };
 
 export type UpdatePost = {

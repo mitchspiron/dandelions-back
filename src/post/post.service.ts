@@ -152,17 +152,20 @@ export class PostService {
       throw new ForbiddenException("Cet article n'existe pas!");
     }
 
-    return postBySlug
+    return postBySlug;
   }
 
-  async updatePostBySlug(slug: string, dto: UpdatePostDto): Promise<UpdatePost>{
+  async updatePostBySlug(
+    slug: string,
+    dto: UpdatePostDto,
+  ): Promise<UpdatePost> {
     const slugExists = await this.prisma.article.findUnique({
       where: {
         slug,
       },
     });
 
-    if(!slugExists){
+    if (!slugExists) {
       throw new ForbiddenException("Cet article n'existe pas!");
     }
     const updatedSlug = dto.titre
@@ -179,12 +182,12 @@ export class PostService {
         illustration: dto.illustration,
         description: dto.description,
         contenu: dto.contenu,
-        slug: updatedSlug
+        slug: updatedSlug,
       },
       where: {
-        slug
-      }
-    })
+        slug,
+      },
+    });
   }
 
   async deletePostBySlug(slug: string): Promise<UpdatePost> {
@@ -194,14 +197,14 @@ export class PostService {
       },
     });
 
-    if(!slugExists){
+    if (!slugExists) {
       throw new ForbiddenException("Cet article n'existe pas!");
     }
-    
+
     return await this.prisma.article.delete({
       where: {
-        slug
-      }
-    })
+        slug,
+      },
+    });
   }
 }

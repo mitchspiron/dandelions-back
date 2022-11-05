@@ -22,7 +22,9 @@ export class UserRoleController {
   }
 
   @Get('/:id')
-  async getUserRoleById(@Param('id', ParseIntPipe) id: number): Promise<UserRole> {
+  async getUserRoleById(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<UserRole> {
     return await this.userRoleService.getUserRoleById(id);
   }
 
@@ -40,7 +42,9 @@ export class UserRoleController {
   }
 
   @Delete('/:id')
-  async deleteUserRoleById(@Param('id', ParseIntPipe) id: number): Promise<UserRole> {
+  async deleteUserRoleById(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<UserRole> {
     return await this.userRoleService.deleteUserRoleById(id);
   }
 }

@@ -46,7 +46,7 @@ export class PostCategoryService {
     });
 
     if (!PostCategoryById)
-    throw new ForbiddenException("L'identifiant n'existe pas!");
+      throw new ForbiddenException("L'identifiant n'existe pas!");
 
     return await this.prisma.categorie_article.update({
       data: {
@@ -56,7 +56,6 @@ export class PostCategoryService {
         id,
       },
     });
-
   }
 
   async deletePostCategoryById(id: number): Promise<PostCategory> {
@@ -67,8 +66,8 @@ export class PostCategoryService {
     });
 
     if (!PostCategoryById)
-    throw new ForbiddenException("L'identifiant n'existe pas!");
-    
+      throw new ForbiddenException("L'identifiant n'existe pas!");
+
     return await this.prisma.categorie_article.delete({
       where: {
         id,
