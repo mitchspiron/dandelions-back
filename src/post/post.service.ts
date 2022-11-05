@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreatePostDto } from './dto';
-import { CreatePost } from './types/post.type';
+import { CreatePost, GetPost } from './types/post.type';
 
 @Injectable()
 export class PostService {
@@ -21,7 +21,7 @@ export class PostService {
       },
     });
 
-    const redacteurExists = [2, 3].includes(redacteur?.role_utilisateur?.id);
+    const redacteurExists = [1, 2].includes(redacteur?.role_utilisateur?.id);
 
     if (!redacteurExists) {
       throw new ForbiddenException("Le redacteur sélectionné n'éxiste pas");
@@ -68,5 +68,46 @@ export class PostService {
         isPublier: false,
       },
     });
+  }
+
+  async getPost(): Promise<GetPost[]> {
+    const post = await this.prisma.article.findMany({
+      select: {
+        id: true,
+        idRedacteur: true,
+        idCategorie: true,
+        titre: true,
+        slug: true,
+        illustration: true,
+        description: true,
+        contenu: true,
+        top: true,
+        recommadee: true,
+        isPublier: true,
+        createdAt: true,
+        commentaire: {
+          select: {
+            id: true,
+            idUtilisateur: true,
+            contenu: true,
+            createdAt: true,
+            reponse: {
+              select: {
+                id: true,
+                idUtilisateur: true,
+                contenu: true,
+                createdAt: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if(!post){
+      throw new ForbiddenException("Il n'y a aucun article!");
+    }
+
+    return post
   }
 }
