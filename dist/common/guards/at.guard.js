@@ -23,7 +23,7 @@ let AtGuard = class AtGuard extends (0, passport_1.AuthGuard)('jwt') {
             context.getHandler(),
             context.getClass(),
         ]);
-        if (!isPublic)
+        if (isPublic)
             return true;
         return super.canActivate(context);
     }
