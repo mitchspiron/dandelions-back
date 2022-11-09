@@ -12,24 +12,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MailService = void 0;
 const common_1 = require("@nestjs/common");
 const mailer_1 = require("@nestjs-modules/mailer");
+const confirmation_1 = require("./templates/confirmation");
+const forgot_1 = require("./templates/forgot");
 let MailService = class MailService {
     constructor(mailerService) {
         this.mailerService = mailerService;
     }
     async sendMailConfirmation(to, token) {
+        const html = (0, confirmation_1.confirmationTemplate)(token);
         return await this.mailerService.sendMail({
             to: to,
             from: 'mitchspiron@outlook.com',
             subject: 'CONFIRMATION INSCRIPTION - DANDELIONS',
-            html: `<p><a href="http://localhost:3000/auth-user/signup/confirm/${token}">CONFIRMER</a></p>`,
+            html,
         });
     }
     async sendMailForgotPassword(to, token) {
+        const html = (0, forgot_1.forgotTemplate)(token);
         return await this.mailerService.sendMail({
             to: to,
             from: 'mitchspiron@outlook.com',
             subject: 'RECUPERATION MOT DE PASSE - DANDELIONS',
-            html: `<p><a href="http://localhost:8080/recuperer-mot-de-passe/${token}">RECUPERER</a></p>`,
+            html,
         });
     }
 };

@@ -23,7 +23,7 @@ export class AuthUserService {
     const token = await Promise.all([
       this.jwtService.signAsync(dto, {
         secret: 'super-secret',
-        expiresIn: 60 * 1,
+        expiresIn: 60 * 15,
       }),
     ]);
 
@@ -102,7 +102,7 @@ export class AuthUserService {
     const token = await Promise.all([
       this.jwtService.signAsync(dto, {
         secret: 'super-secret',
-        expiresIn: 60 * 5,
+        expiresIn: 60 * 15,
       }),
     ]);
 
