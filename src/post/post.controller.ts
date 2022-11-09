@@ -2,18 +2,43 @@ import {
   Body,
   Controller,
   Delete,
+  ForbiddenException,
   Get,
   Param,
   Post,
   Put,
+  Req,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
-import { CreatePostDto, UpdatePostDto } from './dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { editFileName, imageFileFilter } from '../utils/file-upload.utils';
+import { CreatePostDto, UpdateIllustrationDto, UpdatePostDto } from './dto';
 import { PostService } from './post.service';
 import { CreatePost, GetPost, UpdatePost } from './types/post.type';
 
 @Controller('post')
 export class PostController {
   constructor(private readonly postService: PostService) {}
+
+  @Post('upload-illustration')
+  @UseInterceptors(
+    FileInterceptor('image', {
+      storage: diskStorage({
+        destination: './images',
+        filename: editFileName,
+      }),
+      fileFilter: imageFileFilter,
+    }),
+  )
+  async uploadedFile(@UploadedFile() file: Express.Multer.File) {
+    const response = {
+      originalname: file.originalname,
+      filename: file.filename,
+    };
+    return response;
+  }
 
   @Post()
   async createPost(@Body() dto: CreatePostDto): Promise<CreatePost> {
@@ -36,6 +61,14 @@ export class PostController {
     @Body() dto: UpdatePostDto,
   ): Promise<UpdatePost> {
     return await this.postService.updatePostBySlug(slug, dto);
+  }
+
+  @Put('update-illustration/:slug')
+  async updateIllustrationBySlug(
+    @Param('slug') slug: string,
+    @Body() dto: UpdateIllustrationDto,
+  ): Promise<UpdatePost> {
+    return await this.postService.updateIllustrationBySlug(slug, dto);
   }
 
   @Delete(':slug')

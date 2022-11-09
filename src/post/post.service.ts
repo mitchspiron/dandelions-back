@@ -1,7 +1,8 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreatePostDto, UpdatePostDto } from './dto';
+import { CreatePostDto, UpdateIllustrationDto, UpdatePostDto } from './dto';
 import { CreatePost, GetPost, UpdatePost } from './types/post.type';
+import * as fs from 'fs';
 
 @Injectable()
 export class PostService {
@@ -179,7 +180,6 @@ export class PostService {
       data: {
         idCategorie: dto.idCategorie,
         titre: dto.titre,
-        illustration: dto.illustration,
         description: dto.description,
         contenu: dto.contenu,
         slug: updatedSlug,
@@ -190,15 +190,47 @@ export class PostService {
     });
   }
 
-  async deletePostBySlug(slug: string): Promise<UpdatePost> {
-    const slugExists = await this.prisma.article.findUnique({
+  async updateIllustrationBySlug(
+    slug: string,
+    dto: UpdateIllustrationDto,
+  ): Promise<UpdatePost> {
+    const postBySlug = await this.prisma.article.findUnique({
       where: {
         slug,
       },
     });
 
-    if (!slugExists) {
+    if (!postBySlug) {
+      throw new ForbiddenException("Cet illustration d'article n'existe pas!");
+    }
+
+    if (fs.existsSync(`./images/${postBySlug.illustration}`)) {
+      fs.unlinkSync(`./images/${postBySlug.illustration}`);
+    }
+
+    return await this.prisma.article.update({
+      data: {
+        illustration: dto.illustration,
+      },
+      where: {
+        slug,
+      },
+    });
+  }
+
+  async deletePostBySlug(slug: string): Promise<UpdatePost> {
+    const postBySlug = await this.prisma.article.findUnique({
+      where: {
+        slug,
+      },
+    });
+
+    if (!postBySlug) {
       throw new ForbiddenException("Cet article n'existe pas!");
+    }
+
+    if (fs.existsSync(`./images/${postBySlug.illustration}`)) {
+      fs.unlinkSync(`./images/${postBySlug.illustration}`);
     }
 
     return await this.prisma.article.delete({
