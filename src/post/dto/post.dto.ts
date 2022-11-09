@@ -37,13 +37,15 @@ export class UpdatePostDto {
 
   @IsNotEmpty()
   @IsString()
-  illustration: string;
-
-  @IsNotEmpty()
-  @IsString()
   description: string;
 
   @IsNotEmpty()
   @IsString()
   contenu: string;
+}
+
+export class UpdateIllustrationDto {
+  @IsNotEmpty()
+  @IsString()
+  illustration: string;
 }
