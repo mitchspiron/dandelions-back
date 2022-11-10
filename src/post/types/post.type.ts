@@ -52,4 +52,3 @@ export type UpdatePost = {
   isPublier: boolean;
   createdAt: Date;
 };
-
