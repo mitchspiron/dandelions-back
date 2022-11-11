@@ -1,4 +1,8 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import {
   AuthUserDtoSignin,
@@ -10,6 +14,7 @@ import * as bcrypt from 'bcrypt';
 import { Token, User, UserToken } from './types';
 import { JwtService } from '@nestjs/jwt';
 import { MailService } from '../mailer/mailer.service';
+import { Request, Response } from 'express';
 
 @Injectable()
 export class AuthUserService {
@@ -77,7 +82,7 @@ export class AuthUserService {
     }
   }
 
-  async signin(dto: AuthUserDtoSignin): Promise<UserToken> {
+  async signin(dto: AuthUserDtoSignin, res: Response): Promise<UserToken> {
     const user = await this.prisma.utilisateur.findUnique({
       where: {
         email: dto.email,
@@ -95,7 +100,29 @@ export class AuthUserService {
 
     const token = await this.getToken(user.id, user.email);
 
+    res.cookie('access_token', token.access_token, { httpOnly: true });
+
     return [user, token];
+  }
+
+  async isLoggedIn(req: Request): Promise<any> {
+    try {
+      const cookie = req.cookies['access_token'];
+      const secret = 'at-secret';
+      const data = await this.jwtService.verifyAsync(cookie, {
+        secret: secret,
+      });
+      delete data.iat;
+      delete data.exp;
+
+      if (!data) {
+        throw new UnauthorizedException('Session expiré!');
+      }
+
+      return data;
+    } catch (e) {
+      throw new UnauthorizedException('Session expiré!');
+    }
   }
 
   async forgotPassword(dto: forgotPasswordDto) {
