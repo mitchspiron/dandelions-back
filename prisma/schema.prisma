@@ -123,6 +123,7 @@ model utilisateur {
   illustration          String                  @db.VarChar(255)
   email                 String                  @unique(map: "email") @db.VarChar(100)
   telephone             String                  @db.VarChar(50)
+  aPropos               String                  @db.Text
   role                  Int
   motDePasse            String                  @db.VarChar(255)
   createdAt             DateTime                @default(now())

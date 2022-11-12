@@ -11,8 +11,7 @@ CREATE TABLE `article` (
     `top` BOOLEAN NOT NULL,
     `recommadee` BOOLEAN NOT NULL,
     `isPublier` BOOLEAN NOT NULL,
-    `createdAt` TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
-    `updatedAt` TIMESTAMP(0) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     UNIQUE INDEX `slug`(`slug`),
     INDEX `idCategorie`(`idCategorie`),
@@ -34,8 +33,7 @@ CREATE TABLE `commentaire` (
     `idUtilisateur` INTEGER NOT NULL,
     `idArticle` INTEGER NOT NULL,
     `contenu` TEXT NOT NULL,
-    `createdAt` TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
-    `updatedAt` TIMESTAMP(0) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     INDEX `idArticle`(`idArticle`),
     INDEX `idUtilisateur`(`idUtilisateur`),
@@ -57,9 +55,7 @@ CREATE TABLE `entreprise` (
     `descriptionA` TEXT NOT NULL,
     `descriptionB` TEXT NOT NULL,
     `textContact` TEXT NOT NULL,
-    `statistique` JSON NOT NULL,
-    `createdAt` TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
-    `updatedAt` TIMESTAMP(0) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     UNIQUE INDEX `slug`(`slug`),
     INDEX `idRedacteur`(`idRedacteur`),
@@ -77,8 +73,7 @@ CREATE TABLE `evenement` (
     `contenu` LONGTEXT NOT NULL,
     `deadline` TIMESTAMP(0) NOT NULL,
     `onHeader` BOOLEAN NOT NULL,
-    `createdAt` TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
-    `updatedAt` TIMESTAMP(0) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     UNIQUE INDEX `slug`(`slug`),
     INDEX `idEntreprise`(`idEntreprise`),
@@ -102,8 +97,7 @@ CREATE TABLE `reponse` (
     `idUtilisateur` INTEGER NOT NULL,
     `idCommentaire` INTEGER NOT NULL,
     `contenu` TEXT NOT NULL,
-    `createdAt` TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
-    `updatedAt` TIMESTAMP(0) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     INDEX `idCommentaire`(`idCommentaire`),
     INDEX `idUtilisateur`(`idUtilisateur`),
@@ -113,7 +107,7 @@ CREATE TABLE `reponse` (
 -- CreateTable
 CREATE TABLE `role_utilisateur` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `nomType` VARCHAR(100) NOT NULL,
+    `nomRole` VARCHAR(100) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -123,12 +117,13 @@ CREATE TABLE `utilisateur` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `nom` VARCHAR(255) NOT NULL,
     `prenom` VARCHAR(255) NOT NULL,
+    `illustration` VARCHAR(255) NOT NULL,
     `email` VARCHAR(100) NOT NULL,
     `telephone` VARCHAR(50) NOT NULL,
+    `aPropos` TEXT NOT NULL,
     `role` INTEGER NOT NULL,
     `motDePasse` VARCHAR(255) NOT NULL,
-    `createdAt` TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
-    `updatedAt` TIMESTAMP(0) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     UNIQUE INDEX `email`(`email`),
     INDEX `role`(`role`),
