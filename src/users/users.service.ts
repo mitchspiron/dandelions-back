@@ -1,6 +1,11 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { UpdateIllustrationDto, UsersDto, UsersInfoDto, UsersPasswordDto } from './dto';
+import {
+  UpdateIllustrationDto,
+  UsersDto,
+  UsersInfoDto,
+  UsersPasswordDto,
+} from './dto';
 import { Users, UsersInfo, UsersPassword } from './types';
 import * as bcrypt from 'bcrypt';
 import * as fs from 'fs';
@@ -30,7 +35,8 @@ export class UsersService {
   async createUsers(dto: UsersDto): Promise<Users> {
     const hash = await this.hashData(dto.motDePasse);
 
-    const illustration = Number(dto.role) === 2 ? "admin-user.png" : "writter-user.png"
+    const illustration =
+      Number(dto.role) === 1 ? 'admin-user.png' : 'writter-user.png';
 
     return await this.prisma.utilisateur.create({
       data: {
@@ -82,7 +88,10 @@ export class UsersService {
     }
   }
 
-  async updateIllustrationById(id: number, dto: UpdateIllustrationDto): Promise<UsersInfo> {
+  async updateIllustrationById(
+    id: number,
+    dto: UpdateIllustrationDto,
+  ): Promise<UsersInfo> {
     const UsersById = await this.prisma.utilisateur.findUnique({
       where: {
         id,
@@ -91,19 +100,23 @@ export class UsersService {
 
     if (!UsersById) throw new ForbiddenException("L'identifiant n'éxiste pas!");
     else {
-
-      if (fs.existsSync(`./images/${UsersById.illustration}`) && !["admin-user.png", "normal-user.jpg", "writter-user.png"].includes(UsersById.illustration)) {
+      if (
+        fs.existsSync(`./images/${UsersById.illustration}`) &&
+        !['admin-user.png', 'normal-user.jpg', 'writter-user.png'].includes(
+          UsersById.illustration,
+        )
+      ) {
         fs.unlinkSync(`./images/${UsersById.illustration}`);
       }
 
       return await this.prisma.utilisateur.update({
-      data: {
-        illustration: dto.illustration,
-      },
-      where: {
-        id,
-      },
-    });
+        data: {
+          illustration: dto.illustration,
+        },
+        where: {
+          id,
+        },
+      });
     }
   }
 
@@ -149,7 +162,12 @@ export class UsersService {
 
     if (!UsersById) throw new ForbiddenException("L'identifiant n'existe pas!");
 
-    if (fs.existsSync(`./images/${UsersById.illustration}`) && !["admin-user.png", "normal-user.jpg", "writter-user.png"].includes(UsersById.illustration)) {
+    if (
+      fs.existsSync(`./images/${UsersById.illustration}`) &&
+      !['admin-user.png', 'normal-user.jpg', 'writter-user.png'].includes(
+        UsersById.illustration,
+      )
+    ) {
       fs.unlinkSync(`./images/${UsersById.illustration}`);
     }
 

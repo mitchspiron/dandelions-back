@@ -13,7 +13,12 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter } from '../utils/file-upload.utils';
-import { UpdateIllustrationDto, UsersDto, UsersInfoDto, UsersPasswordDto } from './dto';
+import {
+  UpdateIllustrationDto,
+  UsersDto,
+  UsersInfoDto,
+  UsersPasswordDto,
+} from './dto';
 import { Users, UsersInfo, UsersPassword } from './types';
 import { UsersService } from './users.service';
 
@@ -38,7 +43,7 @@ export class UsersController {
     };
     return response;
   }
-  
+
   @Get()
   async getUsers(): Promise<Users[]> {
     return await this.usersService.getUsers();
