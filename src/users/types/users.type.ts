@@ -5,6 +5,7 @@ export type Users = {
   illustration: string;
   email: string;
   telephone: string;
+  aPropos: string;
   role: number;
   motDePasse: string;
 };
@@ -16,6 +17,7 @@ export type UsersInfo = {
   illustration: string;
   email: string;
   telephone: string;
+  aPropos: string;
   role: number;
 };
 

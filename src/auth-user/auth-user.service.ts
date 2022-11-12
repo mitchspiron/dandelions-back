@@ -69,6 +69,7 @@ export class AuthUserService {
           illustration: newUser.illustration,
           email: newUser.email,
           telephone: newUser.telephone,
+          aPropos: newUser.aPropos,
           role: Number(newUser.role),
           motDePasse: newUser.motDePasse,
         },

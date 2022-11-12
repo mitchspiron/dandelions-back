@@ -35,6 +35,7 @@ export class UsersService {
         illustration: dto.illustration,
         email: dto.email,
         telephone: dto.telephone,
+        aPropos: dto.aPropos,
         role: Number(dto.role),
         motDePasse: hash,
       },
@@ -57,6 +58,7 @@ export class UsersService {
           illustration: dto.illustration,
           email: dto.email,
           telephone: dto.telephone,
+          aPropos: dto.aPropos,
           role: Number(dto.role),
         },
         select: {
@@ -66,6 +68,7 @@ export class UsersService {
           illustration: true,
           email: true,
           telephone: true,
+          aPropos: true,
           role: true,
         },
         where: {

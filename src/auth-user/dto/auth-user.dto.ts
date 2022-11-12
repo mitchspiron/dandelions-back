@@ -22,6 +22,10 @@ export class AuthUserDtoSignup {
   telephone: string;
 
   @IsNotEmpty()
+  @IsString()
+  aPropos: string;
+
+  @IsNotEmpty()
   role: number;
 
   @IsNotEmpty()

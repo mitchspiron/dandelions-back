@@ -22,6 +22,10 @@ export class UsersDto {
   telephone: string;
 
   @IsNotEmpty()
+  @IsString()
+  aPropos: string;
+
+  @IsNotEmpty()
   role: number;
 
   @IsNotEmpty()
@@ -49,6 +53,10 @@ export class UsersInfoDto {
   @IsNotEmpty()
   @IsString()
   telephone: string;
+
+  @IsNotEmpty()
+  @IsString()
+  aPropos: string;
 
   @IsNotEmpty()
   role: number;
