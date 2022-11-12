@@ -66,11 +66,11 @@ export class AuthUserService {
         data: {
           nom: newUser.nom,
           prenom: newUser.prenom,
-          illustration: newUser.illustration,
+          illustration: "normal-user.png",
           email: newUser.email,
           telephone: newUser.telephone,
           aPropos: newUser.aPropos,
-          role: Number(newUser.role),
+          role: 1,
           motDePasse: newUser.motDePasse,
         },
       });

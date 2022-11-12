@@ -10,10 +10,6 @@ export class AuthUserDtoSignup {
   prenom: string;
 
   @IsNotEmpty()
-  @IsString()
-  illustration: string;
-
-  @IsNotEmpty()
   @IsEmail()
   email: string;
 
@@ -24,9 +20,6 @@ export class AuthUserDtoSignup {
   @IsNotEmpty()
   @IsString()
   aPropos: string;
-
-  @IsNotEmpty()
-  role: number;
 
   @IsNotEmpty()
   @IsString()

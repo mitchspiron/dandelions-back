@@ -10,10 +10,6 @@ export class UsersDto {
   prenom: string;
 
   @IsNotEmpty()
-  @IsString()
-  illustration: string;
-
-  @IsNotEmpty()
   @IsEmail()
   email: string;
 
@@ -70,4 +66,10 @@ export class UsersPasswordDto {
   @IsNotEmpty()
   @IsString()
   nouveauMotDePasse: string;
+}
+
+export class UpdateIllustrationDto {
+  @IsNotEmpty()
+  @IsString()
+  illustration: string;
 }

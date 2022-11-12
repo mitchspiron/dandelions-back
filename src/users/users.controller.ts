@@ -7,8 +7,13 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
-import { UsersDto, UsersInfoDto, UsersPasswordDto } from './dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { editFileName, imageFileFilter } from '../utils/file-upload.utils';
+import { UpdateIllustrationDto, UsersDto, UsersInfoDto, UsersPasswordDto } from './dto';
 import { Users, UsersInfo, UsersPassword } from './types';
 import { UsersService } from './users.service';
 
@@ -16,6 +21,24 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @Post('upload-illustration')
+  @UseInterceptors(
+    FileInterceptor('image', {
+      storage: diskStorage({
+        destination: './images',
+        filename: editFileName,
+      }),
+      fileFilter: imageFileFilter,
+    }),
+  )
+  async uploadedFile(@UploadedFile() file: Express.Multer.File) {
+    const response = {
+      originalname: file.originalname,
+      filename: file.filename,
+    };
+    return response;
+  }
+  
   @Get()
   async getUsers(): Promise<Users[]> {
     return await this.usersService.getUsers();
@@ -37,6 +60,14 @@ export class UsersController {
     @Body() dto: UsersInfoDto,
   ): Promise<UsersInfo> {
     return await this.usersService.updateUsersInfoById(id, dto);
+  }
+
+  @Put('update-illustration/:id')
+  async updateIllustrationById(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpdateIllustrationDto,
+  ): Promise<UsersInfo> {
+    return await this.usersService.updateIllustrationById(id, dto);
   }
 
   @Put('/password/:id')
