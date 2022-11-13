@@ -101,7 +101,10 @@ export class AuthUserService {
 
     const token = await this.getToken(user.id, user.email);
 
-    res.cookie('access_token', token.access_token, { httpOnly: true });
+    res.cookie('access_token', token.access_token, {
+      httpOnly: true,
+      sameSite: 'none',
+    });
 
     return [user, token];
   }
