@@ -50,8 +50,8 @@ export class AuthUserController {
   @Public()
   @Get('/verify')
   @HttpCode(HttpStatus.OK)
-  isLoggedIn(@Req() req): Promise<any> {
-    return this.authService.isLoggedIn(req);
+  isLoggedIn(@Req() req, @Res() res): Promise<any> {
+    return this.authService.isLoggedIn(req, res);
   }
 
   @Public()

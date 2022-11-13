@@ -101,32 +101,40 @@ export class AuthUserService {
 
     const token = await this.getToken(user.id, user.email);
 
-    res.cookie('access_token', token.access_token, {
+    res.cookie('dadelions_token', token.access_token, {
       httpOnly: true,
       sameSite: 'none',
+      secure: true,
+      maxAge: 24 * 60 * 60 * 1000,
     });
 
     return [user, token];
   }
 
-  async isLoggedIn(req: Request): Promise<any> {
-    try {
-      const cookie = req.cookies['access_token'];
-      const secret = 'at-secret';
-      const data = await this.jwtService.verifyAsync(cookie, {
-        secret: secret,
-      });
-      delete data.iat;
-      delete data.exp;
+  decodeToken(req: Request) {
+    const authHeader = req.headers.authorization;
+    const token = authHeader.split(' ')[1];
+    const secret = 'at-secret';
+    const data = this.jwtService.verify(token, { secret });
+    delete data.iat;
+    delete data.exp;
 
-      if (!data) {
-        throw new UnauthorizedException('Session expiré!');
-      }
+    return data;
+  }
 
-      return data;
-    } catch (e) {
-      throw new UnauthorizedException('Session expiré!');
+  async isLoggedIn(req: Request, res: Response): Promise<any> {
+    if (!req.headers.authorization) {
+      throw new UnauthorizedException('Session invalid');
     }
+
+    try {
+      const decoded = this.decodeToken(req);
+      req.user = decoded;
+      console.log(req.user);
+    } catch (err) {
+      throw new UnauthorizedException('Session invalid');
+    }
+    res.send(req.user);
   }
 
   async forgotPassword(dto: forgotPasswordDto) {

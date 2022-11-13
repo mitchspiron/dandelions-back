@@ -38,19 +38,20 @@ async function bootstrap() {
   app.use(flash({ sessionKeyName: 'flashMessage' }));
 
   app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header(
       'Access-Control-Allow-Headers',
-      'Origin, X-Requested-With, Content-Type, Accept',
+      'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization',
     );
     res.header('Access-Control-Allow-Credentials', 'true');
     next();
   });
 
   app.enableCors({
-    allowedHeaders: '*',
-    origin: '*',
+    allowedHeaders:
+      'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization',
+    origin: 'http://localhost:8080',
   });
 
   await app.listen(process.env.PORT);
