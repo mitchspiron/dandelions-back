@@ -83,7 +83,7 @@ export class AuthUserService {
     }
   }
 
-  async signin(dto: AuthUserDtoSignin, res: Response): Promise<UserToken> {
+  async signin(dto: AuthUserDtoSignin): Promise<UserToken> {
     const user = await this.prisma.utilisateur.findUnique({
       where: {
         email: dto.email,
@@ -101,12 +101,12 @@ export class AuthUserService {
 
     const token = await this.getToken(user.id, user.email);
 
-    res.cookie('dadelions_token', token.access_token, {
+    /* res.cookie('dadelions_token', token.access_token, {
       httpOnly: true,
       sameSite: 'none',
       secure: true,
       maxAge: 24 * 60 * 60 * 1000,
-    });
+    }); */
 
     return [user, token];
   }
@@ -183,7 +183,7 @@ export class AuthUserService {
       return await newUserPassword;
     } catch (e) {
       throw new ForbiddenException(
-        "Ce lien a éxpiré! Vous ne pouvez l'utiliser pour recupérer votre mot de passe",
+        "Ce lien a éxpiré! Vous ne pouvez plus l'utiliser pour recupérer votre mot de passe",
       );
     }
   }

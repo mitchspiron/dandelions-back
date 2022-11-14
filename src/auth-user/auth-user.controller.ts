@@ -40,11 +40,8 @@ export class AuthUserController {
   @Public()
   @Post('/signin')
   @HttpCode(HttpStatus.OK)
-  signinLocal(
-    @Body() dto: AuthUserDtoSignin,
-    @Res({ passthrough: true }) res,
-  ): Promise<UserToken> {
-    return this.authService.signin(dto, res);
+  signin(@Body() dto: AuthUserDtoSignin): Promise<UserToken> {
+    return this.authService.signin(dto);
   }
 
   @Public()
