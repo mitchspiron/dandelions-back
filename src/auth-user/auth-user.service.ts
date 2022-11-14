@@ -99,7 +99,14 @@ export class AuthUserService {
     if (!passwordMatches)
       throw new ForbiddenException('Mot de passe incorrect');
 
-    const token = await this.getToken(user.id, user.email);
+    const token = await this.getToken(
+      user.id,
+      user.email,
+      user.nom,
+      user.prenom,
+      user.role,
+      user.illustration,
+    );
 
     /* res.cookie('dadelions_token', token.access_token, {
       httpOnly: true,
@@ -192,12 +199,23 @@ export class AuthUserService {
     return bcrypt.hash(data, 10);
   }
 
-  async getToken(idUser: number, emailUser: string): Promise<Token> {
+  async getToken(
+    idUser: number,
+    emailUser: string,
+    nomUser: string,
+    prenomUser: string,
+    roleUser: number,
+    illustrationUser: string,
+  ): Promise<Token> {
     const [at] = await Promise.all([
       this.jwtService.signAsync(
         {
           sub: idUser,
           emailUser,
+          nomUser,
+          prenomUser,
+          roleUser,
+          illustrationUser,
         },
         {
           secret: 'at-secret',
