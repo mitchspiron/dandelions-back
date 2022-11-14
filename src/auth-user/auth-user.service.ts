@@ -165,9 +165,9 @@ export class AuthUserService {
       });
   }
 
-  async resetPassword(dto: resetPasswordDto, data, res): Promise<User> {
-    const secret = 'super-secret';
+  async resetPassword(dto: resetPasswordDto, data): Promise<User> {
     try {
+      const secret = 'super-secret';
       const newPassword = this.jwtService.verify(data, { secret: secret });
       delete newPassword.iat;
       delete newPassword.exp;
@@ -180,10 +180,11 @@ export class AuthUserService {
           email: newPassword.email,
         },
       });
-      res.redirect('http://localhost:8080/login');
-      return newUserPassword;
+      return await newUserPassword;
     } catch (e) {
-      res.redirect('http://localhost:8080/erreur-recuperation-mot-de-passe');
+      throw new ForbiddenException(
+        "Ce lien a éxpiré! Vous ne pouvez l'utiliser pour recupérer votre mot de passe",
+      );
     }
   }
 

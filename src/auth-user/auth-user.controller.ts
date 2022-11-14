@@ -67,8 +67,7 @@ export class AuthUserController {
   resetPassword(
     @Body() dto: resetPasswordDto,
     @Param('token') token,
-    @Res() res,
   ): Promise<User> {
-    return this.authService.resetPassword(dto, token, res);
+    return this.authService.resetPassword(dto, token);
   }
 }
