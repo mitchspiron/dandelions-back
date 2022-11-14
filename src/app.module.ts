@@ -11,6 +11,7 @@ import { UsersModule } from './users/users.module';
 import { PostModule } from './post/post.module';
 import { EnterpriseModule } from './enterprise/enterprise.module';
 import { MulterModule } from '@nestjs/platform-express';
+import { EvenementModule } from './evenement/evenement.module';
 
 @Module({
   controllers: [AppController],
@@ -26,6 +27,7 @@ import { MulterModule } from '@nestjs/platform-express';
     MulterModule.register({
       dest: './images',
     }),
+    EvenementModule,
   ],
   providers: [
     {
