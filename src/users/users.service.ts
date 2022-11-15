@@ -6,7 +6,7 @@ import {
   UsersInfoDto,
   UsersPasswordDto,
 } from './dto';
-import { Users, UsersInfo, UsersPassword } from './types';
+import { Users, UsersCreate, UsersInfo, UsersPassword } from './types';
 import * as bcrypt from 'bcrypt';
 import * as fs from 'fs';
 
@@ -19,6 +19,22 @@ export class UsersService {
       where: {
         id,
       },
+      select: {
+        id: true,
+        nom: true,
+        prenom: true,
+        illustration: true,
+        email: true,
+        telephone: true,
+        aPropos: true,
+        role_utilisateur: {
+          select: {
+            id: true,
+            nomRole: true,
+          },
+        },
+        motDePasse: true,
+      },
     });
 
     if (!UsersById) throw new ForbiddenException("L'identifiant n'existe pas!");
@@ -26,17 +42,50 @@ export class UsersService {
   }
 
   async getUsers(): Promise<Users[]> {
-    const users = await this.prisma.utilisateur.findMany();
+    const users = await this.prisma.utilisateur.findMany({
+      select: {
+        id: true,
+        nom: true,
+        prenom: true,
+        illustration: true,
+        email: true,
+        telephone: true,
+        aPropos: true,
+        role_utilisateur: {
+          select: {
+            id: true,
+            nomRole: true,
+          },
+        },
+        motDePasse: true,
+      },
+    });
 
     if (!users) throw new ForbiddenException("Il n'y a aucun utilisateur!");
     return users;
   }
 
-  async createUsers(dto: UsersDto): Promise<Users> {
+  async createUsers(dto: UsersDto): Promise<UsersCreate> {
+    const userEmail = await this.prisma.utilisateur.findUnique({
+      where: {
+        email: dto.email,
+      },
+    });
+
+    if (userEmail)
+      throw new ForbiddenException(
+        'Cet email appartient déjà à un utilisateur',
+      );
+
     const hash = await this.hashData(dto.motDePasse);
 
+    //Number(dto.role) === 1 ? 'admin-user.png' : 'writter-user.png';
     const illustration =
-      Number(dto.role) === 1 ? 'admin-user.png' : 'writter-user.png';
+      Number(dto.role) === 1
+        ? 'admin-user.png'
+        : Number(dto.role) === 2
+        ? 'writter-user.png'
+        : 'normal-user.png';
 
     return await this.prisma.utilisateur.create({
       data: {
@@ -102,7 +151,7 @@ export class UsersService {
     else {
       if (
         fs.existsSync(`./images/${UsersById.illustration}`) &&
-        !['admin-user.png', 'normal-user.jpg', 'writter-user.png'].includes(
+        !['admin-user.png', 'normal-user.png', 'writter-user.png'].includes(
           UsersById.illustration,
         )
       ) {
@@ -164,7 +213,7 @@ export class UsersService {
 
     if (
       fs.existsSync(`./images/${UsersById.illustration}`) &&
-      !['admin-user.png', 'normal-user.jpg', 'writter-user.png'].includes(
+      !['admin-user.png', 'normal-user.png', 'writter-user.png'].includes(
         UsersById.illustration,
       )
     ) {
@@ -174,6 +223,22 @@ export class UsersService {
     return await this.prisma.utilisateur.delete({
       where: {
         id: Number(id),
+      },
+      select: {
+        id: true,
+        nom: true,
+        prenom: true,
+        illustration: true,
+        email: true,
+        telephone: true,
+        aPropos: true,
+        role_utilisateur: {
+          select: {
+            id: true,
+            nomRole: true,
+          },
+        },
+        motDePasse: true,
       },
     });
   }

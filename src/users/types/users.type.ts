@@ -6,6 +6,21 @@ export type Users = {
   email: string;
   telephone: string;
   aPropos: string;
+  role_utilisateur: {
+    id: number;
+    nomRole: string;
+  };
+  motDePasse: string;
+};
+
+export type UsersCreate = {
+  id: number;
+  nom: string;
+  prenom: string;
+  illustration: string;
+  email: string;
+  telephone: string;
+  aPropos: string;
   role: number;
   motDePasse: string;
 };

@@ -19,7 +19,7 @@ import {
   UsersInfoDto,
   UsersPasswordDto,
 } from './dto';
-import { Users, UsersInfo, UsersPassword } from './types';
+import { Users, UsersCreate, UsersInfo, UsersPassword } from './types';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -55,7 +55,7 @@ export class UsersController {
   }
 
   @Post()
-  async createUsers(@Body() dto: UsersDto): Promise<Users> {
+  async createUsers(@Body() dto: UsersDto): Promise<UsersCreate> {
     return await this.usersService.createUsers(dto);
   }
 
