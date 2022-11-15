@@ -106,6 +106,8 @@ export class AuthUserService {
       user.prenom,
       user.role,
       user.illustration,
+      user.telephone,
+      user.aPropos,
     );
 
     /* res.cookie('dadelions_token', token.access_token, {
@@ -206,6 +208,8 @@ export class AuthUserService {
     prenomUser: string,
     roleUser: number,
     illustrationUser: string,
+    telephoneUser: string,
+    aProposUser: string,
   ): Promise<Token> {
     const [at] = await Promise.all([
       this.jwtService.signAsync(
@@ -216,6 +220,8 @@ export class AuthUserService {
           prenomUser,
           roleUser,
           illustrationUser,
+          telephoneUser,
+          aProposUser,
         },
         {
           secret: 'at-secret',

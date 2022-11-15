@@ -39,10 +39,6 @@ export class UsersInfoDto {
   prenom: string;
 
   @IsNotEmpty()
-  @IsString()
-  illustration: string;
-
-  @IsNotEmpty()
   @IsEmail()
   email: string;
 

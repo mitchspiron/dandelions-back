@@ -6,13 +6,21 @@ import {
   UsersInfoDto,
   UsersPasswordDto,
 } from './dto';
-import { Users, UsersCreate, UsersInfo, UsersPassword } from './types';
+import {
+  Users,
+  UsersCreate,
+  UsersInfo,
+  UsersPassword,
+  UserTokenWithoutPassword,
+} from './types';
 import * as bcrypt from 'bcrypt';
 import * as fs from 'fs';
+import { JwtService } from '@nestjs/jwt';
+import { Token } from '../auth-user/types';
 
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService, private jwtService: JwtService) {}
 
   async getUsersById(id: number): Promise<Users> {
     const UsersById = await this.prisma.utilisateur.findUnique({
@@ -101,7 +109,10 @@ export class UsersService {
     });
   }
 
-  async updateUsersInfoById(id: number, dto: UsersInfoDto): Promise<UsersInfo> {
+  async updateUsersInfoById(
+    id: number,
+    dto: UsersInfoDto,
+  ): Promise<UserTokenWithoutPassword> {
     const UsersById = await this.prisma.utilisateur.findUnique({
       where: {
         id,
@@ -110,11 +121,10 @@ export class UsersService {
 
     if (!UsersById) throw new ForbiddenException("Lidentifiant n'éxiste pas!");
     else {
-      return await this.prisma.utilisateur.update({
+      const user = await this.prisma.utilisateur.update({
         data: {
           nom: dto.nom,
           prenom: dto.prenom,
-          illustration: dto.illustration,
           email: dto.email,
           telephone: dto.telephone,
           aPropos: dto.aPropos,
@@ -124,7 +134,6 @@ export class UsersService {
           id: true,
           nom: true,
           prenom: true,
-          illustration: true,
           email: true,
           telephone: true,
           aPropos: true,
@@ -134,6 +143,19 @@ export class UsersService {
           id,
         },
       });
+
+      const token = await this.getToken(
+        user.id,
+        user.email,
+        user.nom,
+        user.prenom,
+        user.role,
+        UsersById.illustration,
+        user.telephone,
+        user.aPropos,
+      );
+
+      return [user, token];
     }
   }
 
@@ -241,6 +263,40 @@ export class UsersService {
         motDePasse: true,
       },
     });
+  }
+
+  async getToken(
+    idUser: number,
+    emailUser: string,
+    nomUser: string,
+    prenomUser: string,
+    roleUser: number,
+    illustrationUser: string,
+    telephoneUser: string,
+    aProposUser: string,
+  ): Promise<Token> {
+    const [at] = await Promise.all([
+      this.jwtService.signAsync(
+        {
+          sub: idUser,
+          emailUser,
+          nomUser,
+          prenomUser,
+          roleUser,
+          illustrationUser,
+          telephoneUser,
+          aProposUser,
+        },
+        {
+          secret: 'at-secret',
+          expiresIn: '1d',
+        },
+      ),
+    ]);
+
+    return {
+      access_token: at,
+    };
   }
 
   hashData(data: string) {

@@ -40,3 +40,18 @@ export type UsersPassword = {
   id: number;
   motDePasse: string;
 };
+
+export type UserTokenWithoutPassword = [
+  {
+    id: number;
+    nom: string;
+    prenom: string;
+    email: string;
+    telephone: string;
+    aPropos: string;
+    role: number;
+  },
+  {
+    access_token: string;
+  },
+];

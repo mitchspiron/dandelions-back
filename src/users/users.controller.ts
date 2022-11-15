@@ -19,7 +19,13 @@ import {
   UsersInfoDto,
   UsersPasswordDto,
 } from './dto';
-import { Users, UsersCreate, UsersInfo, UsersPassword } from './types';
+import {
+  Users,
+  UsersCreate,
+  UsersInfo,
+  UsersPassword,
+  UserTokenWithoutPassword,
+} from './types';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -63,7 +69,7 @@ export class UsersController {
   async updateUsersInfoById(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UsersInfoDto,
-  ): Promise<UsersInfo> {
+  ): Promise<UserTokenWithoutPassword> {
     return await this.usersService.updateUsersInfoById(id, dto);
   }
 
