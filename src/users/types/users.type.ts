@@ -36,6 +36,22 @@ export type UsersInfo = {
   role: number;
 };
 
+export type UsersInfoWithToken = [
+  {
+    id: number;
+    nom: string;
+    prenom: string;
+    illustration: string;
+    email: string;
+    telephone: string;
+    aPropos: string;
+    role: number;
+  },
+  {
+    access_token: string;
+  },
+];
+
 export type UsersPassword = {
   id: number;
   motDePasse: string;

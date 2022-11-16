@@ -1,6 +1,10 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateEvenementDto, UpdateEvenementDto, UpdateIllustrationDto } from './dto';
+import {
+  CreateEvenementDto,
+  UpdateEvenementDto,
+  UpdateIllustrationDto,
+} from './dto';
 import { CreateEvenement, GetEvenement } from './types';
 import * as fs from 'fs';
 
@@ -100,7 +104,7 @@ export class EvenementService {
   async getEvenementBySlug(slug: string): Promise<GetEvenement> {
     const evenementBySlug = await this.prisma.evenement.findUnique({
       where: {
-        slug
+        slug,
       },
       select: {
         id: true,
@@ -175,7 +179,9 @@ export class EvenementService {
     });
 
     if (!evenementBySlug) {
-      throw new ForbiddenException("Cet illustration d'evenement n'existe pas!");
+      throw new ForbiddenException(
+        "Cet illustration d'evenement n'existe pas!",
+      );
     }
 
     if (fs.existsSync(`./images/${evenementBySlug.illustration}`)) {

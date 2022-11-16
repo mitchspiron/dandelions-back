@@ -22,7 +22,7 @@ import {
 import {
   Users,
   UsersCreate,
-  UsersInfo,
+  UsersInfoWithToken,
   UsersPassword,
   UserTokenWithoutPassword,
 } from './types';
@@ -34,7 +34,7 @@ export class UsersController {
 
   @Post('upload-illustration')
   @UseInterceptors(
-    FileInterceptor('image', {
+    FileInterceptor('file', {
       storage: diskStorage({
         destination: './images',
         filename: editFileName,
@@ -77,7 +77,7 @@ export class UsersController {
   async updateIllustrationById(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateIllustrationDto,
-  ): Promise<UsersInfo> {
+  ): Promise<UsersInfoWithToken> {
     return await this.usersService.updateIllustrationById(id, dto);
   }
 

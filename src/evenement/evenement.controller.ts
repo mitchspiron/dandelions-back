@@ -1,8 +1,22 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter } from '../utils/file-upload.utils';
-import { CreateEvenementDto, UpdateEvenementDto, UpdateIllustrationDto } from './dto';
+import {
+  CreateEvenementDto,
+  UpdateEvenementDto,
+  UpdateIllustrationDto,
+} from './dto';
 import { EvenementService } from './evenement.service';
 import { CreateEvenement, GetEvenement } from './types';
 
@@ -27,9 +41,11 @@ export class EvenementController {
     };
     return response;
   }
-  
+
   @Post()
-  async createEvenement(@Body() dto: CreateEvenementDto): Promise<CreateEvenement> {
+  async createEvenement(
+    @Body() dto: CreateEvenementDto,
+  ): Promise<CreateEvenement> {
     return await this.evenementService.createEvenement(dto);
   }
 
@@ -60,7 +76,9 @@ export class EvenementController {
   }
 
   @Delete(':slug')
-  async deletePostBySlug(@Param('slug') slug: string): Promise<CreateEvenement> {
+  async deletePostBySlug(
+    @Param('slug') slug: string,
+  ): Promise<CreateEvenement> {
     return await this.evenementService.deleteEvenementBySlug(slug);
   }
 }

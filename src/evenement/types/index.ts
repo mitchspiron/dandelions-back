@@ -1,1 +1,1 @@
-export * from './evenement.type'
+export * from './evenement.type';

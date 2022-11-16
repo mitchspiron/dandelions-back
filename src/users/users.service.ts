@@ -9,7 +9,7 @@ import {
 import {
   Users,
   UsersCreate,
-  UsersInfo,
+  UsersInfoWithToken,
   UsersPassword,
   UserTokenWithoutPassword,
 } from './types';
@@ -162,7 +162,7 @@ export class UsersService {
   async updateIllustrationById(
     id: number,
     dto: UpdateIllustrationDto,
-  ): Promise<UsersInfo> {
+  ): Promise<UsersInfoWithToken> {
     const UsersById = await this.prisma.utilisateur.findUnique({
       where: {
         id,
@@ -180,7 +180,7 @@ export class UsersService {
         fs.unlinkSync(`./images/${UsersById.illustration}`);
       }
 
-      return await this.prisma.utilisateur.update({
+      const user = await this.prisma.utilisateur.update({
         data: {
           illustration: dto.illustration,
         },
@@ -188,6 +188,19 @@ export class UsersService {
           id,
         },
       });
+
+      const token = await this.getToken(
+        UsersById.id,
+        UsersById.email,
+        UsersById.nom,
+        UsersById.prenom,
+        UsersById.role,
+        user.illustration,
+        UsersById.telephone,
+        UsersById.aPropos,
+      );
+
+      return [user, token];
     }
   }
 
