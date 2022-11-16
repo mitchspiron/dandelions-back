@@ -8,7 +8,7 @@ export type CreatePost = {
   contenu: string;
   top: boolean;
   recommadee: boolean;
-  isPublier: boolean;
+  etat: number;
 };
 
 export type GetPost = {
@@ -22,7 +22,10 @@ export type GetPost = {
   contenu: string;
   top: boolean;
   recommadee: boolean;
-  isPublier: boolean;
+  etat_article: {
+    id: number;
+    nomEtat: string;
+  };
   createdAt: Date;
   commentaire: {
     id: number;
@@ -49,6 +52,6 @@ export type UpdatePost = {
   contenu: string;
   top: boolean;
   recommadee: boolean;
-  isPublier: boolean;
+  etat: number;
   createdAt: Date;
 };

@@ -22,7 +22,7 @@ export class PostController {
 
   @Post('upload-illustration')
   @UseInterceptors(
-    FileInterceptor('image', {
+    FileInterceptor('file', {
       storage: diskStorage({
         destination: './images',
         filename: editFileName,

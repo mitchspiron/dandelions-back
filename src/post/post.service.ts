@@ -11,7 +11,7 @@ export class PostService {
   async createPost(dto: CreatePostDto): Promise<CreatePost> {
     const redacteur = await this.prisma.utilisateur.findUnique({
       where: {
-        id: dto.idRedacteur,
+        id: Number(dto.idRedacteur),
       },
       include: {
         role_utilisateur: {
@@ -30,7 +30,7 @@ export class PostService {
 
     const categorieExists = await this.prisma.categorie_article.findUnique({
       where: {
-        id: dto.idCategorie,
+        id: Number(dto.idCategorie),
       },
     });
 
@@ -57,8 +57,8 @@ export class PostService {
 
     return this.prisma.article.create({
       data: {
-        idRedacteur: dto.idRedacteur,
-        idCategorie: dto.idCategorie,
+        idRedacteur: Number(dto.idRedacteur),
+        idCategorie: Number(dto.idCategorie),
         titre: dto.titre,
         slug,
         description: dto.description,
@@ -66,7 +66,7 @@ export class PostService {
         contenu: dto.contenu,
         top: false,
         recommadee: false,
-        isPublier: false,
+        etat: 5,
       },
     });
   }
@@ -84,7 +84,12 @@ export class PostService {
         contenu: true,
         top: true,
         recommadee: true,
-        isPublier: true,
+        etat_article: {
+          select: {
+            id: true,
+            nomEtat: true,
+          },
+        },
         createdAt: true,
         commentaire: {
           select: {
@@ -128,7 +133,12 @@ export class PostService {
         contenu: true,
         top: true,
         recommadee: true,
-        isPublier: true,
+        etat_article: {
+          select: {
+            id: true,
+            nomEtat: true,
+          },
+        },
         createdAt: true,
         commentaire: {
           select: {
@@ -178,7 +188,7 @@ export class PostService {
 
     return await this.prisma.article.update({
       data: {
-        idCategorie: dto.idCategorie,
+        idCategorie: Number(dto.idCategorie),
         titre: dto.titre,
         description: dto.description,
         contenu: dto.contenu,
