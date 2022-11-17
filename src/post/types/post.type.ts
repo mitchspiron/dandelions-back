@@ -13,8 +13,15 @@ export type CreatePost = {
 
 export type GetPost = {
   id: number;
-  idRedacteur: number;
-  idCategorie: number;
+  utilisateur: {
+    id: number;
+    nom: string;
+    prenom: string;
+  };
+  categorie_article: {
+    id: number;
+    nomCategorie: string;
+  };
   titre: string;
   slug: string;
   illustration: string;

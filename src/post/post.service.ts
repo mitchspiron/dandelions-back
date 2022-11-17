@@ -66,7 +66,7 @@ export class PostService {
         contenu: dto.contenu,
         top: false,
         recommadee: false,
-        etat: 5,
+        etat: 1,
       },
     });
   }
@@ -75,8 +75,19 @@ export class PostService {
     const post = await this.prisma.article.findMany({
       select: {
         id: true,
-        idRedacteur: true,
-        idCategorie: true,
+        utilisateur: {
+          select: {
+            id: true,
+            nom: true,
+            prenom: true,
+          },
+        },
+        categorie_article: {
+          select: {
+            id: true,
+            nomCategorie: true,
+          },
+        },
         titre: true,
         slug: true,
         illustration: true,
@@ -124,8 +135,19 @@ export class PostService {
       },
       select: {
         id: true,
-        idRedacteur: true,
-        idCategorie: true,
+        utilisateur: {
+          select: {
+            id: true,
+            nom: true,
+            prenom: true,
+          },
+        },
+        categorie_article: {
+          select: {
+            id: true,
+            nomCategorie: true,
+          },
+        },
         titre: true,
         slug: true,
         illustration: true,

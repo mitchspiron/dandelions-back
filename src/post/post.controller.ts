@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import { Public } from '../common/decorators';
 import { editFileName, imageFileFilter } from '../utils/file-upload.utils';
 import { CreatePostDto, UpdateIllustrationDto, UpdatePostDto } from './dto';
 import { PostService } from './post.service';
@@ -43,11 +44,13 @@ export class PostController {
     return await this.postService.createPost(dto);
   }
 
+  @Public()
   @Get()
   async getPost(): Promise<GetPost[]> {
     return await this.postService.getPost();
   }
 
+  @Public()
   @Get(':slug')
   async getPostBySlug(@Param('slug') slug: string): Promise<GetPost> {
     return await this.postService.getPostBySlug(slug);
