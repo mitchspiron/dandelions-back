@@ -12,6 +12,7 @@ import { PostModule } from './post/post.module';
 import { EnterpriseModule } from './enterprise/enterprise.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { EvenementModule } from './evenement/evenement.module';
+import { EventRegistrationModule } from './event-registration/event-registration.module';
 
 @Module({
   controllers: [AppController],
@@ -28,6 +29,7 @@ import { EvenementModule } from './evenement/evenement.module';
       dest: './images',
     }),
     EvenementModule,
+    EventRegistrationModule,
   ],
   providers: [
     {
