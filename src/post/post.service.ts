@@ -2,6 +2,7 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import {
   CreatePostDto,
+  SwitchRecommandedDto,
   UpdateIllustrationDto,
   UpdatePostDto,
   UpdatePostTitleDto,
@@ -10,6 +11,7 @@ import {
 import {
   CreatePost,
   GetPost,
+  SwitchRecommanded,
   UpdatePost,
   UpdateStatePost,
 } from './types/post.type';
@@ -337,6 +339,34 @@ export class PostService {
             nomEtat: true,
           },
         },
+      },
+    });
+  }
+
+  async switchToRecommandedBySlug(
+    slug: string,
+    dto: SwitchRecommandedDto,
+  ): Promise<SwitchRecommanded> {
+    const postBySlug = await this.prisma.article.findUnique({
+      where: {
+        slug,
+      },
+    });
+
+    if (!postBySlug) {
+      throw new ForbiddenException("Cet article n'existe pas!");
+    }
+
+    return await this.prisma.article.update({
+      data: {
+        recommadee: dto.recommadee,
+      },
+      where: {
+        slug,
+      },
+      select: {
+        id: true,
+        recommadee: true,
       },
     });
   }

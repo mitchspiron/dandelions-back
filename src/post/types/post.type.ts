@@ -70,3 +70,8 @@ export type UpdateStatePost = {
     nomEtat: string;
   };
 };
+
+export type SwitchRecommanded = {
+  id: number;
+  recommadee: boolean;
+};

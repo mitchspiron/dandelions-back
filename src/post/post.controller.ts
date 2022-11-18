@@ -15,6 +15,7 @@ import { Public } from '../common/decorators';
 import { editFileName, imageFileFilter } from '../utils/file-upload.utils';
 import {
   CreatePostDto,
+  SwitchRecommandedDto,
   UpdateIllustrationDto,
   UpdatePostDto,
   UpdatePostTitleDto,
@@ -24,6 +25,7 @@ import { PostService } from './post.service';
 import {
   CreatePost,
   GetPost,
+  SwitchRecommanded,
   UpdatePost,
   UpdateStatePost,
 } from './types/post.type';
@@ -89,6 +91,14 @@ export class PostController {
     @Body() dto: UpdateStateDto,
   ): Promise<UpdateStatePost> {
     return await this.postService.updateStateBySlug(slug, dto);
+  }
+
+  @Put('switch-recommanded/:slug')
+  async switchToRecommandedBySlug(
+    @Param('slug') slug: string,
+    @Body() dto: SwitchRecommandedDto,
+  ): Promise<SwitchRecommanded> {
+    return await this.postService.switchToRecommandedBySlug(slug, dto);
   }
 
   @Put('update-illustration/:slug')

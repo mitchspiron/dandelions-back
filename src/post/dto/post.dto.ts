@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreatePostDto {
   @IsNotEmpty()
@@ -54,4 +54,10 @@ export class UpdateIllustrationDto {
   @IsNotEmpty()
   @IsString()
   illustration: string;
+}
+
+export class SwitchRecommandedDto {
+  @IsNotEmpty()
+  @IsBoolean()
+  recommadee: boolean;
 }
