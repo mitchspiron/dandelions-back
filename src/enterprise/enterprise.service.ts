@@ -92,7 +92,7 @@ export class EnterpriseService {
       },
     });
 
-    if (!enterprise) throw new ForbiddenException("Lidentifiant n'éxiste pas!");
+    if (!enterprise) throw new ForbiddenException("L'identifiant n'éxiste pas!");
     else {
       const slugTitle = dto.nom
         .toLocaleLowerCase()
@@ -107,7 +107,7 @@ export class EnterpriseService {
         },
       });
 
-      if (slugExists) {
+      if (slugExists && slugTitle !== slug) {
         throw new ForbiddenException('Cet entreprise existe déjà!');
       }
 
