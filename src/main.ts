@@ -6,6 +6,7 @@ import { join } from 'path';
 import * as session from 'express-session';
 import { flash } from 'express-flash-message';
 import * as cookieParser from 'cookie-parser';
+import { urlencoded, json } from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -18,6 +19,8 @@ async function bootstrap() {
       },
     } */),
   );
+  app.use(json({ limit: '50mb' }));
+  app.use(urlencoded({ extended: true, limit: '50mb' }));
   app.useStaticAssets(join(__dirname, '..', 'images'), {
     index: false,
     prefix: '/images',
