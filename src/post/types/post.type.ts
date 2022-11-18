@@ -62,3 +62,11 @@ export type UpdatePost = {
   etat: number;
   createdAt: Date;
 };
+
+export type UpdateStatePost = {
+  id: number;
+  etat_article: {
+    id: number;
+    nomEtat: string;
+  };
+};

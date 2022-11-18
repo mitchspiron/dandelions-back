@@ -5,8 +5,14 @@ import {
   UpdateIllustrationDto,
   UpdatePostDto,
   UpdatePostTitleDto,
+  UpdateStateDto,
 } from './dto';
-import { CreatePost, GetPost, UpdatePost } from './types/post.type';
+import {
+  CreatePost,
+  GetPost,
+  UpdatePost,
+  UpdateStatePost,
+} from './types/post.type';
 import * as fs from 'fs';
 
 @Injectable()
@@ -298,6 +304,39 @@ export class PostService {
     return await this.prisma.article.delete({
       where: {
         slug,
+      },
+    });
+  }
+
+  async updateStateBySlug(
+    slug: string,
+    dto: UpdateStateDto,
+  ): Promise<UpdateStatePost> {
+    const postBySlug = await this.prisma.article.findUnique({
+      where: {
+        slug,
+      },
+    });
+
+    if (!postBySlug) {
+      throw new ForbiddenException("Cet article n'existe pas!");
+    }
+
+    return await this.prisma.article.update({
+      data: {
+        etat: Number(dto.etat),
+      },
+      where: {
+        slug,
+      },
+      select: {
+        id: true,
+        etat_article: {
+          select: {
+            id: true,
+            nomEtat: true,
+          },
+        },
       },
     });
   }

@@ -45,6 +45,11 @@ export class UpdatePostTitleDto {
   titre: string;
 }
 
+export class UpdateStateDto {
+  @IsNotEmpty()
+  etat: number;
+}
+
 export class UpdateIllustrationDto {
   @IsNotEmpty()
   @IsString()

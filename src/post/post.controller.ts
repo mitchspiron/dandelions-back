@@ -18,9 +18,15 @@ import {
   UpdateIllustrationDto,
   UpdatePostDto,
   UpdatePostTitleDto,
+  UpdateStateDto,
 } from './dto';
 import { PostService } from './post.service';
-import { CreatePost, GetPost, UpdatePost } from './types/post.type';
+import {
+  CreatePost,
+  GetPost,
+  UpdatePost,
+  UpdateStatePost,
+} from './types/post.type';
 
 @Controller('post')
 export class PostController {
@@ -75,6 +81,14 @@ export class PostController {
     @Body() dto: UpdatePostTitleDto,
   ): Promise<UpdatePost> {
     return await this.postService.updatePostTitleBySlug(slug, dto);
+  }
+
+  @Put('state/:slug')
+  async updateStateBySlug(
+    @Param('slug') slug: string,
+    @Body() dto: UpdateStateDto,
+  ): Promise<UpdateStatePost> {
+    return await this.postService.updateStateBySlug(slug, dto);
   }
 
   @Put('update-illustration/:slug')

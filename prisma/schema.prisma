@@ -87,6 +87,7 @@ model evenement {
   contenu               String                  @db.LongText
   deadline              DateTime                @db.Timestamp(0)
   onHeader              Boolean
+  onSubscribe           Boolean
   createdAt             DateTime                @default(now())
   entreprise            entreprise              @relation(fields: [idEntreprise], references: [id], onDelete: Cascade, map: "evenement_ibfk_1")
   inscription_evenement inscription_evenement[]
