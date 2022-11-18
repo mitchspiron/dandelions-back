@@ -9,6 +9,7 @@ export type CreateEvenement = {
   deadline: Date;
   onHeader: boolean;
   createdAt: Date;
+  onSubscribe: boolean;
 };
 
 export type GetEvenement = {
@@ -22,6 +23,7 @@ export type GetEvenement = {
   deadline: Date;
   onHeader: boolean;
   createdAt: Date;
+  onSubscribe: boolean;
   inscription_evenement: {
     id: number;
     idUtilisateur: number;
