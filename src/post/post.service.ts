@@ -1,6 +1,11 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreatePostDto, UpdateIllustrationDto, UpdatePostDto } from './dto';
+import {
+  CreatePostDto,
+  UpdateIllustrationDto,
+  UpdatePostDto,
+  UpdatePostTitleDto,
+} from './dto';
 import { CreatePost, GetPost, UpdatePost } from './types/post.type';
 import * as fs from 'fs';
 
@@ -201,6 +206,24 @@ export class PostService {
     if (!slugExists) {
       throw new ForbiddenException("Cet article n'existe pas!");
     }
+
+    return await this.prisma.article.update({
+      data: {
+        idCategorie: Number(dto.idCategorie),
+        description: dto.description,
+        contenu: dto.contenu,
+        slug,
+      },
+      where: {
+        slug,
+      },
+    });
+  }
+
+  async updatePostTitleBySlug(
+    slug: string,
+    dto: UpdatePostTitleDto,
+  ): Promise<UpdatePost> {
     const updatedSlug = dto.titre
       .toLocaleLowerCase()
       .replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '')
@@ -208,12 +231,19 @@ export class PostService {
       .split(' ')
       .join('-');
 
+    const slugExists = await this.prisma.article.findUnique({
+      where: {
+        slug: updatedSlug,
+      },
+    });
+
+    if (slugExists) {
+      throw new ForbiddenException('Cet article existe déjà!');
+    }
+
     return await this.prisma.article.update({
       data: {
-        idCategorie: Number(dto.idCategorie),
         titre: dto.titre,
-        description: dto.description,
-        contenu: dto.contenu,
         slug: updatedSlug,
       },
       where: {

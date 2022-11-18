@@ -13,7 +13,12 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { Public } from '../common/decorators';
 import { editFileName, imageFileFilter } from '../utils/file-upload.utils';
-import { CreatePostDto, UpdateIllustrationDto, UpdatePostDto } from './dto';
+import {
+  CreatePostDto,
+  UpdateIllustrationDto,
+  UpdatePostDto,
+  UpdatePostTitleDto,
+} from './dto';
 import { PostService } from './post.service';
 import { CreatePost, GetPost, UpdatePost } from './types/post.type';
 
@@ -62,6 +67,14 @@ export class PostController {
     @Body() dto: UpdatePostDto,
   ): Promise<UpdatePost> {
     return await this.postService.updatePostBySlug(slug, dto);
+  }
+
+  @Put('title/:slug')
+  async updatePostTitleBySlug(
+    @Param('slug') slug: string,
+    @Body() dto: UpdatePostTitleDto,
+  ): Promise<UpdatePost> {
+    return await this.postService.updatePostTitleBySlug(slug, dto);
   }
 
   @Put('update-illustration/:slug')
