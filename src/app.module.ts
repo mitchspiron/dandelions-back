@@ -13,6 +13,7 @@ import { EnterpriseModule } from './enterprise/enterprise.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { EvenementModule } from './evenement/evenement.module';
 import { EventRegistrationModule } from './event-registration/event-registration.module';
+import { CommentModule } from './comment/comment.module';
 
 @Module({
   controllers: [AppController],
@@ -30,6 +31,7 @@ import { EventRegistrationModule } from './event-registration/event-registration
     }),
     EvenementModule,
     EventRegistrationModule,
+    CommentModule,
   ],
   providers: [
     {
