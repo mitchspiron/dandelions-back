@@ -10,12 +10,13 @@ CREATE TABLE `article` (
     `contenu` LONGTEXT NOT NULL,
     `top` BOOLEAN NOT NULL,
     `recommadee` BOOLEAN NOT NULL,
-    `isPublier` BOOLEAN NOT NULL,
+    `etat` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     UNIQUE INDEX `slug`(`slug`),
     INDEX `idCategorie`(`idCategorie`),
     INDEX `idRedacteur`(`idRedacteur`),
+    INDEX `etat`(`etat`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -23,6 +24,16 @@ CREATE TABLE `article` (
 CREATE TABLE `categorie_article` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `nomCategorie` VARCHAR(255) NOT NULL,
+    `slug` VARCHAR(100) NOT NULL,
+
+    UNIQUE INDEX `slug`(`slug`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `etat_article` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `nomEtat` VARCHAR(255) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -73,6 +84,7 @@ CREATE TABLE `evenement` (
     `contenu` LONGTEXT NOT NULL,
     `deadline` TIMESTAMP(0) NOT NULL,
     `onHeader` BOOLEAN NOT NULL,
+    `onSubscribe` BOOLEAN NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     UNIQUE INDEX `slug`(`slug`),
@@ -135,6 +147,9 @@ ALTER TABLE `article` ADD CONSTRAINT `article_ibfk_1` FOREIGN KEY (`idCategorie`
 
 -- AddForeignKey
 ALTER TABLE `article` ADD CONSTRAINT `article_ibfk_2` FOREIGN KEY (`idRedacteur`) REFERENCES `utilisateur`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `article` ADD CONSTRAINT `article_ibfk_3` FOREIGN KEY (`etat`) REFERENCES `etat_article`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `commentaire` ADD CONSTRAINT `commentaire_ibfk_1` FOREIGN KEY (`idUtilisateur`) REFERENCES `utilisateur`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

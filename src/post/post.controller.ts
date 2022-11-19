@@ -64,12 +64,6 @@ export class PostController {
   }
 
   @Public()
-  @Get('category')
-  async getPublishedPostCategory() {
-    return await this.postService.getPublishedPostCategory();
-  }
-
-  @Public()
   @Get(':slug')
   async getPostBySlug(@Param('slug') slug: string): Promise<GetPost> {
     return await this.postService.getPostBySlug(slug);
