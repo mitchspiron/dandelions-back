@@ -21,6 +21,28 @@ import * as fs from 'fs';
 export class PostService {
   constructor(private readonly prisma: PrismaService) {}
 
+  async getPublishedPostCategory() {
+    const postCategory = await this.prisma.article.findMany({
+      where: {
+        etat: 5,
+      },
+      select: {
+        id: true,
+        categorie_article: {
+          include: {
+            _count: {
+              select: { article: true },
+            },
+          },
+        },
+      },
+    });
+
+    if (!postCategory)
+      throw new ForbiddenException("Il n'y a aucun categorie d'article!");
+    return postCategory;
+  }
+
   async createPost(dto: CreatePostDto): Promise<CreatePost> {
     const redacteur = await this.prisma.utilisateur.findUnique({
       where: {

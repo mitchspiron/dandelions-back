@@ -75,3 +75,8 @@ export type SwitchRecommanded = {
   id: number;
   recommadee: boolean;
 };
+
+export type PostPublishedCategory = {
+  id: number;
+  categorie_article: [];
+};

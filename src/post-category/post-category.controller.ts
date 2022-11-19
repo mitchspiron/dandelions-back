@@ -8,6 +8,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { Public } from '../common/decorators';
 import { PostCategoryDto } from './dto';
 import { PostCategoryService } from './post-category.service';
 import { PostCategory } from './types';
@@ -16,11 +17,13 @@ import { PostCategory } from './types';
 export class PostCategoryController {
   constructor(private readonly postCategoryService: PostCategoryService) {}
 
+  @Public()
   @Get()
   async getPostCategory(): Promise<PostCategory[]> {
     return await this.postCategoryService.getPostCategory();
   }
 
+  @Public()
   @Get('/:id')
   async getPostCategoryById(
     @Param('id', ParseIntPipe) id: number,

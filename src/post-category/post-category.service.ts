@@ -20,7 +20,15 @@ export class PostCategoryService {
   }
 
   async getPostCategory(): Promise<PostCategory[]> {
-    const postCategory = await this.prisma.categorie_article.findMany();
+    const postCategory = await this.prisma.categorie_article.findMany({
+      include: {
+        _count: {
+          select: {
+            article: true,
+          },
+        },
+      },
+    });
 
     if (!postCategory)
       throw new ForbiddenException("Il n'y a aucun categorie d'article!");
@@ -28,9 +36,27 @@ export class PostCategoryService {
   }
 
   async createPostCategory(dto: PostCategoryDto): Promise<PostCategory> {
+    const PostCategoryById = await this.prisma.categorie_article.findMany({
+      where: {
+        nomCategorie: dto.nomCategorie,
+      },
+    });
+
+    if (PostCategoryById.length !== 0) {
+      throw new ForbiddenException("Cette catégorie d'article existe déjà!");
+    }
+
+    const slug = dto.nomCategorie
+      .toLocaleLowerCase()
+      .replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '')
+      .trim()
+      .split(' ')
+      .join('-');
+
     return await this.prisma.categorie_article.create({
       data: {
         nomCategorie: dto.nomCategorie,
+        slug,
       },
     });
   }
@@ -39,18 +65,27 @@ export class PostCategoryService {
     id: number,
     dto: PostCategoryDto,
   ): Promise<PostCategory> {
-    const PostCategoryById = await this.prisma.categorie_article.findUnique({
+    const slug = dto.nomCategorie
+      .toLocaleLowerCase()
+      .replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '')
+      .trim()
+      .split(' ')
+      .join('-');
+
+    const PostCategoryBySlug = await this.prisma.categorie_article.findUnique({
       where: {
-        id,
+        slug,
       },
     });
 
-    if (!PostCategoryById)
-      throw new ForbiddenException("L'identifiant n'existe pas!");
+    if (PostCategoryBySlug) {
+      throw new ForbiddenException("Cette catégorie d'article existe déjà!");
+    }
 
     return await this.prisma.categorie_article.update({
       data: {
         nomCategorie: dto.nomCategorie,
+        slug,
       },
       where: {
         id,

@@ -33,6 +33,7 @@ model article {
 model categorie_article {
   id           Int       @id @default(autoincrement())
   nomCategorie String    @db.VarChar(255)
+  slug         String    @unique(map: "slug") @db.VarChar(100)
   article      article[]
 }
 
