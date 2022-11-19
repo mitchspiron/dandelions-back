@@ -103,42 +103,45 @@ export class CommentService {
     });
   }
 
-  async updateCommentById(id: number, dto: UpdateCommentdto): Promise<CreateComment>{
+  async updateCommentById(
+    id: number,
+    dto: UpdateCommentdto,
+  ): Promise<CreateComment> {
     const commentExists = await this.prisma.commentaire.findUnique({
-        where: {
-            id
-        }
-    })
+      where: {
+        id,
+      },
+    });
 
-    if(!commentExists){
-        throw new ForbiddenException("Commentaire introuvable")
+    if (!commentExists) {
+      throw new ForbiddenException('Commentaire introuvable');
     }
 
     return await this.prisma.commentaire.update({
-        data: {
-            contenu: dto.contenu
-        },
-        where: {
-            id
-        }
-    })
+      data: {
+        contenu: dto.contenu,
+      },
+      where: {
+        id,
+      },
+    });
   }
 
-  async deleteCommentById(id: number): Promise<CreateComment>{
+  async deleteCommentById(id: number): Promise<CreateComment> {
     const commentExists = await this.prisma.commentaire.findUnique({
-        where: {
-            id
-        }
-    })
+      where: {
+        id,
+      },
+    });
 
-    if(!commentExists){
-        throw new ForbiddenException("Commentaire introuvable")
+    if (!commentExists) {
+      throw new ForbiddenException('Commentaire introuvable');
     }
 
     return await this.prisma.commentaire.delete({
-        where: {
-            id
-        }
-    })
+      where: {
+        id,
+      },
+    });
   }
 }
