@@ -68,7 +68,7 @@ export class EvenementService {
         contenu: dto.contenu,
         deadline: dto.deadline,
         onHeader: false,
-        onSubscribe: dto.onSubscribe
+        onSubscribe: dto.onSubscribe,
       },
     });
   }
@@ -157,15 +157,15 @@ export class EvenementService {
       .split(' ')
       .join('-');
 
-      const titreEvenementExist = await this.prisma.evenement.findUnique({
-        where: {
-          slug: updatedSlug,
-        },
-      });
-  
-      if (titreEvenementExist && slug !== updatedSlug) {
-        throw new ForbiddenException("Ce titre d'évenement existe déja!");
-      }
+    const titreEvenementExist = await this.prisma.evenement.findUnique({
+      where: {
+        slug: updatedSlug,
+      },
+    });
+
+    if (titreEvenementExist && slug !== updatedSlug) {
+      throw new ForbiddenException("Ce titre d'évenement existe déja!");
+    }
 
     return await this.prisma.evenement.update({
       data: {
@@ -174,7 +174,7 @@ export class EvenementService {
         contenu: dto.contenu,
         deadline: dto.deadline,
         slug: updatedSlug,
-        onSubscribe: dto.onSubscribe
+        onSubscribe: dto.onSubscribe,
       },
       where: {
         slug,

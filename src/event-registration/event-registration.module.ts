@@ -4,6 +4,6 @@ import { EventRegistrationService } from './event-registration.service';
 
 @Module({
   controllers: [EventRegistrationController],
-  providers: [EventRegistrationService]
+  providers: [EventRegistrationService],
 })
 export class EventRegistrationModule {}

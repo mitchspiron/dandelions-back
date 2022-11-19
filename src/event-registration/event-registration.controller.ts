@@ -15,7 +15,9 @@ export class EventRegistrationController {
   }
 
   @Get(':slug')
-  async getEventRegistrationByEvent(@Param('slug') slug: string): Promise<EventRegistration[]>{
-    return this.eventRegistration.getEventRegistrationByEvent(slug)
+  async getEventRegistrationByEvent(
+    @Param('slug') slug: string,
+  ): Promise<EventRegistration[]> {
+    return this.eventRegistration.getEventRegistrationByEvent(slug);
   }
 }

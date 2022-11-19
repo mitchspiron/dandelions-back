@@ -92,7 +92,8 @@ export class EnterpriseService {
       },
     });
 
-    if (!enterprise) throw new ForbiddenException("L'identifiant n'éxiste pas!");
+    if (!enterprise)
+      throw new ForbiddenException("L'identifiant n'éxiste pas!");
     else {
       const slugTitle = dto.nom
         .toLocaleLowerCase()
