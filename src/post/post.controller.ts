@@ -64,6 +64,18 @@ export class PostController {
   }
 
   @Public()
+  @Get('published')
+  async getPublishedPost(): Promise<GetPost[]> {
+    return await this.postService.getPublishedPost();
+  }
+
+  @Public()
+  @Get('recommanded')
+  async getRecommandedPost(): Promise<GetPost[]> {
+    return await this.postService.getRecommandedPost();
+  }
+
+  @Public()
   @Get(':slug')
   async getPostBySlug(@Param('slug') slug: string): Promise<GetPost> {
     return await this.postService.getPostBySlug(slug);
