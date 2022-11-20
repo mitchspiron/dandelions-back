@@ -16,6 +16,7 @@ import { editFileName, imageFileFilter } from '../utils/file-upload.utils';
 import {
   CreatePostDto,
   SwitchRecommandedDto,
+  SwitchTopDto,
   UpdateIllustrationDto,
   UpdatePostDto,
   UpdatePostTitleDto,
@@ -26,6 +27,7 @@ import {
   CreatePost,
   GetPost,
   SwitchRecommanded,
+  SwitchTop,
   UpdatePost,
   UpdateStatePost,
 } from './types/post.type';
@@ -76,6 +78,12 @@ export class PostController {
   }
 
   @Public()
+  @Get('top')
+  async getTopPost(): Promise<GetPost[]> {
+    return await this.postService.getTopPost();
+  }
+
+  @Public()
   @Get(':slug')
   async getPostBySlug(@Param('slug') slug: string): Promise<GetPost> {
     return await this.postService.getPostBySlug(slug);
@@ -111,6 +119,14 @@ export class PostController {
     @Body() dto: SwitchRecommandedDto,
   ): Promise<SwitchRecommanded> {
     return await this.postService.switchToRecommandedBySlug(slug, dto);
+  }
+
+  @Put('switch-top/:slug')
+  async switchTopBySlug(
+    @Param('slug') slug: string,
+    @Body() dto: SwitchTopDto,
+  ): Promise<SwitchTop> {
+    return await this.postService.switchTopBySlug(slug, dto);
   }
 
   @Put('update-illustration/:slug')

@@ -61,3 +61,9 @@ export class SwitchRecommandedDto {
   @IsBoolean()
   recommadee: boolean;
 }
+
+export class SwitchTopDto {
+  @IsNotEmpty()
+  @IsBoolean()
+  top: boolean;
+}

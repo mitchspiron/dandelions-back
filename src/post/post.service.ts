@@ -3,6 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import {
   CreatePostDto,
   SwitchRecommandedDto,
+  SwitchTopDto,
   UpdateIllustrationDto,
   UpdatePostDto,
   UpdatePostTitleDto,
@@ -12,6 +13,7 @@ import {
   CreatePost,
   GetPost,
   SwitchRecommanded,
+  SwitchTop,
   UpdatePost,
   UpdateStatePost,
 } from './types/post.type';
@@ -206,6 +208,67 @@ export class PostService {
       where: {
         etat: 5,
         recommadee: true,
+      },
+      select: {
+        id: true,
+        utilisateur: {
+          select: {
+            id: true,
+            nom: true,
+            prenom: true,
+          },
+        },
+        categorie_article: {
+          select: {
+            id: true,
+            nomCategorie: true,
+          },
+        },
+        titre: true,
+        slug: true,
+        illustration: true,
+        description: true,
+        contenu: true,
+        top: true,
+        recommadee: true,
+        etat_article: {
+          select: {
+            id: true,
+            nomEtat: true,
+          },
+        },
+        createdAt: true,
+        commentaire: {
+          select: {
+            id: true,
+            idUtilisateur: true,
+            contenu: true,
+            createdAt: true,
+            reponse: {
+              select: {
+                id: true,
+                idUtilisateur: true,
+                contenu: true,
+                createdAt: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!post) {
+      throw new ForbiddenException("Il n'y a aucun article!");
+    }
+
+    return post;
+  }
+
+  async getTopPost(): Promise<GetPost[]> {
+    const post = await this.prisma.article.findMany({
+      where: {
+        etat: 5,
+        top: true,
       },
       select: {
         id: true,
@@ -488,6 +551,31 @@ export class PostService {
       select: {
         id: true,
         recommadee: true,
+      },
+    });
+  }
+
+  async switchTopBySlug(slug: string, dto: SwitchTopDto): Promise<SwitchTop> {
+    const postBySlug = await this.prisma.article.findUnique({
+      where: {
+        slug,
+      },
+    });
+
+    if (!postBySlug) {
+      throw new ForbiddenException("Cet article n'existe pas!");
+    }
+
+    return await this.prisma.article.update({
+      data: {
+        top: dto.top,
+      },
+      where: {
+        slug,
+      },
+      select: {
+        id: true,
+        top: true,
       },
     });
   }
