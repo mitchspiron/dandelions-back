@@ -30,8 +30,8 @@ export class CommentService {
 
     return await this.prisma.commentaire.create({
       data: {
-        idUtilisateur: dto.idUtilisateur,
-        idArticle: dto.idArticle,
+        idUtilisateur: Number(dto.idUtilisateur),
+        idArticle: Number(dto.idArticle),
         contenu: dto.contenu,
       },
     });
