@@ -66,6 +66,18 @@ export class PostController {
   }
 
   @Public()
+  @Get('take-first-post')
+  async takeFirstLastestPost(): Promise<GetPost[]> {
+    return await this.postService.takeFirstLastestPost();
+  }
+
+  @Public()
+  @Get('skip-first-post')
+  async skipFisrtLastestPost(): Promise<GetPost[]> {
+    return await this.postService.skipFisrtLastestPost();
+  }
+
+  @Public()
   @Get('published')
   async getPublishedPost(): Promise<GetPost[]> {
     return await this.postService.getPublishedPost();

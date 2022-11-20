@@ -88,6 +88,9 @@ export class PostService {
 
   async getPost(): Promise<GetPost[]> {
     const post = await this.prisma.article.findMany({
+      orderBy: {
+        id: 'desc',
+      },
       select: {
         id: true,
         utilisateur: {
@@ -101,6 +104,138 @@ export class PostService {
           select: {
             id: true,
             nomCategorie: true,
+            slug: true,
+          },
+        },
+        titre: true,
+        slug: true,
+        illustration: true,
+        description: true,
+        contenu: true,
+        top: true,
+        recommadee: true,
+        etat_article: {
+          select: {
+            id: true,
+            nomEtat: true,
+          },
+        },
+        createdAt: true,
+        commentaire: {
+          select: {
+            id: true,
+            idUtilisateur: true,
+            contenu: true,
+            createdAt: true,
+            reponse: {
+              select: {
+                id: true,
+                idUtilisateur: true,
+                contenu: true,
+                createdAt: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!post) {
+      throw new ForbiddenException("Il n'y a aucun article!");
+    }
+
+    return post;
+  }
+
+  async takeFirstLastestPost(): Promise<GetPost[]> {
+    const post = await this.prisma.article.findMany({
+      orderBy: {
+        id: 'desc',
+      },
+      where: {
+        etat: 5,
+      },
+      take: 1,
+      select: {
+        id: true,
+        utilisateur: {
+          select: {
+            id: true,
+            nom: true,
+            prenom: true,
+          },
+        },
+        categorie_article: {
+          select: {
+            id: true,
+            nomCategorie: true,
+            slug: true,
+          },
+        },
+        titre: true,
+        slug: true,
+        illustration: true,
+        description: true,
+        contenu: true,
+        top: true,
+        recommadee: true,
+        etat_article: {
+          select: {
+            id: true,
+            nomEtat: true,
+          },
+        },
+        createdAt: true,
+        commentaire: {
+          select: {
+            id: true,
+            idUtilisateur: true,
+            contenu: true,
+            createdAt: true,
+            reponse: {
+              select: {
+                id: true,
+                idUtilisateur: true,
+                contenu: true,
+                createdAt: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!post) {
+      throw new ForbiddenException("Il n'y a aucun article!");
+    }
+
+    return post;
+  }
+
+  async skipFisrtLastestPost(): Promise<GetPost[]> {
+    const post = await this.prisma.article.findMany({
+      orderBy: {
+        id: 'desc',
+      },
+      where: {
+        etat: 5,
+      },
+      skip: 1,
+      take: 4,
+      select: {
+        id: true,
+        utilisateur: {
+          select: {
+            id: true,
+            nom: true,
+            prenom: true,
+          },
+        },
+        categorie_article: {
+          select: {
+            id: true,
+            nomCategorie: true,
+            slug: true,
           },
         },
         titre: true,
@@ -145,6 +280,9 @@ export class PostService {
 
   async getPublishedPost(): Promise<GetPost[]> {
     const post = await this.prisma.article.findMany({
+      orderBy: {
+        id: 'desc',
+      },
       where: {
         etat: 5,
       },
@@ -161,6 +299,7 @@ export class PostService {
           select: {
             id: true,
             nomCategorie: true,
+            slug: true,
           },
         },
         titre: true,
@@ -205,6 +344,9 @@ export class PostService {
 
   async getRecommandedPost(): Promise<GetPost[]> {
     const post = await this.prisma.article.findMany({
+      orderBy: {
+        id: 'desc',
+      },
       where: {
         etat: 5,
         recommadee: true,
@@ -222,6 +364,7 @@ export class PostService {
           select: {
             id: true,
             nomCategorie: true,
+            slug: true,
           },
         },
         titre: true,
@@ -266,6 +409,9 @@ export class PostService {
 
   async getTopPost(): Promise<GetPost[]> {
     const post = await this.prisma.article.findMany({
+      orderBy: {
+        id: 'desc',
+      },
       where: {
         etat: 5,
         top: true,
@@ -283,6 +429,7 @@ export class PostService {
           select: {
             id: true,
             nomCategorie: true,
+            slug: true,
           },
         },
         titre: true,
@@ -343,6 +490,7 @@ export class PostService {
           select: {
             id: true,
             nomCategorie: true,
+            slug: true,
           },
         },
         titre: true,
