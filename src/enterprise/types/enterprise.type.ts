@@ -12,4 +12,10 @@ export type Enterprise = {
   descriptionA: string;
   descriptionB: string;
   textContact: string;
+  abonnee: boolean;
+};
+
+export type isAbonnee = {
+  id: number;
+  abonnee: boolean;
 };

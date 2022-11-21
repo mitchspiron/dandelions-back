@@ -71,6 +71,7 @@ model entreprise {
   descriptionA  String      @db.Text
   descriptionB  String      @db.Text
   textContact   String      @db.Text
+  abonnee       Boolean
   createdAt     DateTime    @default(now())
   utilisateur   utilisateur @relation(fields: [idRedacteur], references: [id], onDelete: Cascade, map: "entreprise_ibfk_1")
   evenement     evenement[]
