@@ -7,7 +7,10 @@ import { CreateComment, GetComment } from './types';
 export class CommentService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createComment(dto: CreateCommentDto): Promise<CreateComment> {
+  async createComment(
+    slug: string,
+    dto: CreateCommentDto,
+  ): Promise<CreateComment> {
     const userExists = await this.prisma.utilisateur.findUnique({
       where: {
         id: Number(dto.idUtilisateur),
@@ -20,7 +23,7 @@ export class CommentService {
 
     const articleExists = await this.prisma.article.findUnique({
       where: {
-        id: Number(dto.idArticle),
+        slug,
       },
     });
 
@@ -31,7 +34,7 @@ export class CommentService {
     return await this.prisma.commentaire.create({
       data: {
         idUtilisateur: Number(dto.idUtilisateur),
-        idArticle: Number(dto.idArticle),
+        idArticle: articleExists.id,
         contenu: dto.contenu,
       },
     });
@@ -51,7 +54,14 @@ export class CommentService {
     return await this.prisma.commentaire.findMany({
       select: {
         id: true,
-        idUtilisateur: true,
+        utilisateur: {
+          select: {
+            id: true,
+            nom: true,
+            prenom: true,
+            illustration: true,
+          },
+        },
         idArticle: true,
         contenu: true,
         createdAt: true,
@@ -84,7 +94,14 @@ export class CommentService {
     return await this.prisma.commentaire.findUnique({
       select: {
         id: true,
-        idUtilisateur: true,
+        utilisateur: {
+          select: {
+            id: true,
+            nom: true,
+            prenom: true,
+            illustration: true,
+          },
+        },
         idArticle: true,
         contenu: true,
         createdAt: true,

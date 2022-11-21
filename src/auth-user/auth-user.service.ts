@@ -74,7 +74,7 @@ export class AuthUserService {
           motDePasse: newUser.motDePasse,
         },
       });
-      //res.redirect('http://localhost:8080/login');
+      //res.redirect('http://localhost:8080/se-connecter');
       req.flash('info', 'Flash is back!');
       res.redirect('/bienvenu');
       return newConfirmUser;

@@ -8,6 +8,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { Public } from '../common/decorators';
 import { CommentService } from './comment.service';
 import { CreateCommentDto, UpdateCommentdto } from './dto';
 import { CreateComment, GetComment } from './types';
@@ -16,11 +17,15 @@ import { CreateComment, GetComment } from './types';
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
 
-  @Post()
-  async createComment(@Body() dto: CreateCommentDto): Promise<CreateComment> {
-    return await this.commentService.createComment(dto);
+  @Post(':slug')
+  async createComment(
+    @Param('slug') slug: string,
+    @Body() dto: CreateCommentDto,
+  ): Promise<CreateComment> {
+    return await this.commentService.createComment(slug, dto);
   }
 
+  @Public()
   @Get('post/:slug')
   async getCommentByPost(@Param('slug') slug: string): Promise<GetComment[]> {
     return await this.commentService.getCommentByPost(slug);

@@ -8,7 +8,12 @@ export type CreateComment = {
 
 export type GetComment = {
   id: number;
-  idUtilisateur: number;
+  utilisateur: {
+    id: number;
+    nom: string;
+    prenom: string;
+    illustration: string;
+  };
   idArticle: number;
   contenu: string;
   createdAt: Date;
