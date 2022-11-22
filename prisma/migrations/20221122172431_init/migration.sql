@@ -66,6 +66,7 @@ CREATE TABLE `entreprise` (
     `descriptionA` TEXT NOT NULL,
     `descriptionB` TEXT NOT NULL,
     `textContact` TEXT NOT NULL,
+    `abonnee` BOOLEAN NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     UNIQUE INDEX `slug`(`slug`),

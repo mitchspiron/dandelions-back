@@ -68,7 +68,14 @@ export class CommentService {
         reponse: {
           select: {
             id: true,
-            idUtilisateur: true,
+            utilisateur: {
+              select: {
+                id: true,
+                nom: true,
+                prenom: true,
+                illustration: true,
+              },
+            },
             contenu: true,
             createdAt: true,
           },
@@ -76,6 +83,9 @@ export class CommentService {
       },
       where: {
         idArticle: Number(postExists.id),
+      },
+      orderBy: {
+        id: 'desc',
       },
     });
   }
@@ -108,7 +118,14 @@ export class CommentService {
         reponse: {
           select: {
             id: true,
-            idUtilisateur: true,
+            utilisateur: {
+              select: {
+                id: true,
+                nom: true,
+                prenom: true,
+                illustration: true,
+              },
+            },
             contenu: true,
             createdAt: true,
           },

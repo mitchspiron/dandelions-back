@@ -8,6 +8,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { Public } from '../common/decorators';
 import { CreateResponseDto, UpdateResponseDto } from './dto';
 import { ResponseService } from './response.service';
 import { Response } from './types';
@@ -16,11 +17,15 @@ import { Response } from './types';
 export class ResponseController {
   constructor(private readonly responseService: ResponseService) {}
 
-  @Post()
-  async createResponse(@Body() dto: CreateResponseDto): Promise<Response> {
-    return await this.responseService.createResponse(dto);
+  @Post(':id')
+  async createResponse(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: CreateResponseDto,
+  ): Promise<Response> {
+    return await this.responseService.createResponse(id, dto);
   }
 
+  @Public()
   @Get('comment/:id')
   async getResponseByComment(
     @Param('id', ParseIntPipe) id: number,
@@ -28,6 +33,7 @@ export class ResponseController {
     return await this.responseService.getResponseByComment(id);
   }
 
+  @Public()
   @Get(':id')
   async getResponseById(
     @Param('id', ParseIntPipe) id: number,

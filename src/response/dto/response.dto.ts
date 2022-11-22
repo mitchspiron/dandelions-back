@@ -5,9 +5,6 @@ export class CreateResponseDto {
   idUtilisateur: number;
 
   @IsNotEmpty()
-  idCommentaire: number;
-
-  @IsNotEmpty()
   @IsString()
   contenu: string;
 }

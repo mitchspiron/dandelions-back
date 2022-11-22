@@ -19,7 +19,12 @@ export type GetComment = {
   createdAt: Date;
   reponse: {
     id: number;
-    idUtilisateur: number;
+    utilisateur: {
+      id: number;
+      nom: string;
+      prenom: string;
+      illustration: string;
+    };
     contenu: string;
     createdAt: Date;
   }[];

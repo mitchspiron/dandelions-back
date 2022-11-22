@@ -7,7 +7,7 @@ import { Response } from './types';
 export class ResponseService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createResponse(dto: CreateResponseDto): Promise<Response> {
+  async createResponse(id: number, dto: CreateResponseDto): Promise<Response> {
     const userExists = await this.prisma.utilisateur.findUnique({
       where: {
         id: Number(dto.idUtilisateur),
@@ -20,7 +20,7 @@ export class ResponseService {
 
     const commentExists = await this.prisma.commentaire.findUnique({
       where: {
-        id: Number(dto.idCommentaire),
+        id,
       },
     });
 
@@ -31,8 +31,22 @@ export class ResponseService {
     return await this.prisma.reponse.create({
       data: {
         idUtilisateur: Number(dto.idUtilisateur),
-        idCommentaire: Number(dto.idCommentaire),
+        idCommentaire: commentExists.id,
         contenu: dto.contenu,
+      },
+      select: {
+        id: true,
+        utilisateur: {
+          select: {
+            id: true,
+            nom: true,
+            prenom: true,
+            illustration: true,
+          },
+        },
+        idCommentaire: true,
+        contenu: true,
+        createdAt: true,
       },
     });
   }
@@ -52,6 +66,23 @@ export class ResponseService {
       where: {
         idCommentaire: Number(commentExists.id),
       },
+      orderBy: {
+        id: 'desc',
+      },
+      select: {
+        id: true,
+        utilisateur: {
+          select: {
+            id: true,
+            nom: true,
+            prenom: true,
+            illustration: true,
+          },
+        },
+        idCommentaire: true,
+        contenu: true,
+        createdAt: true,
+      },
     });
   }
 
@@ -69,6 +100,20 @@ export class ResponseService {
     return await this.prisma.reponse.findUnique({
       where: {
         id,
+      },
+      select: {
+        id: true,
+        utilisateur: {
+          select: {
+            id: true,
+            nom: true,
+            prenom: true,
+            illustration: true,
+          },
+        },
+        idCommentaire: true,
+        contenu: true,
+        createdAt: true,
       },
     });
   }
@@ -94,6 +139,20 @@ export class ResponseService {
       where: {
         id,
       },
+      select: {
+        id: true,
+        utilisateur: {
+          select: {
+            id: true,
+            nom: true,
+            prenom: true,
+            illustration: true,
+          },
+        },
+        idCommentaire: true,
+        contenu: true,
+        createdAt: true,
+      },
     });
   }
 
@@ -111,6 +170,20 @@ export class ResponseService {
     return await this.prisma.reponse.delete({
       where: {
         id,
+      },
+      select: {
+        id: true,
+        utilisateur: {
+          select: {
+            id: true,
+            nom: true,
+            prenom: true,
+            illustration: true,
+          },
+        },
+        idCommentaire: true,
+        contenu: true,
+        createdAt: true,
       },
     });
   }

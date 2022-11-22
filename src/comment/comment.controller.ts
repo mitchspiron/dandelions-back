@@ -31,6 +31,7 @@ export class CommentController {
     return await this.commentService.getCommentByPost(slug);
   }
 
+  @Public()
   @Get(':id')
   async getCommentById(
     @Param('id', ParseIntPipe) id: number,

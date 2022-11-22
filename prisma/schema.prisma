@@ -22,8 +22,8 @@ model article {
   createdAt         DateTime          @default(now())
   categorie_article categorie_article @relation(fields: [idCategorie], references: [id], onDelete: Cascade, map: "article_ibfk_1")
   utilisateur       utilisateur       @relation(fields: [idRedacteur], references: [id], onDelete: Cascade, map: "article_ibfk_2")
-  commentaire       commentaire[]
   etat_article      etat_article      @relation(fields: [etat], references: [id], onDelete: Cascade, map: "article_ibfk_3")
+  commentaire       commentaire[]
 
   @@index([idCategorie], map: "idCategorie")
   @@index([idRedacteur], map: "idRedacteur")
