@@ -60,7 +60,7 @@ export class PostController {
   }
 
   @Public()
-  @Get(':id')
+  @Get('admin/:id')
   async getPost(@Param('id') id: number): Promise<GetPost[]> {
     return await this.postService.getPost(id);
   }
