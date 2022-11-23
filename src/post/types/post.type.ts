@@ -17,6 +17,7 @@ export type GetPost = {
     id: number;
     nom: string;
     prenom: string;
+    role: number;
   };
   categorie_article: {
     id: number;

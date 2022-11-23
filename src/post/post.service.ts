@@ -86,7 +86,80 @@ export class PostService {
     });
   }
 
-  async getPost(): Promise<GetPost[]> {
+  async getPost(id: number): Promise<GetPost[]> {
+    const user = await this.prisma.utilisateur.findUnique({
+      where: {
+        id: Number(id),
+      },
+    });
+
+    if (!user) {
+      throw new ForbiddenException("L'utilisateur sélectionné n'éxiste pas");
+    } else if (user.role !== 1) {
+      const post = await this.prisma.article.findMany({
+        orderBy: {
+          id: 'desc',
+        },
+        where: {
+          idRedacteur: Number(id),
+        },
+        select: {
+          id: true,
+          utilisateur: {
+            select: {
+              id: true,
+              nom: true,
+              prenom: true,
+              role: true,
+            },
+          },
+          categorie_article: {
+            select: {
+              id: true,
+              nomCategorie: true,
+              slug: true,
+            },
+          },
+          titre: true,
+          slug: true,
+          illustration: true,
+          description: true,
+          contenu: true,
+          top: true,
+          recommadee: true,
+          etat_article: {
+            select: {
+              id: true,
+              nomEtat: true,
+            },
+          },
+          createdAt: true,
+          commentaire: {
+            select: {
+              id: true,
+              idUtilisateur: true,
+              contenu: true,
+              createdAt: true,
+              reponse: {
+                select: {
+                  id: true,
+                  idUtilisateur: true,
+                  contenu: true,
+                  createdAt: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      if (!post) {
+        throw new ForbiddenException("Il n'y a aucun article!");
+      }
+
+      return post;
+    }
+
     const post = await this.prisma.article.findMany({
       orderBy: {
         id: 'desc',
@@ -98,6 +171,7 @@ export class PostService {
             id: true,
             nom: true,
             prenom: true,
+            role: true,
           },
         },
         categorie_article: {
@@ -163,6 +237,7 @@ export class PostService {
             id: true,
             nom: true,
             prenom: true,
+            role: true,
           },
         },
         categorie_article: {
@@ -229,6 +304,7 @@ export class PostService {
             id: true,
             nom: true,
             prenom: true,
+            role: true,
           },
         },
         categorie_article: {
@@ -293,6 +369,7 @@ export class PostService {
             id: true,
             nom: true,
             prenom: true,
+            role: true,
           },
         },
         categorie_article: {
@@ -360,6 +437,7 @@ export class PostService {
             id: true,
             nom: true,
             prenom: true,
+            role: true,
           },
         },
         categorie_article: {
@@ -425,6 +503,7 @@ export class PostService {
             id: true,
             nom: true,
             prenom: true,
+            role: true,
           },
         },
         categorie_article: {
@@ -490,6 +569,7 @@ export class PostService {
             id: true,
             nom: true,
             prenom: true,
+            role: true,
           },
         },
         categorie_article: {
@@ -551,6 +631,7 @@ export class PostService {
             id: true,
             nom: true,
             prenom: true,
+            role: true,
           },
         },
         categorie_article: {
