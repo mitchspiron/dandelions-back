@@ -28,4 +28,16 @@ export class MailService {
       html,
     });
   }
+
+  async sendMailEventRegistration(to, nom, prenom, event) {
+    return await this.mailerService.sendMail({
+      to: to,
+      from: 'mitchspiron@outlook.com',
+      subject: 'INSCRIPTION COMING-SOON - DANDELIONS',
+      html: `
+        <p>Hello ${prenom} ${nom},</p>
+        <p>Votre inscription au coming-soon <h4>${event}</h4> a bien été enregistré.</p>
+      `,
+    });
+  }
 }

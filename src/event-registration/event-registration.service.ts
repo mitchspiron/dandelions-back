@@ -1,11 +1,15 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
+import { MailService } from '../mailer/mailer.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { EventRegistrationDto } from './dto';
 import { EventRegistration } from './types';
 
 @Injectable()
 export class EventRegistrationService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private mailService: MailService,
+  ) {}
 
   async createEventRegistration(
     dto: EventRegistrationDto,
@@ -40,6 +44,42 @@ export class EventRegistrationService {
         throw new ForbiddenException('Cet utilisateur est déja inscrit');
       }
     }
+
+    const userExist = await this.prisma.utilisateur.findUnique({
+      where: {
+        id: Number(dto.idUtilisateur),
+      },
+    });
+
+    if (!userExist) {
+      throw new ForbiddenException("Cet utilisateur n'existe pas");
+    }
+
+    const event = await this.prisma.evenement.findUnique({
+      where: {
+        id: Number(dto.idEvenement),
+      },
+    });
+
+    if (!event) {
+      throw new ForbiddenException("Cet evenement n'existe pas ou déja expiré");
+    }
+
+    await this.mailService
+      .sendMailEventRegistration(
+        userExist.email,
+        userExist.nom,
+        userExist.prenom,
+        event.titre,
+      )
+      .then(() => console.log('Vérifier votre boîte email!'))
+      .catch((e) => {
+        console.log('mail', e);
+        throw new ForbiddenException(
+          "Un problème s'est produit, vérifier votre connexion internet!",
+        );
+      });
+
     return await this.prisma.inscription_evenement.create({
       data: {
         idUtilisateur: Number(dto.idUtilisateur),
