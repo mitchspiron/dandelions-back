@@ -87,7 +87,15 @@ export class EvenementService {
       },
       select: {
         id: true,
-        idEntreprise: true,
+        entreprise: {
+          select: {
+            id: true,
+            nom: true,
+            illustration: true,
+            slug: true,
+            descriptionA: true,
+          },
+        },
         titre: true,
         slug: true,
         illustration: true,
@@ -135,7 +143,15 @@ export class EvenementService {
         },
         select: {
           id: true,
-          idEntreprise: true,
+          entreprise: {
+            select: {
+              id: true,
+              nom: true,
+              illustration: true,
+              slug: true,
+              descriptionA: true,
+            },
+          },
           titre: true,
           slug: true,
           illustration: true,
@@ -167,7 +183,15 @@ export class EvenementService {
       },
       select: {
         id: true,
-        idEntreprise: true,
+        entreprise: {
+          select: {
+            id: true,
+            nom: true,
+            illustration: true,
+            slug: true,
+            descriptionA: true,
+          },
+        },
         titre: true,
         slug: true,
         illustration: true,
@@ -200,7 +224,15 @@ export class EvenementService {
       },
       select: {
         id: true,
-        idEntreprise: true,
+        entreprise: {
+          select: {
+            id: true,
+            nom: true,
+            illustration: true,
+            slug: true,
+            descriptionA: true,
+          },
+        },
         titre: true,
         slug: true,
         illustration: true,

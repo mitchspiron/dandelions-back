@@ -54,6 +54,30 @@ export class PostController {
     return response;
   }
 
+  @Put('state/:slug')
+  async updateStateBySlug(
+    @Param('slug') slug: string,
+    @Body() dto: UpdateStateDto,
+  ): Promise<UpdateStatePost> {
+    return await this.postService.updateStateBySlug(slug, dto);
+  }
+
+  @Put('switch-recommanded/:slug')
+  async switchToRecommandedBySlug(
+    @Param('slug') slug: string,
+    @Body() dto: SwitchRecommandedDto,
+  ): Promise<SwitchRecommanded> {
+    return await this.postService.switchToRecommandedBySlug(slug, dto);
+  }
+
+  @Put('switch-top/:slug')
+  async switchTopBySlug(
+    @Param('slug') slug: string,
+    @Body() dto: SwitchTopDto,
+  ): Promise<SwitchTop> {
+    return await this.postService.switchTopBySlug(slug, dto);
+  }
+
   @Post()
   async createPost(@Body() dto: CreatePostDto): Promise<CreatePost> {
     return await this.postService.createPost(dto);
@@ -116,30 +140,6 @@ export class PostController {
     @Body() dto: UpdatePostDto,
   ): Promise<UpdatePost> {
     return await this.postService.updatePostBySlug(slug, id, dto);
-  }
-
-  @Put('state/:slug')
-  async updateStateBySlug(
-    @Param('slug') slug: string,
-    @Body() dto: UpdateStateDto,
-  ): Promise<UpdateStatePost> {
-    return await this.postService.updateStateBySlug(slug, dto);
-  }
-
-  @Put('switch-recommanded/:slug')
-  async switchToRecommandedBySlug(
-    @Param('slug') slug: string,
-    @Body() dto: SwitchRecommandedDto,
-  ): Promise<SwitchRecommanded> {
-    return await this.postService.switchToRecommandedBySlug(slug, dto);
-  }
-
-  @Put('switch-top/:slug')
-  async switchTopBySlug(
-    @Param('slug') slug: string,
-    @Body() dto: SwitchTopDto,
-  ): Promise<SwitchTop> {
-    return await this.postService.switchTopBySlug(slug, dto);
   }
 
   @Put('update-illustration/:slug/:id')

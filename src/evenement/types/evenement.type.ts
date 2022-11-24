@@ -14,7 +14,13 @@ export type CreateEvenement = {
 
 export type GetEvenement = {
   id: number;
-  idEntreprise: number;
+  entreprise: {
+    id: number;
+    nom: string;
+    illustration: string;
+    slug: string;
+    descriptionA: string;
+  };
   titre: string;
   slug: string;
   illustration: string;
