@@ -29,3 +29,13 @@ export type GetEvenement = {
     idUtilisateur: number;
   }[];
 };
+
+export type SwitchOnHeader = {
+  id: number;
+  onHeader: boolean;
+};
+
+export type SwitchOnSubscribe = {
+  id: number;
+  onSubscribe: boolean;
+};

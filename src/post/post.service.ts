@@ -6,7 +6,6 @@ import {
   SwitchTopDto,
   UpdateIllustrationDto,
   UpdatePostDto,
-  UpdatePostTitleDto,
   UpdateStateDto,
 } from './dto';
 import {
@@ -683,65 +682,70 @@ export class PostService {
 
   async updatePostBySlug(
     slug: string,
+    id: number,
     dto: UpdatePostDto,
   ): Promise<UpdatePost> {
-    const slugExists = await this.prisma.article.findUnique({
+    const post = await this.prisma.article.findUnique({
       where: {
         slug,
       },
     });
 
-    if (!slugExists) {
-      throw new ForbiddenException("Cet article n'existe pas!");
+    if (!post) {
+      throw new ForbiddenException("L'article n'éxiste pas!");
+    } else {
+      const updatedSlug = dto.titre
+        .toLocaleLowerCase()
+        .replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '')
+        .trim()
+        .split(' ')
+        .join('-');
+
+      const titrePostExist = await this.prisma.article.findUnique({
+        where: {
+          slug: updatedSlug,
+        },
+      });
+
+      if (titrePostExist && slug !== updatedSlug) {
+        throw new ForbiddenException("Ce titre d'article existe déja!");
+      }
+
+      const redacteur = await this.prisma.utilisateur.findUnique({
+        where: {
+          id,
+        },
+        include: {
+          role_utilisateur: {
+            select: {
+              id: true,
+            },
+          },
+        },
+      });
+
+      if (post.idRedacteur !== id && redacteur?.role_utilisateur?.id !== 1) {
+        throw new ForbiddenException("Cette article n'est pas la votre!");
+      }
+
+      return await this.prisma.article.update({
+        data: {
+          titre: dto.titre,
+          idCategorie: Number(dto.idCategorie),
+          description: dto.description,
+          contenu: dto.contenu,
+          slug: updatedSlug,
+        },
+        where: {
+          slug,
+        },
+      });
     }
-
-    return await this.prisma.article.update({
-      data: {
-        idCategorie: Number(dto.idCategorie),
-        description: dto.description,
-        contenu: dto.contenu,
-        slug,
-      },
-      where: {
-        slug,
-      },
-    });
-  }
-
-  async updatePostTitleBySlug(
-    slug: string,
-    dto: UpdatePostTitleDto,
-  ): Promise<UpdatePost> {
-    const updatedSlug = dto.titre
-      .toLocaleLowerCase()
-      .replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '')
-      .trim()
-      .split(' ')
-      .join('-');
-
-    const slugExists = await this.prisma.article.findUnique({
-      where: {
-        slug: updatedSlug,
-      },
-    });
-
-    if (slugExists) {
-      throw new ForbiddenException('Cet article existe déjà!');
-    }
-
-    return await this.prisma.article.update({
-      data: {
-        titre: dto.titre,
-        slug: updatedSlug,
-      },
-      where: {
-        slug,
-      },
-    });
   }
 
   async updateIllustrationBySlug(
     slug: string,
+    id: number,
     dto: UpdateIllustrationDto,
   ): Promise<UpdatePost> {
     const postBySlug = await this.prisma.article.findUnique({
@@ -758,6 +762,26 @@ export class PostService {
       fs.unlinkSync(`./images/${postBySlug.illustration}`);
     }
 
+    const redacteur = await this.prisma.utilisateur.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        role_utilisateur: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+
+    if (
+      postBySlug.idRedacteur !== id &&
+      redacteur?.role_utilisateur?.id !== 1
+    ) {
+      throw new ForbiddenException("Cette article n'est pas la votre!");
+    }
+
     return await this.prisma.article.update({
       data: {
         illustration: dto.illustration,
@@ -768,7 +792,7 @@ export class PostService {
     });
   }
 
-  async deletePostBySlug(slug: string): Promise<UpdatePost> {
+  async deletePostBySlug(slug: string, id: number): Promise<UpdatePost> {
     const postBySlug = await this.prisma.article.findUnique({
       where: {
         slug,
@@ -781,6 +805,26 @@ export class PostService {
 
     if (fs.existsSync(`./images/${postBySlug.illustration}`)) {
       fs.unlinkSync(`./images/${postBySlug.illustration}`);
+    }
+
+    const redacteur = await this.prisma.utilisateur.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        role_utilisateur: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+
+    if (
+      postBySlug.idRedacteur !== id &&
+      redacteur?.role_utilisateur?.id !== 1
+    ) {
+      throw new ForbiddenException("Cette article n'est pas la votre!");
     }
 
     return await this.prisma.article.delete({

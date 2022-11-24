@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   UploadedFile,
@@ -19,7 +20,6 @@ import {
   SwitchTopDto,
   UpdateIllustrationDto,
   UpdatePostDto,
-  UpdatePostTitleDto,
   UpdateStateDto,
 } from './dto';
 import { PostService } from './post.service';
@@ -61,7 +61,7 @@ export class PostController {
 
   @Public()
   @Get('admin/:id')
-  async getPost(@Param('id') id: number): Promise<GetPost[]> {
+  async getPost(@Param('id', ParseIntPipe) id: number): Promise<GetPost[]> {
     return await this.postService.getPost(id);
   }
 
@@ -109,20 +109,13 @@ export class PostController {
     return await this.postService.getPostBySlug(slug);
   }
 
-  @Put(':slug')
+  @Put(':slug/:id')
   async updatePostBySlug(
     @Param('slug') slug: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdatePostDto,
   ): Promise<UpdatePost> {
-    return await this.postService.updatePostBySlug(slug, dto);
-  }
-
-  @Put('title/:slug')
-  async updatePostTitleBySlug(
-    @Param('slug') slug: string,
-    @Body() dto: UpdatePostTitleDto,
-  ): Promise<UpdatePost> {
-    return await this.postService.updatePostTitleBySlug(slug, dto);
+    return await this.postService.updatePostBySlug(slug, id, dto);
   }
 
   @Put('state/:slug')
@@ -149,16 +142,20 @@ export class PostController {
     return await this.postService.switchTopBySlug(slug, dto);
   }
 
-  @Put('update-illustration/:slug')
+  @Put('update-illustration/:slug/:id')
   async updateIllustrationBySlug(
     @Param('slug') slug: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateIllustrationDto,
   ): Promise<UpdatePost> {
-    return await this.postService.updateIllustrationBySlug(slug, dto);
+    return await this.postService.updateIllustrationBySlug(slug, id, dto);
   }
 
-  @Delete(':slug')
-  async deletePostBySlug(@Param('slug') slug: string): Promise<UpdatePost> {
-    return await this.postService.deletePostBySlug(slug);
+  @Delete(':slug/:id')
+  async deletePostBySlug(
+    @Param('slug') slug: string,
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<UpdatePost> {
+    return await this.postService.deletePostBySlug(slug, id);
   }
 }

@@ -1,10 +1,4 @@
-import {
-  IsBoolean,
-  IsDateString,
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-} from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateEvenementDto {
   @IsNotEmpty()
@@ -28,7 +22,6 @@ export class CreateEvenementDto {
   contenu: string;
 
   @IsNotEmpty()
-  @IsDateString()
   deadline: Date;
 
   @IsBoolean()
@@ -50,7 +43,6 @@ export class UpdateEvenementDto {
   contenu: string;
 
   @IsNotEmpty()
-  @IsDateString()
   deadline: Date;
 
   @IsBoolean()
@@ -62,4 +54,16 @@ export class UpdateIllustrationDto {
   @IsNotEmpty()
   @IsString()
   illustration: string;
+}
+
+export class SwitchOnHeaderDto {
+  @IsNotEmpty()
+  @IsBoolean()
+  onHeader: boolean;
+}
+
+export class SwitchOnSubscribeDto {
+  @IsNotEmpty()
+  @IsBoolean()
+  onSubscribe: boolean;
 }

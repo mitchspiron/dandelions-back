@@ -282,6 +282,10 @@ export class EnterpriseService {
       throw new ForbiddenException("L'identifiant n'existe pas!");
     }
 
+    if (fs.existsSync(`./images/${enterpriseExists.illustration}`)) {
+      fs.unlinkSync(`./images/${enterpriseExists.illustration}`);
+    }
+
     const redacteur = await this.prisma.utilisateur.findUnique({
       where: {
         id,

@@ -28,6 +28,10 @@ export class CreatePostDto {
 
 export class UpdatePostDto {
   @IsNotEmpty()
+  @IsString()
+  titre: string;
+
+  @IsNotEmpty()
   idCategorie: number;
 
   @IsNotEmpty()
@@ -37,12 +41,6 @@ export class UpdatePostDto {
   @IsNotEmpty()
   @IsString()
   contenu: string;
-}
-
-export class UpdatePostTitleDto {
-  @IsNotEmpty()
-  @IsString()
-  titre: string;
 }
 
 export class UpdateStateDto {

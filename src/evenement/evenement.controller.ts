@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   UploadedFile,
@@ -11,14 +12,22 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import { Public } from '../common/decorators';
 import { editFileName, imageFileFilter } from '../utils/file-upload.utils';
 import {
   CreateEvenementDto,
+  SwitchOnHeaderDto,
+  SwitchOnSubscribeDto,
   UpdateEvenementDto,
   UpdateIllustrationDto,
 } from './dto';
 import { EvenementService } from './evenement.service';
-import { CreateEvenement, GetEvenement } from './types';
+import {
+  CreateEvenement,
+  GetEvenement,
+  SwitchOnHeader,
+  SwitchOnSubscribe,
+} from './types';
 
 @Controller('evenement')
 export class EvenementController {
@@ -26,7 +35,7 @@ export class EvenementController {
 
   @Post('upload-illustration')
   @UseInterceptors(
-    FileInterceptor('image', {
+    FileInterceptor('file', {
       storage: diskStorage({
         destination: './images',
         filename: editFileName,
@@ -49,36 +58,65 @@ export class EvenementController {
     return await this.evenementService.createEvenement(dto);
   }
 
+  @Public()
   @Get()
   async getEvenement(): Promise<GetEvenement[]> {
     return await this.evenementService.getEvenement();
   }
 
+  @Put('switch-subscribed/:slug')
+  async switchOnSubscribeBySlug(
+    @Param('slug') slug: string,
+    @Body() dto: SwitchOnSubscribeDto,
+  ): Promise<SwitchOnSubscribe> {
+    return await this.evenementService.switchOnSubscribeBySlug(slug, dto);
+  }
+
+  @Put('switch-header/:slug')
+  async switchOnHeaderBySlug(
+    @Param('slug') slug: string,
+    @Body() dto: SwitchOnHeaderDto,
+  ): Promise<SwitchOnHeader> {
+    return await this.evenementService.switchOnHeaderBySlug(slug, dto);
+  }
+
+  @Put('update-illustration/:slug/:id')
+  async updateIllustrationBySlug(
+    @Param('slug') slug: string,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpdateIllustrationDto,
+  ): Promise<CreateEvenement> {
+    return await this.evenementService.updateIllustrationBySlug(slug, id, dto);
+  }
+
+  @Public()
+  @Get('admin/:id')
+  async getEvenementAdmin(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<GetEvenement[]> {
+    return await this.evenementService.getEvenementAdmin(id);
+  }
+
+  @Public()
   @Get(':slug')
   async getEvenementBySlug(@Param('slug') slug: string): Promise<GetEvenement> {
     return await this.evenementService.getEvenementBySlug(slug);
   }
 
-  @Put(':slug')
+  @Put(':slug/:id')
   async updateEvenementBySlug(
     @Param('slug') slug: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateEvenementDto,
   ): Promise<CreateEvenement> {
-    return await this.evenementService.updateEvenementBySlug(slug, dto);
+    return await this.evenementService.updateEvenementBySlug(slug, id, dto);
   }
 
-  @Put('update-illustration/:slug')
-  async updateIllustrationBySlug(
-    @Param('slug') slug: string,
-    @Body() dto: UpdateIllustrationDto,
-  ): Promise<CreateEvenement> {
-    return await this.evenementService.updateIllustrationBySlug(slug, dto);
-  }
-
-  @Delete(':slug')
+  @Delete(':slug/:id')
   async deletePostBySlug(
     @Param('slug') slug: string,
+    @Param('id', ParseIntPipe) id: number,
   ): Promise<CreateEvenement> {
-    return await this.evenementService.deleteEvenementBySlug(slug);
+    return await this.evenementService.deleteEvenementBySlug(slug, id);
   }
 }
