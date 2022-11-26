@@ -22,29 +22,7 @@ export class EventRegistrationService {
 
     if (!eventExist) {
       throw new ForbiddenException("Cet evenement n'existe pas ou déja expiré");
-    } else {
-      const userExist = await this.prisma.utilisateur.findUnique({
-        where: {
-          id: Number(dto.idUtilisateur),
-        },
-      });
-
-      if (!userExist) {
-        throw new ForbiddenException("Cet utilisateur n'existe pas");
-      }
-
-      const userAlreadyRegistered =
-        await this.prisma.inscription_evenement.findMany({
-          where: {
-            idUtilisateur: Number(dto.idUtilisateur),
-          },
-        });
-
-      if (userAlreadyRegistered.length !== 0) {
-        throw new ForbiddenException('Cet utilisateur est déja inscrit');
-      }
     }
-
     const userExist = await this.prisma.utilisateur.findUnique({
       where: {
         id: Number(dto.idUtilisateur),
@@ -53,6 +31,18 @@ export class EventRegistrationService {
 
     if (!userExist) {
       throw new ForbiddenException("Cet utilisateur n'existe pas");
+    }
+
+    const userAlreadyRegistered =
+      await this.prisma.inscription_evenement.findMany({
+        where: {
+          idUtilisateur: Number(dto.idUtilisateur),
+          idEvenement: Number(dto.idEvenement),
+        },
+      });
+
+    if (userAlreadyRegistered.length !== 0) {
+      throw new ForbiddenException('Cet utilisateur est déja inscrit');
     }
 
     const event = await this.prisma.evenement.findUnique({
@@ -85,6 +75,24 @@ export class EventRegistrationService {
         idUtilisateur: Number(dto.idUtilisateur),
         idEvenement: Number(dto.idEvenement),
       },
+      select: {
+        id: true,
+        evenement: {
+          select: {
+            id: true,
+            titre: true,
+          },
+        },
+        utilisateur: {
+          select: {
+            id: true,
+            nom: true,
+            prenom: true,
+            email: true,
+            telephone: true,
+          },
+        },
+      },
     });
   }
 
@@ -104,6 +112,24 @@ export class EventRegistrationService {
     return await this.prisma.inscription_evenement.findMany({
       where: {
         idEvenement: Number(eventExists.id),
+      },
+      select: {
+        id: true,
+        evenement: {
+          select: {
+            id: true,
+            titre: true,
+          },
+        },
+        utilisateur: {
+          select: {
+            id: true,
+            nom: true,
+            prenom: true,
+            email: true,
+            telephone: true,
+          },
+        },
       },
     });
   }
