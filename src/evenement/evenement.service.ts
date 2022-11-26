@@ -121,6 +121,48 @@ export class EvenementService {
     return evenement;
   }
 
+  async getFourLastEvenement(): Promise<GetEvenement[]> {
+    const evenement = await this.prisma.evenement.findMany({
+      orderBy: {
+        id: 'desc',
+      },
+      take: 4,
+      select: {
+        id: true,
+        entreprise: {
+          select: {
+            id: true,
+            nom: true,
+            illustration: true,
+            slug: true,
+            descriptionA: true,
+          },
+        },
+        titre: true,
+        slug: true,
+        illustration: true,
+        description: true,
+        contenu: true,
+        deadline: true,
+        onHeader: true,
+        createdAt: true,
+        onSubscribe: true,
+        inscription_evenement: {
+          select: {
+            id: true,
+            idUtilisateur: true,
+          },
+        },
+      },
+    });
+
+    if (!evenement) {
+      throw new ForbiddenException("Il n'y a aucun évenement!");
+    }
+
+    return evenement;
+  }
+
   async getEvenementAdmin(id: number): Promise<GetEvenement[]> {
     const user = await this.prisma.utilisateur.findUnique({
       where: {
