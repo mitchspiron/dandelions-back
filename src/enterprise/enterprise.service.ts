@@ -3,6 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import {
   EnterpriseDto,
   EnterpriseUpdateDto,
+  FilterEnterpriseDto,
   isAbonneeDto,
   UpdateIllustrationDto,
 } from './dto';
@@ -105,6 +106,55 @@ export class EnterpriseService {
       const enterprises = await this.prisma.entreprise.findMany({
         where: {
           idRedacteur: id,
+        },
+      });
+
+      if (!enterprises)
+        throw new ForbiddenException("Il n'y a aucun entreprise!");
+      return enterprises;
+    }
+  }
+
+  async filterEnterpriseAdmin(
+    id: number,
+    dto: FilterEnterpriseDto,
+  ): Promise<Enterprise[]> {
+    const redacteur = await this.prisma.utilisateur.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        role_utilisateur: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+
+    const redacteurExists = [1, 2].includes(redacteur?.role_utilisateur?.id);
+
+    if (!redacteurExists) {
+      throw new ForbiddenException("Le redacteur sélectionné n'éxiste pas");
+    } else if (redacteur?.role_utilisateur?.id == 1) {
+      const enterprises = await this.prisma.entreprise.findMany({
+        where: {
+          nom: {
+            contains: dto.searchkey,
+          },
+        },
+      });
+
+      if (!enterprises)
+        throw new ForbiddenException("Il n'y a aucun entreprise!");
+      return enterprises;
+    } else {
+      const enterprises = await this.prisma.entreprise.findMany({
+        where: {
+          idRedacteur: id,
+          nom: {
+            contains: dto.searchkey,
+          },
         },
       });
 

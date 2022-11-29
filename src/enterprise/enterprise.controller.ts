@@ -17,6 +17,7 @@ import { editFileName, imageFileFilter } from '../utils/file-upload.utils';
 import {
   EnterpriseDto,
   EnterpriseUpdateDto,
+  FilterEnterpriseDto,
   isAbonneeDto,
   UpdateIllustrationDto,
 } from './dto';
@@ -51,11 +52,21 @@ export class EnterpriseController {
     return await this.enterpriseService.getEnterprise();
   }
 
+  @Public()
   @Get('/admin/:id')
   async getEnterpriseAdmin(
     @Param('id', ParseIntPipe) id: number,
   ): Promise<Enterprise[]> {
     return await this.enterpriseService.getEnterpriseAdmin(id);
+  }
+
+  @Public()
+  @Post('/admin/filter/:id')
+  async filterEnterpriseAdmin(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: FilterEnterpriseDto,
+  ): Promise<Enterprise[]> {
+    return await this.enterpriseService.filterEnterpriseAdmin(id, dto);
   }
 
   @Public()

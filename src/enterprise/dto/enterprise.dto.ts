@@ -101,3 +101,8 @@ export class UpdateIllustrationDto {
   @IsString()
   illustration: string;
 }
+
+export class FilterEnterpriseDto {
+  @IsString()
+  searchkey: string;
+}
