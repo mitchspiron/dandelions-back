@@ -66,12 +66,18 @@ export class EvenementController {
   }
 
   @Public()
+  @Get('/on-header')
+  async getEvenementOnHeader(): Promise<GetEvenement[]> {
+    return await this.evenementService.getEvenementOnHeader();
+  }
+
+  /* @Public()
   @Post()
   async filterEvenement(
     @Body() dto: FilterEvenementDto,
   ): Promise<GetEvenement[]> {
     return await this.evenementService.filterEvenement(dto);
-  }
+  } */
 
   @Public()
   @Get('four-last')
