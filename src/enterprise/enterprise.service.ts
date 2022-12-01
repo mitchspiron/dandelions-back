@@ -78,6 +78,34 @@ export class EnterpriseService {
     return enterprises;
   }
 
+  async filterEnterprise(dto: FilterEnterpriseDto): Promise<Enterprise[]> {
+    const enterprises = await this.prisma.entreprise.findMany({
+      where: {
+        OR: [
+          {
+            nom: {
+              contains: dto.searchkey,
+            },
+          },
+          {
+            descriptionA: {
+              contains: dto.searchkey,
+            },
+          },
+          {
+            descriptionB: {
+              contains: dto.searchkey,
+            },
+          },
+        ],
+      },
+    });
+
+    if (!enterprises)
+      throw new ForbiddenException("Il n'y a aucun entreprise!");
+    return enterprises;
+  }
+
   async getEnterpriseAdmin(id: number): Promise<Enterprise[]> {
     const redacteur = await this.prisma.utilisateur.findUnique({
       where: {

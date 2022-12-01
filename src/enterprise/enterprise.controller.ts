@@ -53,6 +53,14 @@ export class EnterpriseController {
   }
 
   @Public()
+  @Post('/filter')
+  async filterEnterprise(
+    @Body() dto: FilterEnterpriseDto,
+  ): Promise<Enterprise[]> {
+    return await this.enterpriseService.filterEnterprise(dto);
+  }
+
+  @Public()
   @Get('/admin/:id')
   async getEnterpriseAdmin(
     @Param('id', ParseIntPipe) id: number,
