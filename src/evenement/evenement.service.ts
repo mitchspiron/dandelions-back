@@ -172,9 +172,23 @@ export class EvenementService {
         id: 'desc',
       },
       where: {
-        titre: {
-          contains: dto.searchkey,
-        },
+        OR: [
+          {
+            titre: {
+              contains: dto.searchkey,
+            },
+          },
+          {
+            description: {
+              contains: dto.searchkey,
+            },
+          },
+          {
+            contenu: {
+              contains: dto.searchkey,
+            },
+          },
+        ],
       },
       select: {
         id: true,
