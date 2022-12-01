@@ -17,6 +17,7 @@ import { editFileName, imageFileFilter } from '../utils/file-upload.utils';
 import {
   CreatePostDto,
   FilterPostsDto,
+  FilterPostsVisitorDto,
   SwitchRecommandedDto,
   SwitchTopDto,
   UpdateIllustrationDto,
@@ -88,6 +89,14 @@ export class PostController {
   @Get('admin/:id')
   async getPost(@Param('id', ParseIntPipe) id: number): Promise<GetPost[]> {
     return await this.postService.getPost(id);
+  }
+
+  @Public()
+  @Post('/filter')
+  async filterPostVisitor(
+    @Body() dto: FilterPostsVisitorDto,
+  ): Promise<GetPost[]> {
+    return await this.postService.filterPostVisitor(dto);
   }
 
   @Public()

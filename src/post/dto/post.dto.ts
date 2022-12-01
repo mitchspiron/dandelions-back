@@ -76,3 +76,11 @@ export class FilterPostsDto {
   @IsString()
   searchEtat: string;
 }
+
+export class FilterPostsVisitorDto {
+  @IsString()
+  searchkey: string;
+
+  @IsString()
+  searchCategory: string;
+}
