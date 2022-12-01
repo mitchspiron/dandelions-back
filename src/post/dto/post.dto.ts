@@ -65,3 +65,14 @@ export class SwitchTopDto {
   @IsBoolean()
   top: boolean;
 }
+
+export class FilterPostsDto {
+  @IsString()
+  searchkey: string;
+
+  @IsString()
+  searchCategory: string;
+
+  @IsString()
+  searchEtat: string;
+}
