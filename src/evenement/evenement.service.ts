@@ -2,6 +2,7 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import {
   CreateEvenementDto,
+  FilterEvenementDto,
   SwitchOnHeaderDto,
   SwitchOnSubscribeDto,
   UpdateEvenementDto,
@@ -84,6 +85,52 @@ export class EvenementService {
     const evenement = await this.prisma.evenement.findMany({
       orderBy: {
         id: 'desc',
+      },
+      select: {
+        id: true,
+        entreprise: {
+          select: {
+            id: true,
+            nom: true,
+            illustration: true,
+            slug: true,
+            descriptionA: true,
+          },
+        },
+        titre: true,
+        slug: true,
+        illustration: true,
+        description: true,
+        contenu: true,
+        deadline: true,
+        onHeader: true,
+        createdAt: true,
+        onSubscribe: true,
+        inscription_evenement: {
+          select: {
+            id: true,
+            idUtilisateur: true,
+          },
+        },
+      },
+    });
+
+    if (!evenement) {
+      throw new ForbiddenException("Il n'y a aucun évenement!");
+    }
+
+    return evenement;
+  }
+
+  async filterEvenement(dto: FilterEvenementDto): Promise<GetEvenement[]> {
+    const evenement = await this.prisma.evenement.findMany({
+      orderBy: {
+        id: 'desc',
+      },
+      where: {
+        titre: {
+          contains: dto.searchkey,
+        },
       },
       select: {
         id: true,
@@ -222,6 +269,113 @@ export class EvenementService {
     const evenement = await this.prisma.evenement.findMany({
       orderBy: {
         id: 'desc',
+      },
+      select: {
+        id: true,
+        entreprise: {
+          select: {
+            id: true,
+            nom: true,
+            illustration: true,
+            slug: true,
+            descriptionA: true,
+          },
+        },
+        titre: true,
+        slug: true,
+        illustration: true,
+        description: true,
+        contenu: true,
+        deadline: true,
+        onHeader: true,
+        createdAt: true,
+        onSubscribe: true,
+        inscription_evenement: {
+          select: {
+            id: true,
+            idUtilisateur: true,
+          },
+        },
+      },
+    });
+
+    if (!evenement) {
+      throw new ForbiddenException("Il n'y a aucun évenement!");
+    }
+
+    return evenement;
+  }
+
+  async filterEvenementAdmin(
+    id: number,
+    dto: FilterEvenementDto,
+  ): Promise<GetEvenement[]> {
+    const user = await this.prisma.utilisateur.findUnique({
+      where: {
+        id: Number(id),
+      },
+    });
+    if (!user) {
+      throw new ForbiddenException("L'utilisateur sélectionné n'éxiste pas");
+    } else if (user.role !== 1) {
+      const evenement = await this.prisma.evenement.findMany({
+        orderBy: {
+          id: 'desc',
+        },
+        where: {
+          entreprise: {
+            utilisateur: {
+              id: Number(id),
+            },
+          },
+          titre: {
+            contains: dto.searchkey,
+          },
+        },
+        select: {
+          id: true,
+          entreprise: {
+            select: {
+              id: true,
+              nom: true,
+              illustration: true,
+              slug: true,
+              descriptionA: true,
+            },
+          },
+          titre: true,
+          slug: true,
+          illustration: true,
+          description: true,
+          contenu: true,
+          deadline: true,
+          onHeader: true,
+          createdAt: true,
+          onSubscribe: true,
+          inscription_evenement: {
+            select: {
+              id: true,
+              idUtilisateur: true,
+            },
+          },
+        },
+      });
+
+      if (!evenement) {
+        throw new ForbiddenException("Il n'y a aucun évenement!");
+      }
+
+      return evenement;
+    }
+
+    const evenement = await this.prisma.evenement.findMany({
+      orderBy: {
+        id: 'desc',
+      },
+      where: {
+        titre: {
+          contains: dto.searchkey,
+        },
       },
       select: {
         id: true,

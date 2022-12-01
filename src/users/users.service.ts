@@ -52,6 +52,9 @@ export class UsersService {
 
   async getUsers(): Promise<Users[]> {
     const users = await this.prisma.utilisateur.findMany({
+      orderBy: {
+        id: 'desc',
+      },
       select: {
         id: true,
         nom: true,
@@ -75,7 +78,6 @@ export class UsersService {
   }
 
   async filterUsers(dto: FilterUserseDto): Promise<Users[]> {
-    console.log(dto);
     const users = await this.prisma.utilisateur.findMany({
       select: {
         id: true,

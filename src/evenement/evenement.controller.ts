@@ -16,6 +16,7 @@ import { Public } from '../common/decorators';
 import { editFileName, imageFileFilter } from '../utils/file-upload.utils';
 import {
   CreateEvenementDto,
+  FilterEvenementDto,
   SwitchOnHeaderDto,
   SwitchOnSubscribeDto,
   UpdateEvenementDto,
@@ -65,6 +66,14 @@ export class EvenementController {
   }
 
   @Public()
+  @Post()
+  async filterEvenement(
+    @Body() dto: FilterEvenementDto,
+  ): Promise<GetEvenement[]> {
+    return await this.evenementService.filterEvenement(dto);
+  }
+
+  @Public()
   @Get('four-last')
   async getFourLastEvenement(): Promise<GetEvenement[]> {
     return await this.evenementService.getFourLastEvenement();
@@ -101,6 +110,15 @@ export class EvenementController {
     @Param('id', ParseIntPipe) id: number,
   ): Promise<GetEvenement[]> {
     return await this.evenementService.getEvenementAdmin(id);
+  }
+
+  @Public()
+  @Post('admin/filter/:id')
+  async filterEvenementAdmin(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: FilterEvenementDto,
+  ): Promise<GetEvenement[]> {
+    return await this.evenementService.filterEvenementAdmin(id, dto);
   }
 
   @Public()

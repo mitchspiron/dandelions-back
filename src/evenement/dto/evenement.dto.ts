@@ -56,6 +56,11 @@ export class UpdateIllustrationDto {
   illustration: string;
 }
 
+export class FilterEvenementDto {
+  @IsString()
+  searchkey: string;
+}
+
 export class SwitchOnHeaderDto {
   @IsNotEmpty()
   @IsBoolean()
