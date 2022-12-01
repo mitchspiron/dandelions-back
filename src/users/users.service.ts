@@ -1,6 +1,7 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import {
+  FilterUserseDto,
   UpdateIllustrationDto,
   UsersDto,
   UsersInfoDto,
@@ -66,6 +67,56 @@ export class UsersService {
           },
         },
         motDePasse: true,
+      },
+    });
+
+    if (!users) throw new ForbiddenException("Il n'y a aucun utilisateur!");
+    return users;
+  }
+
+  async filterUsers(dto: FilterUserseDto): Promise<Users[]> {
+    console.log(dto);
+    const users = await this.prisma.utilisateur.findMany({
+      select: {
+        id: true,
+        nom: true,
+        prenom: true,
+        illustration: true,
+        email: true,
+        telephone: true,
+        aPropos: true,
+        role_utilisateur: {
+          select: {
+            id: true,
+            nomRole: true,
+          },
+        },
+        motDePasse: true,
+      },
+      where: {
+        AND: [
+          {
+            OR: [
+              {
+                nom: {
+                  contains: dto.searchkey,
+                },
+              },
+              {
+                prenom: {
+                  contains: dto.searchkey,
+                },
+              },
+            ],
+          },
+          {
+            role_utilisateur: {
+              nomRole: {
+                contains: dto.searchRole,
+              },
+            },
+          },
+        ],
       },
     });
 

@@ -69,3 +69,11 @@ export class UpdateIllustrationDto {
   @IsString()
   illustration: string;
 }
+
+export class FilterUserseDto {
+  @IsString()
+  searchkey: string;
+
+  @IsString()
+  searchRole: string;
+}

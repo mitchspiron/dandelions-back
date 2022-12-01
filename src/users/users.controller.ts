@@ -12,8 +12,10 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import { Public } from '../common/decorators';
 import { editFileName, imageFileFilter } from '../utils/file-upload.utils';
 import {
+  FilterUserseDto,
   UpdateIllustrationDto,
   UsersDto,
   UsersInfoDto,
@@ -53,6 +55,12 @@ export class UsersController {
   @Get()
   async getUsers(): Promise<Users[]> {
     return await this.usersService.getUsers();
+  }
+
+  @Public()
+  @Post('/filter')
+  async filterUsers(@Body() dto: FilterUserseDto): Promise<Users[]> {
+    return await this.usersService.filterUsers(dto);
   }
 
   @Get('/:id')
