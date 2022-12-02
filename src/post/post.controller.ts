@@ -16,6 +16,7 @@ import { Public } from '../common/decorators';
 import { editFileName, imageFileFilter } from '../utils/file-upload.utils';
 import {
   CreatePostDto,
+  FilterCategoryByPostDto,
   FilterPostsDto,
   FilterPostsVisitorDto,
   SwitchRecommandedDto,
@@ -132,6 +133,15 @@ export class PostController {
     @Param('slug') slug: string,
   ): Promise<GetPost[]> {
     return await this.postService.getPublishedPostBySlug(slug);
+  }
+
+  @Public()
+  @Post('published/filter/:slug')
+  async filterPublishedPostBySlug(
+    @Param('slug') slug: string,
+    @Body() dto: FilterCategoryByPostDto,
+  ): Promise<GetPost[]> {
+    return await this.postService.filterPublishedPostBySlug(slug, dto);
   }
 
   @Public()

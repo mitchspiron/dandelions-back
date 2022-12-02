@@ -2,6 +2,7 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import {
   CreatePostDto,
+  FilterCategoryByPostDto,
   FilterPostsDto,
   FilterPostsVisitorDto,
   SwitchRecommandedDto,
@@ -407,6 +408,7 @@ export class PostService {
         id: 'desc',
       },
       where: {
+        etat: 5,
         AND: [
           {
             OR: [
@@ -701,6 +703,94 @@ export class PostService {
         categorie_article: {
           slug,
         },
+      },
+      select: {
+        id: true,
+        utilisateur: {
+          select: {
+            id: true,
+            nom: true,
+            prenom: true,
+            role: true,
+          },
+        },
+        categorie_article: {
+          select: {
+            id: true,
+            nomCategorie: true,
+            slug: true,
+          },
+        },
+        titre: true,
+        slug: true,
+        illustration: true,
+        description: true,
+        contenu: true,
+        top: true,
+        recommadee: true,
+        etat_article: {
+          select: {
+            id: true,
+            nomEtat: true,
+          },
+        },
+        createdAt: true,
+        commentaire: {
+          select: {
+            id: true,
+            idUtilisateur: true,
+            contenu: true,
+            createdAt: true,
+            reponse: {
+              select: {
+                id: true,
+                idUtilisateur: true,
+                contenu: true,
+                createdAt: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!post) {
+      throw new ForbiddenException("Il n'y a aucun article!");
+    }
+
+    return post;
+  }
+
+  async filterPublishedPostBySlug(
+    slug: string,
+    dto: FilterCategoryByPostDto,
+  ): Promise<GetPost[]> {
+    const post = await this.prisma.article.findMany({
+      orderBy: {
+        id: 'desc',
+      },
+      where: {
+        etat: 5,
+        categorie_article: {
+          slug,
+        },
+        OR: [
+          {
+            titre: {
+              contains: dto.searchkey,
+            },
+          },
+          {
+            description: {
+              contains: dto.searchkey,
+            },
+          },
+          {
+            contenu: {
+              contains: dto.searchkey,
+            },
+          },
+        ],
       },
       select: {
         id: true,

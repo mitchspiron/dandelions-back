@@ -84,3 +84,8 @@ export class FilterPostsVisitorDto {
   @IsString()
   searchCategory: string;
 }
+
+export class FilterCategoryByPostDto {
+  @IsString()
+  searchkey: string;
+}
