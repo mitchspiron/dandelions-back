@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { EventRegistrationDto } from './dto';
+import { EventRegistrationDto, FilterEventRegistrationDto } from './dto';
 import { EventRegistrationService } from './event-registration.service';
 import { EventRegistration } from './types';
 
@@ -19,5 +19,13 @@ export class EventRegistrationController {
     @Param('slug') slug: string,
   ): Promise<EventRegistration[]> {
     return this.eventRegistration.getEventRegistrationByEvent(slug);
+  }
+
+  @Post('/filter/:slug')
+  async filterEventRegistrationByEvent(
+    @Param('slug') slug: string,
+    @Body() dto: FilterEventRegistrationDto,
+  ): Promise<EventRegistration[]> {
+    return this.eventRegistration.filterEventRegistrationByEvent(slug, dto);
   }
 }

@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { MailService } from '../mailer/mailer.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { EventRegistrationDto } from './dto';
+import { EventRegistrationDto, FilterEventRegistrationDto } from './dto';
 import { EventRegistration } from './types';
 
 @Injectable()
@@ -112,6 +112,61 @@ export class EventRegistrationService {
     return await this.prisma.inscription_evenement.findMany({
       where: {
         idEvenement: Number(eventExists.id),
+      },
+      select: {
+        id: true,
+        evenement: {
+          select: {
+            id: true,
+            titre: true,
+          },
+        },
+        utilisateur: {
+          select: {
+            id: true,
+            nom: true,
+            prenom: true,
+            email: true,
+            telephone: true,
+          },
+        },
+      },
+    });
+  }
+
+  async filterEventRegistrationByEvent(
+    slug: string,
+    dto: FilterEventRegistrationDto,
+  ): Promise<EventRegistration[]> {
+    const eventExists = await this.prisma.evenement.findUnique({
+      where: {
+        slug,
+      },
+    });
+
+    if (!eventExists) {
+      throw new ForbiddenException("Cet evenement n'existe pas");
+    }
+
+    return await this.prisma.inscription_evenement.findMany({
+      where: {
+        idEvenement: Number(eventExists.id),
+        OR: [
+          {
+            utilisateur: {
+              nom: {
+                contains: dto.searchkey,
+              },
+            },
+          },
+          {
+            utilisateur: {
+              prenom: {
+                contains: dto.searchkey,
+              },
+            },
+          },
+        ],
       },
       select: {
         id: true,

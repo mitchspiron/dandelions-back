@@ -7,3 +7,8 @@ export class EventRegistrationDto {
   @IsNotEmpty()
   idUtilisateur: number;
 }
+
+export class FilterEventRegistrationDto {
+  @IsNotEmpty()
+  searchkey: string;
+}
