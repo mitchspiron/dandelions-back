@@ -9,6 +9,7 @@ export type User = {
   illustration: string;
   email: string;
   telephone: string;
+  aPropos: string;
   role: number;
   motDePasse: string;
 };
@@ -21,6 +22,7 @@ export type UserToken = [
     illustration: string;
     email: string;
     telephone: string;
+    aPropos: string;
     role: number;
     motDePasse: string;
   },

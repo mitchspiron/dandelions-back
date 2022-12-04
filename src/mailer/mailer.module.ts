@@ -14,7 +14,6 @@ import { MailService } from './mailer.service';
         },
         /* host: 'smtp.mailtrap.io',
         port: 2525,
-        secure: false,
         auth: {
           user: '4859631f5e1c5c',
           pass: '9b15fa88e76a7c',

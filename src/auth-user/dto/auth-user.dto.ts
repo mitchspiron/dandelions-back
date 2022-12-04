@@ -10,10 +10,6 @@ export class AuthUserDtoSignup {
   prenom: string;
 
   @IsNotEmpty()
-  @IsString()
-  illustration: string;
-
-  @IsNotEmpty()
   @IsEmail()
   email: string;
 
@@ -22,7 +18,8 @@ export class AuthUserDtoSignup {
   telephone: string;
 
   @IsNotEmpty()
-  role: number;
+  @IsString()
+  aPropos: string;
 
   @IsNotEmpty()
   @IsString()
@@ -34,6 +31,18 @@ export class AuthUserDtoSignin {
   @IsEmail()
   email: string;
 
+  @IsNotEmpty()
+  @IsString()
+  motDePasse: string;
+}
+
+export class forgotPasswordDto {
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
+}
+
+export class resetPasswordDto {
   @IsNotEmpty()
   @IsString()
   motDePasse: string;

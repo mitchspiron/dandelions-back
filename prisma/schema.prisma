@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -18,20 +19,29 @@ model article {
   contenu           String            @db.LongText
   top               Boolean
   recommadee        Boolean
-  isPublier         Boolean
+  etat              Int
   createdAt         DateTime          @default(now())
   categorie_article categorie_article @relation(fields: [idCategorie], references: [id], onDelete: Cascade, map: "article_ibfk_1")
   utilisateur       utilisateur       @relation(fields: [idRedacteur], references: [id], onDelete: Cascade, map: "article_ibfk_2")
+  etat_article      etat_article      @relation(fields: [etat], references: [id], onDelete: Cascade, map: "article_ibfk_3")
   commentaire       commentaire[]
 
   @@index([idCategorie], map: "idCategorie")
   @@index([idRedacteur], map: "idRedacteur")
+  @@index([etat], map: "etat")
 }
 
 model categorie_article {
   id           Int       @id @default(autoincrement())
   nomCategorie String    @db.VarChar(255)
+  slug         String    @unique(map: "slug") @db.VarChar(100)
   article      article[]
+}
+
+model etat_article {
+  id      Int       @id @default(autoincrement())
+  nomEtat String    @db.VarChar(255)
+  article article[]
 }
 
 model commentaire {
@@ -62,7 +72,7 @@ model entreprise {
   descriptionA  String      @db.Text
   descriptionB  String      @db.Text
   textContact   String      @db.Text
-  statistique   Json
+  abonnee       Boolean
   createdAt     DateTime    @default(now())
   utilisateur   utilisateur @relation(fields: [idRedacteur], references: [id], onDelete: Cascade, map: "entreprise_ibfk_1")
   evenement     evenement[]
@@ -78,8 +88,9 @@ model evenement {
   illustration          String                  @db.VarChar(255)
   description           String                  @db.Text
   contenu               String                  @db.LongText
-  deadline              DateTime                @db.Timestamp(0)
+  deadline              DateTime                @db.Date()
   onHeader              Boolean
+  onSubscribe           Boolean
   createdAt             DateTime                @default(now())
   entreprise            entreprise              @relation(fields: [idEntreprise], references: [id], onDelete: Cascade, map: "evenement_ibfk_1")
   inscription_evenement inscription_evenement[]
@@ -124,6 +135,7 @@ model utilisateur {
   illustration          String                  @db.VarChar(255)
   email                 String                  @unique(map: "email") @db.VarChar(100)
   telephone             String                  @db.VarChar(50)
+  aPropos               String                  @db.Text
   role                  Int
   motDePasse            String                  @db.VarChar(255)
   createdAt             DateTime                @default(now())
