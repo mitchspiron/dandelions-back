@@ -63,6 +63,12 @@ export class CommentService {
           },
         },
         idArticle: true,
+        article: {
+          select: {
+            id: true,
+            idRedacteur: true,
+          },
+        },
         contenu: true,
         createdAt: true,
         reponse: {
