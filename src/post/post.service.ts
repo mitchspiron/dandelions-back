@@ -14,6 +14,7 @@ import {
 import {
   CreatePost,
   GetPost,
+  GetPostWithoutContent,
   SwitchRecommanded,
   SwitchTop,
   UpdatePost,
@@ -88,7 +89,7 @@ export class PostService {
     });
   }
 
-  async getPost(id: number): Promise<GetPost[]> {
+  async getPost(id: number): Promise<GetPostWithoutContent[]> {
     const user = await this.prisma.utilisateur.findUnique({
       where: {
         id: Number(id),
@@ -126,7 +127,6 @@ export class PostService {
           slug: true,
           illustration: true,
           description: true,
-          contenu: true,
           top: true,
           recommadee: true,
           etat_article: {
@@ -187,7 +187,6 @@ export class PostService {
         slug: true,
         illustration: true,
         description: true,
-        contenu: true,
         top: true,
         recommadee: true,
         etat_article: {
@@ -495,7 +494,7 @@ export class PostService {
     return post;
   }
 
-  async takeFirstLastestPost(): Promise<GetPost[]> {
+  async takeFirstLastestPost(): Promise<GetPostWithoutContent[]> {
     const post = await this.prisma.article.findMany({
       orderBy: {
         id: 'desc',
@@ -525,7 +524,6 @@ export class PostService {
         slug: true,
         illustration: true,
         description: true,
-        contenu: true,
         top: true,
         recommadee: true,
         etat_article: {
@@ -561,7 +559,7 @@ export class PostService {
     return post;
   }
 
-  async skipFisrtLastestPost(): Promise<GetPost[]> {
+  async skipFisrtLastestPost(): Promise<GetPostWithoutContent[]> {
     const post = await this.prisma.article.findMany({
       orderBy: {
         id: 'desc',
@@ -592,7 +590,6 @@ export class PostService {
         slug: true,
         illustration: true,
         description: true,
-        contenu: true,
         top: true,
         recommadee: true,
         etat_article: {
@@ -628,7 +625,7 @@ export class PostService {
     return post;
   }
 
-  async getPublishedPost(): Promise<GetPost[]> {
+  async getPublishedPost(): Promise<GetPostWithoutContent[]> {
     const post = await this.prisma.article.findMany({
       orderBy: {
         id: 'desc',
@@ -657,7 +654,6 @@ export class PostService {
         slug: true,
         illustration: true,
         description: true,
-        contenu: true,
         top: true,
         recommadee: true,
         etat_article: {
@@ -849,7 +845,7 @@ export class PostService {
     return post;
   }
 
-  async getRecommandedPost(): Promise<GetPost[]> {
+  async getRecommandedPost(): Promise<GetPostWithoutContent[]> {
     const post = await this.prisma.article.findMany({
       orderBy: {
         id: 'desc',
@@ -879,7 +875,6 @@ export class PostService {
         slug: true,
         illustration: true,
         description: true,
-        contenu: true,
         top: true,
         recommadee: true,
         etat_article: {
@@ -915,7 +910,7 @@ export class PostService {
     return post;
   }
 
-  async getTopPost(): Promise<GetPost[]> {
+  async getTopPost(): Promise<GetPostWithoutContent[]> {
     const post = await this.prisma.article.findMany({
       orderBy: {
         id: 'desc',
@@ -945,7 +940,6 @@ export class PostService {
         slug: true,
         illustration: true,
         description: true,
-        contenu: true,
         top: true,
         recommadee: true,
         etat_article: {

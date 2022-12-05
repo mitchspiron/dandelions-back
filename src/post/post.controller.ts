@@ -29,6 +29,7 @@ import { PostService } from './post.service';
 import {
   CreatePost,
   GetPost,
+  GetPostWithoutContent,
   SwitchRecommanded,
   SwitchTop,
   UpdatePost,
@@ -88,7 +89,9 @@ export class PostController {
 
   @Public()
   @Get('admin/:id')
-  async getPost(@Param('id', ParseIntPipe) id: number): Promise<GetPost[]> {
+  async getPost(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<GetPostWithoutContent[]> {
     return await this.postService.getPost(id);
   }
 
@@ -111,19 +114,19 @@ export class PostController {
 
   @Public()
   @Get('take-first-post')
-  async takeFirstLastestPost(): Promise<GetPost[]> {
+  async takeFirstLastestPost(): Promise<GetPostWithoutContent[]> {
     return await this.postService.takeFirstLastestPost();
   }
 
   @Public()
   @Get('skip-first-post')
-  async skipFisrtLastestPost(): Promise<GetPost[]> {
+  async skipFisrtLastestPost(): Promise<GetPostWithoutContent[]> {
     return await this.postService.skipFisrtLastestPost();
   }
 
   @Public()
   @Get('published')
-  async getPublishedPost(): Promise<GetPost[]> {
+  async getPublishedPost(): Promise<GetPostWithoutContent[]> {
     return await this.postService.getPublishedPost();
   }
 
@@ -146,13 +149,13 @@ export class PostController {
 
   @Public()
   @Get('recommanded')
-  async getRecommandedPost(): Promise<GetPost[]> {
+  async getRecommandedPost(): Promise<GetPostWithoutContent[]> {
     return await this.postService.getRecommandedPost();
   }
 
   @Public()
   @Get('top')
-  async getTopPost(): Promise<GetPost[]> {
+  async getTopPost(): Promise<GetPostWithoutContent[]> {
     return await this.postService.getTopPost();
   }
 
