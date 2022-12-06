@@ -17,7 +17,7 @@ let PrismaService = class PrismaService extends client_1.PrismaClient {
         super({
             datasources: {
                 db: {
-                    url: 'mysql://root:ZJoEWgLSJBpBg9PKjhv0@containers-us-west-52.railway.app:6609/railway',
+                    url: process.env.DATABASE_URL,
                 },
             },
         });

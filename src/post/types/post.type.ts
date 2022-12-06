@@ -35,18 +35,6 @@ export type GetPost = {
     nomEtat: string;
   };
   createdAt: Date;
-  commentaire: {
-    id: number;
-    idUtilisateur: number;
-    contenu: string;
-    createdAt: Date;
-    reponse: {
-      id: number;
-      idUtilisateur: number;
-      contenu: string;
-      createdAt: Date;
-    }[];
-  }[];
 };
 
 export type GetPostWithoutContent = {
@@ -71,7 +59,7 @@ export type GetPostWithoutContent = {
     id: number;
     nomEtat: string;
   };
-  createdAt: Date;
+  createdAt: Date /* 
   commentaire: {
     id: number;
     idUtilisateur: number;
@@ -83,7 +71,7 @@ export type GetPostWithoutContent = {
       contenu: string;
       createdAt: Date;
     }[];
-  }[];
+  }[]; */;
 };
 
 export type UpdatePost = {

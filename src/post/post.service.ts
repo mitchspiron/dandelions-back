@@ -136,22 +136,6 @@ export class PostService {
             },
           },
           createdAt: true,
-          commentaire: {
-            select: {
-              id: true,
-              idUtilisateur: true,
-              contenu: true,
-              createdAt: true,
-              reponse: {
-                select: {
-                  id: true,
-                  idUtilisateur: true,
-                  contenu: true,
-                  createdAt: true,
-                },
-              },
-            },
-          },
         },
       });
 
@@ -196,22 +180,6 @@ export class PostService {
           },
         },
         createdAt: true,
-        commentaire: {
-          select: {
-            id: true,
-            idUtilisateur: true,
-            contenu: true,
-            createdAt: true,
-            reponse: {
-              select: {
-                id: true,
-                idUtilisateur: true,
-                contenu: true,
-                createdAt: true,
-              },
-            },
-          },
-        },
       },
     });
 
@@ -291,22 +259,6 @@ export class PostService {
             },
           },
           createdAt: true,
-          commentaire: {
-            select: {
-              id: true,
-              idUtilisateur: true,
-              contenu: true,
-              createdAt: true,
-              reponse: {
-                select: {
-                  id: true,
-                  idUtilisateur: true,
-                  contenu: true,
-                  createdAt: true,
-                },
-              },
-            },
-          },
         },
       });
 
@@ -375,22 +327,6 @@ export class PostService {
           },
         },
         createdAt: true,
-        commentaire: {
-          select: {
-            id: true,
-            idUtilisateur: true,
-            contenu: true,
-            createdAt: true,
-            reponse: {
-              select: {
-                id: true,
-                idUtilisateur: true,
-                contenu: true,
-                createdAt: true,
-              },
-            },
-          },
-        },
       },
     });
 
@@ -468,22 +404,6 @@ export class PostService {
           },
         },
         createdAt: true,
-        commentaire: {
-          select: {
-            id: true,
-            idUtilisateur: true,
-            contenu: true,
-            createdAt: true,
-            reponse: {
-              select: {
-                id: true,
-                idUtilisateur: true,
-                contenu: true,
-                createdAt: true,
-              },
-            },
-          },
-        },
       },
     });
 
@@ -533,22 +453,6 @@ export class PostService {
           },
         },
         createdAt: true,
-        commentaire: {
-          select: {
-            id: true,
-            idUtilisateur: true,
-            contenu: true,
-            createdAt: true,
-            reponse: {
-              select: {
-                id: true,
-                idUtilisateur: true,
-                contenu: true,
-                createdAt: true,
-              },
-            },
-          },
-        },
       },
     });
 
@@ -599,22 +503,6 @@ export class PostService {
           },
         },
         createdAt: true,
-        commentaire: {
-          select: {
-            id: true,
-            idUtilisateur: true,
-            contenu: true,
-            createdAt: true,
-            reponse: {
-              select: {
-                id: true,
-                idUtilisateur: true,
-                contenu: true,
-                createdAt: true,
-              },
-            },
-          },
-        },
       },
     });
 
@@ -663,22 +551,6 @@ export class PostService {
           },
         },
         createdAt: true,
-        commentaire: {
-          select: {
-            id: true,
-            idUtilisateur: true,
-            contenu: true,
-            createdAt: true,
-            reponse: {
-              select: {
-                id: true,
-                idUtilisateur: true,
-                contenu: true,
-                createdAt: true,
-              },
-            },
-          },
-        },
       },
     });
 
@@ -689,7 +561,7 @@ export class PostService {
     return post;
   }
 
-  async getPublishedPostBySlug(slug: string): Promise<GetPost[]> {
+  async getPublishedPostBySlug(slug: string): Promise<GetPostWithoutContent[]> {
     const post = await this.prisma.article.findMany({
       orderBy: {
         id: 'desc',
@@ -721,7 +593,6 @@ export class PostService {
         slug: true,
         illustration: true,
         description: true,
-        contenu: true,
         top: true,
         recommadee: true,
         etat_article: {
@@ -731,22 +602,6 @@ export class PostService {
           },
         },
         createdAt: true,
-        commentaire: {
-          select: {
-            id: true,
-            idUtilisateur: true,
-            contenu: true,
-            createdAt: true,
-            reponse: {
-              select: {
-                id: true,
-                idUtilisateur: true,
-                contenu: true,
-                createdAt: true,
-              },
-            },
-          },
-        },
       },
     });
 
@@ -819,22 +674,6 @@ export class PostService {
           },
         },
         createdAt: true,
-        commentaire: {
-          select: {
-            id: true,
-            idUtilisateur: true,
-            contenu: true,
-            createdAt: true,
-            reponse: {
-              select: {
-                id: true,
-                idUtilisateur: true,
-                contenu: true,
-                createdAt: true,
-              },
-            },
-          },
-        },
       },
     });
 
@@ -884,22 +723,6 @@ export class PostService {
           },
         },
         createdAt: true,
-        commentaire: {
-          select: {
-            id: true,
-            idUtilisateur: true,
-            contenu: true,
-            createdAt: true,
-            reponse: {
-              select: {
-                id: true,
-                idUtilisateur: true,
-                contenu: true,
-                createdAt: true,
-              },
-            },
-          },
-        },
       },
     });
 
@@ -949,22 +772,6 @@ export class PostService {
           },
         },
         createdAt: true,
-        commentaire: {
-          select: {
-            id: true,
-            idUtilisateur: true,
-            contenu: true,
-            createdAt: true,
-            reponse: {
-              select: {
-                id: true,
-                idUtilisateur: true,
-                contenu: true,
-                createdAt: true,
-              },
-            },
-          },
-        },
       },
     });
 

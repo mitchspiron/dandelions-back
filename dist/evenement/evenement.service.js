@@ -204,12 +204,12 @@ let EvenementService = class EvenementService {
         }
         return evenement;
     }
-    async getFourLastEvenement() {
+    async getThreeLastEvenement() {
         const evenement = await this.prisma.evenement.findMany({
             orderBy: {
                 id: 'desc',
             },
-            take: 4,
+            take: 3,
             select: {
                 id: true,
                 entreprise: {

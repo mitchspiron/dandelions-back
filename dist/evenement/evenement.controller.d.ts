@@ -13,7 +13,7 @@ export declare class EvenementController {
     getEvenement(): Promise<GetEvenement[]>;
     getEvenementOnHeader(): Promise<GetEvenement[]>;
     filterEvenement(dto: FilterEvenementDto): Promise<GetEvenement[]>;
-    getFourLastEvenement(): Promise<GetEvenement[]>;
+    getThreeLastEvenement(): Promise<GetEvenement[]>;
     switchOnSubscribeBySlug(slug: string, dto: SwitchOnSubscribeDto): Promise<SwitchOnSubscribe>;
     switchOnHeaderBySlug(slug: string, dto: SwitchOnHeaderDto): Promise<SwitchOnHeader>;
     updateIllustrationBySlug(slug: string, id: number, dto: UpdateIllustrationDto): Promise<CreateEvenement>;

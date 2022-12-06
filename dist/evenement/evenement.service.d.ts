@@ -8,7 +8,7 @@ export declare class EvenementService {
     getEvenement(): Promise<GetEvenement[]>;
     getEvenementOnHeader(): Promise<GetEvenement[]>;
     filterEvenement(dto: FilterEvenementDto): Promise<GetEvenement[]>;
-    getFourLastEvenement(): Promise<GetEvenement[]>;
+    getThreeLastEvenement(): Promise<GetEvenement[]>;
     getEvenementAdmin(id: number): Promise<GetEvenement[]>;
     filterEvenementAdmin(id: number, dto: FilterEvenementDto): Promise<GetEvenement[]>;
     getEvenementBySlug(slug: string): Promise<GetEvenement>;

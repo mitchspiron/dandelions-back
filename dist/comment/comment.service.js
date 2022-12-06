@@ -84,6 +84,9 @@ let CommentService = class CommentService {
                         contenu: true,
                         createdAt: true,
                     },
+                    orderBy: {
+                        id: 'desc',
+                    },
                 },
             },
             where: {
@@ -130,6 +133,9 @@ let CommentService = class CommentService {
                         },
                         contenu: true,
                         createdAt: true,
+                    },
+                    orderBy: {
+                        id: 'desc',
                     },
                 },
             },

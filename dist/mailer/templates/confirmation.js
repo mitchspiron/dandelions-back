@@ -335,7 +335,7 @@ const confirmationTemplate = (token) => {
                                           "
                                         >
                                           <a
-                                            href="http://localhost:3000/auth-user/signup/confirm/${token}"
+                                            href="${process.env.URL_BACK}/auth-user/signup/confirm/${token}"
                                             class="button button-primary"
                                             target="_blank"
                                             rel="noopener"
@@ -462,7 +462,7 @@ const confirmationTemplate = (token) => {
                                     word-break: break-all;
                                   "
                                   ><a
-                                    href="http://localhost:3000/auth-user/signup/confirm/${token}"
+                                    href="${process.env.URL_BACK}/auth-user/signup/confirm/${token}"
                                     style="
                                       box-sizing: border-box;
                                       font-family: -apple-system,
@@ -473,7 +473,7 @@ const confirmationTemplate = (token) => {
                                       position: relative;
                                       color: #3869d4;
                                     "
-                                    >http://localhost:3000/auth-user/signup/confirm/${token}</a
+                                    >${process.env.URL_BACK}/auth-user/signup/confirm/${token}</a
                                   ></span
                                 >
                               </p>

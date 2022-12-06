@@ -34,18 +34,6 @@ export declare type GetPost = {
         nomEtat: string;
     };
     createdAt: Date;
-    commentaire: {
-        id: number;
-        idUtilisateur: number;
-        contenu: string;
-        createdAt: Date;
-        reponse: {
-            id: number;
-            idUtilisateur: number;
-            contenu: string;
-            createdAt: Date;
-        }[];
-    }[];
 };
 export declare type GetPostWithoutContent = {
     id: number;
@@ -70,18 +58,6 @@ export declare type GetPostWithoutContent = {
         nomEtat: string;
     };
     createdAt: Date;
-    commentaire: {
-        id: number;
-        idUtilisateur: number;
-        contenu: string;
-        createdAt: Date;
-        reponse: {
-            id: number;
-            idUtilisateur: number;
-            contenu: string;
-            createdAt: Date;
-        }[];
-    }[];
 };
 export declare type UpdatePost = {
     id: number;

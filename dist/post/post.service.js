@@ -119,22 +119,6 @@ let PostService = class PostService {
                         },
                     },
                     createdAt: true,
-                    commentaire: {
-                        select: {
-                            id: true,
-                            idUtilisateur: true,
-                            contenu: true,
-                            createdAt: true,
-                            reponse: {
-                                select: {
-                                    id: true,
-                                    idUtilisateur: true,
-                                    contenu: true,
-                                    createdAt: true,
-                                },
-                            },
-                        },
-                    },
                 },
             });
             if (!post) {
@@ -176,22 +160,6 @@ let PostService = class PostService {
                     },
                 },
                 createdAt: true,
-                commentaire: {
-                    select: {
-                        id: true,
-                        idUtilisateur: true,
-                        contenu: true,
-                        createdAt: true,
-                        reponse: {
-                            select: {
-                                id: true,
-                                idUtilisateur: true,
-                                contenu: true,
-                                createdAt: true,
-                            },
-                        },
-                    },
-                },
             },
         });
         if (!post) {
@@ -268,22 +236,6 @@ let PostService = class PostService {
                         },
                     },
                     createdAt: true,
-                    commentaire: {
-                        select: {
-                            id: true,
-                            idUtilisateur: true,
-                            contenu: true,
-                            createdAt: true,
-                            reponse: {
-                                select: {
-                                    id: true,
-                                    idUtilisateur: true,
-                                    contenu: true,
-                                    createdAt: true,
-                                },
-                            },
-                        },
-                    },
                 },
             });
             if (!post) {
@@ -349,22 +301,6 @@ let PostService = class PostService {
                     },
                 },
                 createdAt: true,
-                commentaire: {
-                    select: {
-                        id: true,
-                        idUtilisateur: true,
-                        contenu: true,
-                        createdAt: true,
-                        reponse: {
-                            select: {
-                                id: true,
-                                idUtilisateur: true,
-                                contenu: true,
-                                createdAt: true,
-                            },
-                        },
-                    },
-                },
             },
         });
         if (!post) {
@@ -439,22 +375,6 @@ let PostService = class PostService {
                     },
                 },
                 createdAt: true,
-                commentaire: {
-                    select: {
-                        id: true,
-                        idUtilisateur: true,
-                        contenu: true,
-                        createdAt: true,
-                        reponse: {
-                            select: {
-                                id: true,
-                                idUtilisateur: true,
-                                contenu: true,
-                                createdAt: true,
-                            },
-                        },
-                    },
-                },
             },
         });
         if (!post) {
@@ -501,22 +421,6 @@ let PostService = class PostService {
                     },
                 },
                 createdAt: true,
-                commentaire: {
-                    select: {
-                        id: true,
-                        idUtilisateur: true,
-                        contenu: true,
-                        createdAt: true,
-                        reponse: {
-                            select: {
-                                id: true,
-                                idUtilisateur: true,
-                                contenu: true,
-                                createdAt: true,
-                            },
-                        },
-                    },
-                },
             },
         });
         if (!post) {
@@ -564,22 +468,6 @@ let PostService = class PostService {
                     },
                 },
                 createdAt: true,
-                commentaire: {
-                    select: {
-                        id: true,
-                        idUtilisateur: true,
-                        contenu: true,
-                        createdAt: true,
-                        reponse: {
-                            select: {
-                                id: true,
-                                idUtilisateur: true,
-                                contenu: true,
-                                createdAt: true,
-                            },
-                        },
-                    },
-                },
             },
         });
         if (!post) {
@@ -625,22 +513,6 @@ let PostService = class PostService {
                     },
                 },
                 createdAt: true,
-                commentaire: {
-                    select: {
-                        id: true,
-                        idUtilisateur: true,
-                        contenu: true,
-                        createdAt: true,
-                        reponse: {
-                            select: {
-                                id: true,
-                                idUtilisateur: true,
-                                contenu: true,
-                                createdAt: true,
-                            },
-                        },
-                    },
-                },
             },
         });
         if (!post) {
@@ -680,7 +552,6 @@ let PostService = class PostService {
                 slug: true,
                 illustration: true,
                 description: true,
-                contenu: true,
                 top: true,
                 recommadee: true,
                 etat_article: {
@@ -690,22 +561,6 @@ let PostService = class PostService {
                     },
                 },
                 createdAt: true,
-                commentaire: {
-                    select: {
-                        id: true,
-                        idUtilisateur: true,
-                        contenu: true,
-                        createdAt: true,
-                        reponse: {
-                            select: {
-                                id: true,
-                                idUtilisateur: true,
-                                contenu: true,
-                                createdAt: true,
-                            },
-                        },
-                    },
-                },
             },
         });
         if (!post) {
@@ -772,22 +627,6 @@ let PostService = class PostService {
                     },
                 },
                 createdAt: true,
-                commentaire: {
-                    select: {
-                        id: true,
-                        idUtilisateur: true,
-                        contenu: true,
-                        createdAt: true,
-                        reponse: {
-                            select: {
-                                id: true,
-                                idUtilisateur: true,
-                                contenu: true,
-                                createdAt: true,
-                            },
-                        },
-                    },
-                },
             },
         });
         if (!post) {
@@ -834,22 +673,6 @@ let PostService = class PostService {
                     },
                 },
                 createdAt: true,
-                commentaire: {
-                    select: {
-                        id: true,
-                        idUtilisateur: true,
-                        contenu: true,
-                        createdAt: true,
-                        reponse: {
-                            select: {
-                                id: true,
-                                idUtilisateur: true,
-                                contenu: true,
-                                createdAt: true,
-                            },
-                        },
-                    },
-                },
             },
         });
         if (!post) {
@@ -896,22 +719,6 @@ let PostService = class PostService {
                     },
                 },
                 createdAt: true,
-                commentaire: {
-                    select: {
-                        id: true,
-                        idUtilisateur: true,
-                        contenu: true,
-                        createdAt: true,
-                        reponse: {
-                            select: {
-                                id: true,
-                                idUtilisateur: true,
-                                contenu: true,
-                                createdAt: true,
-                            },
-                        },
-                    },
-                },
             },
         });
         if (!post) {

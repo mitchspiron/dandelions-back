@@ -66,7 +66,8 @@ let AuthUserService = class AuthUserService {
             return newConfirmUser;
         }
         catch (e) {
-            res.redirect('http://localhost:8080/erreur-confirmation-email');
+            const url = process.env.URL_FRONT;
+            res.redirect(`${url}/erreur-confirmation-email`);
         }
     }
     async signin(dto) {

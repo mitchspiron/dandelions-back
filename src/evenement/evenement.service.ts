@@ -226,12 +226,12 @@ export class EvenementService {
     return evenement;
   }
 
-  async getFourLastEvenement(): Promise<GetEvenement[]> {
+  async getThreeLastEvenement(): Promise<GetEvenement[]> {
     const evenement = await this.prisma.evenement.findMany({
       orderBy: {
         id: 'desc',
       },
-      take: 4,
+      take: 3,
       select: {
         id: true,
         entreprise: {

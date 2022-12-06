@@ -43,8 +43,8 @@ let EvenementController = class EvenementController {
     async filterEvenement(dto) {
         return await this.evenementService.filterEvenement(dto);
     }
-    async getFourLastEvenement() {
-        return await this.evenementService.getFourLastEvenement();
+    async getThreeLastEvenement() {
+        return await this.evenementService.getThreeLastEvenement();
     }
     async switchOnSubscribeBySlug(slug, dto) {
         return await this.evenementService.switchOnSubscribeBySlug(slug, dto);
@@ -120,7 +120,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], EvenementController.prototype, "getFourLastEvenement", null);
+], EvenementController.prototype, "getThreeLastEvenement", null);
 __decorate([
     (0, common_1.Put)('switch-subscribed/:slug'),
     __param(0, (0, common_1.Param)('slug')),

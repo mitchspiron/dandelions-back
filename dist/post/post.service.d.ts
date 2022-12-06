@@ -11,7 +11,7 @@ export declare class PostService {
     takeFirstLastestPost(): Promise<GetPostWithoutContent[]>;
     skipFisrtLastestPost(): Promise<GetPostWithoutContent[]>;
     getPublishedPost(): Promise<GetPostWithoutContent[]>;
-    getPublishedPostBySlug(slug: string): Promise<GetPost[]>;
+    getPublishedPostBySlug(slug: string): Promise<GetPostWithoutContent[]>;
     filterPublishedPostBySlug(slug: string, dto: FilterCategoryByPostDto): Promise<GetPost[]>;
     getRecommandedPost(): Promise<GetPostWithoutContent[]>;
     getTopPost(): Promise<GetPostWithoutContent[]>;

@@ -85,6 +85,9 @@ export class CommentService {
             contenu: true,
             createdAt: true,
           },
+          orderBy: {
+            id: 'desc',
+          },
         },
       },
       where: {
@@ -134,6 +137,9 @@ export class CommentService {
             },
             contenu: true,
             createdAt: true,
+          },
+          orderBy: {
+            id: 'desc',
           },
         },
       },

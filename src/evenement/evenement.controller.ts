@@ -81,8 +81,8 @@ export class EvenementController {
 
   @Public()
   @Get('four-last')
-  async getFourLastEvenement(): Promise<GetEvenement[]> {
-    return await this.evenementService.getFourLastEvenement();
+  async getThreeLastEvenement(): Promise<GetEvenement[]> {
+    return await this.evenementService.getThreeLastEvenement();
   }
 
   @Put('switch-subscribed/:slug')
