@@ -17,11 +17,11 @@ MailModule = __decorate([
         imports: [
             mailer_1.MailerModule.forRoot({
                 transport: {
-                    service: 'hotmail',
-                    secure: false,
+                    host: 'smtp.mailtrap.io',
+                    port: 2525,
                     auth: {
-                        user: 'mitchspiron@outlook.com',
-                        pass: 'Leomessi',
+                        user: '4859631f5e1c5c',
+                        pass: '9b15fa88e76a7c',
                     },
                 },
             }),

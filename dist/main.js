@@ -42,7 +42,7 @@ async function bootstrap() {
         origin: process.env.URL_FRONT,
     });
     await app.listen(process.env.PORT);
-    console.log('🚀 Server started at http://127.0.0.1:' + process.env.PORT);
+    console.log('🚀 Server started at' + process.env.URL_BACK);
 }
 bootstrap();
 //# sourceMappingURL=main.js.map
