@@ -30,6 +30,7 @@ export type GetPost = {
   contenu: string;
   top: boolean;
   recommadee: boolean;
+  vu: boolean;
   etat_article: {
     id: number;
     nomEtat: string;
@@ -55,6 +56,7 @@ export type GetPostWithoutContent = {
   description: string;
   top: boolean;
   recommadee: boolean;
+  vu: boolean;
   etat_article: {
     id: number;
     nomEtat: string;
@@ -85,8 +87,10 @@ export type UpdatePost = {
   contenu: string;
   top: boolean;
   recommadee: boolean;
+  vu: boolean;
   etat: number;
   createdAt: Date;
+  updatedAt: Date;
 };
 
 export type UpdateStatePost = {
@@ -95,19 +99,29 @@ export type UpdateStatePost = {
     id: number;
     nomEtat: string;
   };
+  vu: boolean;
+  updatedAt: Date;
 };
 
 export type SwitchRecommanded = {
   id: number;
   recommadee: boolean;
+  updatedAt: Date;
 };
 
 export type SwitchTop = {
   id: number;
   top: boolean;
+  updatedAt: Date;
 };
 
 export type PostPublishedCategory = {
   id: number;
   categorie_article: [];
+};
+
+export type PostToSeen = {
+  id: number;
+  vu: boolean;
+  updatedAt: Date;
 };

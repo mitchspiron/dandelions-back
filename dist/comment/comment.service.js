@@ -38,6 +38,7 @@ let CommentService = class CommentService {
                 idUtilisateur: Number(dto.idUtilisateur),
                 idArticle: articleExists.id,
                 contenu: dto.contenu,
+                vu: false,
             },
         });
     }
@@ -61,14 +62,16 @@ let CommentService = class CommentService {
                         illustration: true,
                     },
                 },
-                idArticle: true,
                 article: {
                     select: {
                         id: true,
+                        titre: true,
+                        slug: true,
                         idRedacteur: true,
                     },
                 },
                 contenu: true,
+                vu: true,
                 createdAt: true,
                 reponse: {
                     select: {
@@ -97,6 +100,73 @@ let CommentService = class CommentService {
             },
         });
     }
+    async getUnseenComment(id) {
+        const user = await this.prisma.utilisateur.findUnique({
+            where: {
+                id: Number(id),
+            },
+        });
+        if (!user) {
+            throw new common_1.ForbiddenException("L'utilisateur sélectionné n'éxiste pas");
+        }
+        const comment = await this.prisma.commentaire.findMany({
+            orderBy: {
+                id: 'desc',
+            },
+            where: {
+                vu: false,
+                article: {
+                    utilisateur: {
+                        id: id,
+                    },
+                },
+            },
+            select: {
+                id: true,
+                utilisateur: {
+                    select: {
+                        id: true,
+                        nom: true,
+                        prenom: true,
+                        illustration: true,
+                    },
+                },
+                article: {
+                    select: {
+                        id: true,
+                        titre: true,
+                        slug: true,
+                        idRedacteur: true,
+                    },
+                },
+                contenu: true,
+                vu: true,
+                createdAt: true,
+                reponse: {
+                    select: {
+                        id: true,
+                        utilisateur: {
+                            select: {
+                                id: true,
+                                nom: true,
+                                prenom: true,
+                                illustration: true,
+                            },
+                        },
+                        contenu: true,
+                        createdAt: true,
+                    },
+                    orderBy: {
+                        id: 'desc',
+                    },
+                },
+            },
+        });
+        if (!comment) {
+            throw new common_1.ForbiddenException("Il n'y a aucun commentaire!");
+        }
+        return comment;
+    }
     async getCommentById(id) {
         const commentExists = await this.prisma.commentaire.findUnique({
             where: {
@@ -117,8 +187,16 @@ let CommentService = class CommentService {
                         illustration: true,
                     },
                 },
-                idArticle: true,
+                article: {
+                    select: {
+                        id: true,
+                        titre: true,
+                        slug: true,
+                        idRedacteur: true,
+                    },
+                },
                 contenu: true,
+                vu: true,
                 createdAt: true,
                 reponse: {
                     select: {
@@ -156,6 +234,24 @@ let CommentService = class CommentService {
         return await this.prisma.commentaire.update({
             data: {
                 contenu: dto.contenu,
+            },
+            where: {
+                id,
+            },
+        });
+    }
+    async updateCommentToSeen(id) {
+        const commentExists = await this.prisma.commentaire.findUnique({
+            where: {
+                id,
+            },
+        });
+        if (!commentExists) {
+            throw new common_1.ForbiddenException('Commentaire introuvable');
+        }
+        return await this.prisma.commentaire.update({
+            data: {
+                vu: true,
             },
             where: {
                 id,

@@ -29,6 +29,7 @@ export declare type GetPost = {
     contenu: string;
     top: boolean;
     recommadee: boolean;
+    vu: boolean;
     etat_article: {
         id: number;
         nomEtat: string;
@@ -53,6 +54,7 @@ export declare type GetPostWithoutContent = {
     description: string;
     top: boolean;
     recommadee: boolean;
+    vu: boolean;
     etat_article: {
         id: number;
         nomEtat: string;
@@ -70,8 +72,10 @@ export declare type UpdatePost = {
     contenu: string;
     top: boolean;
     recommadee: boolean;
+    vu: boolean;
     etat: number;
     createdAt: Date;
+    updatedAt: Date;
 };
 export declare type UpdateStatePost = {
     id: number;
@@ -79,16 +83,25 @@ export declare type UpdateStatePost = {
         id: number;
         nomEtat: string;
     };
+    vu: boolean;
+    updatedAt: Date;
 };
 export declare type SwitchRecommanded = {
     id: number;
     recommadee: boolean;
+    updatedAt: Date;
 };
 export declare type SwitchTop = {
     id: number;
     top: boolean;
+    updatedAt: Date;
 };
 export declare type PostPublishedCategory = {
     id: number;
     categorie_article: [];
+};
+export declare type PostToSeen = {
+    id: number;
+    vu: boolean;
+    updatedAt: Date;
 };

@@ -30,8 +30,14 @@ let CommentController = class CommentController {
     async getCommentById(id) {
         return await this.commentService.getCommentById(id);
     }
+    async getUnseenComment(id) {
+        return await this.commentService.getUnseenComment(id);
+    }
     async updateCommentById(id, dto) {
         return await this.commentService.updateCommentById(id, dto);
+    }
+    async updateCommentToSeen(id) {
+        return await this.commentService.updateCommentToSeen(id);
     }
     async deleteCommentById(id) {
         return await this.commentService.deleteCommentById(id);
@@ -62,6 +68,13 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CommentController.prototype, "getCommentById", null);
 __decorate([
+    (0, common_1.Get)('/unseen/:id'),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], CommentController.prototype, "getUnseenComment", null);
+__decorate([
     (0, common_1.Put)(':id'),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, common_1.Body)()),
@@ -69,6 +82,13 @@ __decorate([
     __metadata("design:paramtypes", [Number, dto_1.UpdateCommentdto]),
     __metadata("design:returntype", Promise)
 ], CommentController.prototype, "updateCommentById", null);
+__decorate([
+    (0, common_1.Put)('/to-seen/:id'),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], CommentController.prototype, "updateCommentToSeen", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),

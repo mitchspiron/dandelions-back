@@ -46,6 +46,9 @@ let PostController = class PostController {
     async getPost(id) {
         return await this.postService.getPost(id);
     }
+    async getUnseenPost(id) {
+        return await this.postService.getUnseenPost(id);
+    }
     async filterPostVisitor(dto) {
         return await this.postService.filterPostVisitor(dto);
     }
@@ -75,6 +78,9 @@ let PostController = class PostController {
     }
     async getPostBySlug(slug) {
         return await this.postService.getPostBySlug(slug);
+    }
+    async updatePostToSeen(slug) {
+        return await this.postService.updatePostToSeen(slug);
     }
     async updatePostBySlug(slug, id, dto) {
         return await this.postService.updatePostBySlug(slug, id, dto);
@@ -139,6 +145,14 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], PostController.prototype, "getPost", null);
+__decorate([
+    (0, decorators_1.Public)(),
+    (0, common_1.Get)('/unseen/:id'),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], PostController.prototype, "getUnseenPost", null);
 __decorate([
     (0, decorators_1.Public)(),
     (0, common_1.Post)('/filter'),
@@ -216,6 +230,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], PostController.prototype, "getPostBySlug", null);
+__decorate([
+    (0, common_1.Put)('/to-seen/:slug'),
+    __param(0, (0, common_1.Param)('slug')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], PostController.prototype, "updatePostToSeen", null);
 __decorate([
     (0, common_1.Put)(':slug/:id'),
     __param(0, (0, common_1.Param)('slug')),

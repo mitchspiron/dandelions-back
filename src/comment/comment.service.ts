@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateCommentDto, UpdateCommentdto } from './dto';
-import { CreateComment, GetComment } from './types';
+import { CommentToSeen, CreateComment, GetComment } from './types';
 
 @Injectable()
 export class CommentService {
@@ -36,6 +36,7 @@ export class CommentService {
         idUtilisateur: Number(dto.idUtilisateur),
         idArticle: articleExists.id,
         contenu: dto.contenu,
+        vu: false,
       },
     });
   }
@@ -62,14 +63,16 @@ export class CommentService {
             illustration: true,
           },
         },
-        idArticle: true,
         article: {
           select: {
             id: true,
+            titre: true,
+            slug: true,
             idRedacteur: true,
           },
         },
         contenu: true,
+        vu: true,
         createdAt: true,
         reponse: {
           select: {
@@ -99,6 +102,78 @@ export class CommentService {
     });
   }
 
+  async getUnseenComment(id: number): Promise<GetComment[]> {
+    const user = await this.prisma.utilisateur.findUnique({
+      where: {
+        id: Number(id),
+      },
+    });
+
+    if (!user) {
+      throw new ForbiddenException("L'utilisateur sélectionné n'éxiste pas");
+    }
+
+    const comment = await this.prisma.commentaire.findMany({
+      orderBy: {
+        id: 'desc',
+      },
+      where: {
+        vu: false,
+        article: {
+          utilisateur: {
+            id: id,
+          },
+        },
+      },
+      select: {
+        id: true,
+        utilisateur: {
+          select: {
+            id: true,
+            nom: true,
+            prenom: true,
+            illustration: true,
+          },
+        },
+        article: {
+          select: {
+            id: true,
+            titre: true,
+            slug: true,
+            idRedacteur: true,
+          },
+        },
+        contenu: true,
+        vu: true,
+        createdAt: true,
+        reponse: {
+          select: {
+            id: true,
+            utilisateur: {
+              select: {
+                id: true,
+                nom: true,
+                prenom: true,
+                illustration: true,
+              },
+            },
+            contenu: true,
+            createdAt: true,
+          },
+          orderBy: {
+            id: 'desc',
+          },
+        },
+      },
+    });
+
+    if (!comment) {
+      throw new ForbiddenException("Il n'y a aucun commentaire!");
+    }
+
+    return comment;
+  }
+
   async getCommentById(id: number): Promise<GetComment> {
     const commentExists = await this.prisma.commentaire.findUnique({
       where: {
@@ -121,8 +196,16 @@ export class CommentService {
             illustration: true,
           },
         },
-        idArticle: true,
+        article: {
+          select: {
+            id: true,
+            titre: true,
+            slug: true,
+            idRedacteur: true,
+          },
+        },
         contenu: true,
+        vu: true,
         createdAt: true,
         reponse: {
           select: {
@@ -166,6 +249,27 @@ export class CommentService {
     return await this.prisma.commentaire.update({
       data: {
         contenu: dto.contenu,
+      },
+      where: {
+        id,
+      },
+    });
+  }
+
+  async updateCommentToSeen(id: number): Promise<CommentToSeen> {
+    const commentExists = await this.prisma.commentaire.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!commentExists) {
+      throw new ForbiddenException('Commentaire introuvable');
+    }
+
+    return await this.prisma.commentaire.update({
+      data: {
+        vu: true,
       },
       where: {
         id,

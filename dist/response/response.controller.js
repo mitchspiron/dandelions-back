@@ -30,8 +30,14 @@ let ResponseController = class ResponseController {
     async getResponseById(id) {
         return await this.responseService.getResponseById(id);
     }
+    async getUnseenResponse(id) {
+        return await this.responseService.getUnseenResponse(id);
+    }
     async updateResponseById(id, dto) {
         return await this.responseService.updateResponseById(id, dto);
+    }
+    async updateResponseToSeen(id) {
+        return await this.responseService.updateResponseToSeen(id);
     }
     async deleteResponseById(id) {
         return await this.responseService.deleteResponseById(id);
@@ -62,6 +68,13 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ResponseController.prototype, "getResponseById", null);
 __decorate([
+    (0, common_1.Get)('/unseen/:id'),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], ResponseController.prototype, "getUnseenResponse", null);
+__decorate([
     (0, common_1.Put)(':id'),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, common_1.Body)()),
@@ -69,6 +82,13 @@ __decorate([
     __metadata("design:paramtypes", [Number, dto_1.UpdateResponseDto]),
     __metadata("design:returntype", Promise)
 ], ResponseController.prototype, "updateResponseById", null);
+__decorate([
+    (0, common_1.Put)('/to-seen/:id'),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], ResponseController.prototype, "updateResponseToSeen", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),

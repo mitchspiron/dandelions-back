@@ -14,8 +14,14 @@ export type GetComment = {
     prenom: string;
     illustration: string;
   };
-  idArticle: number;
+  article: {
+    id: number;
+    titre: string;
+    slug: string;
+    idRedacteur: number;
+  };
   contenu: string;
+  vu: boolean;
   createdAt: Date;
   reponse: {
     id: number;
@@ -28,4 +34,9 @@ export type GetComment = {
     contenu: string;
     createdAt: Date;
   }[];
+};
+
+export type CommentToSeen = {
+  id: number;
+  vu: boolean;
 };

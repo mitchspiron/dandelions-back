@@ -30,6 +30,7 @@ import {
   CreatePost,
   GetPost,
   GetPostWithoutContent,
+  PostToSeen,
   SwitchRecommanded,
   SwitchTop,
   UpdatePost,
@@ -93,6 +94,14 @@ export class PostController {
     @Param('id', ParseIntPipe) id: number,
   ): Promise<GetPostWithoutContent[]> {
     return await this.postService.getPost(id);
+  }
+
+  @Public()
+  @Get('/unseen/:id')
+  async getUnseenPost(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<GetPostWithoutContent[]> {
+    return await this.postService.getUnseenPost(id);
   }
 
   @Public()
@@ -163,6 +172,11 @@ export class PostController {
   @Get(':slug')
   async getPostBySlug(@Param('slug') slug: string): Promise<GetPost> {
     return await this.postService.getPostBySlug(slug);
+  }
+
+  @Put('/to-seen/:slug')
+  async updatePostToSeen(@Param('slug') slug: string): Promise<PostToSeen> {
+    return await this.postService.updatePostToSeen(slug);
   }
 
   @Put(':slug/:id')

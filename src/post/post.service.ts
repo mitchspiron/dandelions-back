@@ -15,6 +15,7 @@ import {
   CreatePost,
   GetPost,
   GetPostWithoutContent,
+  PostToSeen,
   SwitchRecommanded,
   SwitchTop,
   UpdatePost,
@@ -84,6 +85,7 @@ export class PostService {
         contenu: dto.contenu,
         top: false,
         recommadee: false,
+        vu: false,
         etat: 1,
       },
     });
@@ -129,6 +131,7 @@ export class PostService {
           description: true,
           top: true,
           recommadee: true,
+          vu: true,
           etat_article: {
             select: {
               id: true,
@@ -173,6 +176,7 @@ export class PostService {
         description: true,
         top: true,
         recommadee: true,
+        vu: true,
         etat_article: {
           select: {
             id: true,
@@ -180,6 +184,115 @@ export class PostService {
           },
         },
         createdAt: true,
+      },
+    });
+
+    if (!post) {
+      throw new ForbiddenException("Il n'y a aucun article!");
+    }
+
+    return post;
+  }
+
+  async getUnseenPost(id: number): Promise<GetPostWithoutContent[]> {
+    const user = await this.prisma.utilisateur.findUnique({
+      where: {
+        id: Number(id),
+      },
+    });
+
+    if (!user) {
+      throw new ForbiddenException("L'utilisateur sélectionné n'éxiste pas");
+    } else if (user.role !== 1) {
+      const post = await this.prisma.article.findMany({
+        orderBy: {
+          id: 'desc',
+        },
+        where: {
+          idRedacteur: Number(id),
+          vu: false,
+        },
+        select: {
+          id: true,
+          utilisateur: {
+            select: {
+              id: true,
+              nom: true,
+              prenom: true,
+              role: true,
+            },
+          },
+          categorie_article: {
+            select: {
+              id: true,
+              nomCategorie: true,
+              slug: true,
+            },
+          },
+          titre: true,
+          slug: true,
+          illustration: true,
+          description: true,
+          top: true,
+          recommadee: true,
+          vu: true,
+          etat_article: {
+            select: {
+              id: true,
+              nomEtat: true,
+            },
+          },
+          createdAt: true,
+          updatedAt: true,
+        },
+      });
+
+      if (!post) {
+        throw new ForbiddenException("Il n'y a aucun article!");
+      }
+
+      return post;
+    }
+
+    const post = await this.prisma.article.findMany({
+      orderBy: {
+        id: 'desc',
+      },
+      where: {
+        etat: 1,
+      },
+      select: {
+        id: true,
+        utilisateur: {
+          select: {
+            id: true,
+            nom: true,
+            prenom: true,
+            role: true,
+          },
+        },
+        categorie_article: {
+          select: {
+            id: true,
+            nomCategorie: true,
+            slug: true,
+          },
+        },
+        titre: true,
+        slug: true,
+        illustration: true,
+        description: true,
+        top: true,
+        recommadee: true,
+        vu: true,
+        etat_article: {
+          select: {
+            id: true,
+            nomEtat: true,
+          },
+        },
+        createdAt: true,
+        updatedAt: true,
       },
     });
 
@@ -252,6 +365,7 @@ export class PostService {
           contenu: true,
           top: true,
           recommadee: true,
+          vu: true,
           etat_article: {
             select: {
               id: true,
@@ -320,6 +434,7 @@ export class PostService {
         contenu: true,
         top: true,
         recommadee: true,
+        vu: true,
         etat_article: {
           select: {
             id: true,
@@ -397,6 +512,7 @@ export class PostService {
         contenu: true,
         top: true,
         recommadee: true,
+        vu: true,
         etat_article: {
           select: {
             id: true,
@@ -446,6 +562,7 @@ export class PostService {
         description: true,
         top: true,
         recommadee: true,
+        vu: true,
         etat_article: {
           select: {
             id: true,
@@ -496,6 +613,7 @@ export class PostService {
         description: true,
         top: true,
         recommadee: true,
+        vu: true,
         etat_article: {
           select: {
             id: true,
@@ -544,6 +662,7 @@ export class PostService {
         description: true,
         top: true,
         recommadee: true,
+        vu: true,
         etat_article: {
           select: {
             id: true,
@@ -595,6 +714,7 @@ export class PostService {
         description: true,
         top: true,
         recommadee: true,
+        vu: true,
         etat_article: {
           select: {
             id: true,
@@ -667,6 +787,7 @@ export class PostService {
         contenu: true,
         top: true,
         recommadee: true,
+        vu: true,
         etat_article: {
           select: {
             id: true,
@@ -716,6 +837,7 @@ export class PostService {
         description: true,
         top: true,
         recommadee: true,
+        vu: true,
         etat_article: {
           select: {
             id: true,
@@ -765,6 +887,7 @@ export class PostService {
         description: true,
         top: true,
         recommadee: true,
+        vu: true,
         etat_article: {
           select: {
             id: true,
@@ -811,6 +934,7 @@ export class PostService {
         contenu: true,
         top: true,
         recommadee: true,
+        vu: true,
         etat_article: {
           select: {
             id: true,
@@ -899,6 +1023,7 @@ export class PostService {
           description: dto.description,
           contenu: dto.contenu,
           slug: updatedSlug,
+          etat: 1,
         },
         where: {
           slug,
@@ -1015,6 +1140,7 @@ export class PostService {
     return await this.prisma.article.update({
       data: {
         etat: Number(dto.etat),
+        vu: false,
       },
       where: {
         slug,
@@ -1027,6 +1153,8 @@ export class PostService {
             nomEtat: true,
           },
         },
+        vu: true,
+        updatedAt: true,
       },
     });
   }
@@ -1055,6 +1183,7 @@ export class PostService {
       select: {
         id: true,
         recommadee: true,
+        updatedAt: true,
       },
     });
   }
@@ -1080,6 +1209,33 @@ export class PostService {
       select: {
         id: true,
         top: true,
+        updatedAt: true,
+      },
+    });
+  }
+
+  async updatePostToSeen(slug: string): Promise<PostToSeen> {
+    const postBySlug = await this.prisma.article.findUnique({
+      where: {
+        slug,
+      },
+    });
+
+    if (!postBySlug) {
+      throw new ForbiddenException("Cet article n'existe pas!");
+    }
+
+    return await this.prisma.article.update({
+      data: {
+        vu: true,
+      },
+      where: {
+        slug,
+      },
+      select: {
+        id: true,
+        vu: true,
+        updatedAt: true,
       },
     });
   }

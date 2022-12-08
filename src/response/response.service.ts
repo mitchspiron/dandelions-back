@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateResponseDto, UpdateResponseDto } from './dto';
-import { Response } from './types';
+import { Response, UnseenResponse } from './types';
 
 @Injectable()
 export class ResponseService {
@@ -33,6 +33,7 @@ export class ResponseService {
         idUtilisateur: Number(dto.idUtilisateur),
         idCommentaire: commentExists.id,
         contenu: dto.contenu,
+        vu: false,
       },
       select: {
         id: true,
@@ -46,6 +47,7 @@ export class ResponseService {
         },
         idCommentaire: true,
         contenu: true,
+        vu: true,
         createdAt: true,
       },
     });
@@ -81,6 +83,7 @@ export class ResponseService {
         },
         idCommentaire: true,
         contenu: true,
+        vu: true,
         createdAt: true,
       },
     });
@@ -113,9 +116,70 @@ export class ResponseService {
         },
         idCommentaire: true,
         contenu: true,
+        vu: true,
         createdAt: true,
       },
     });
+  }
+
+  async getUnseenResponse(id: number): Promise<UnseenResponse[]> {
+    const user = await this.prisma.utilisateur.findUnique({
+      where: {
+        id: Number(id),
+      },
+    });
+
+    if (!user) {
+      throw new ForbiddenException("L'utilisateur sélectionné n'éxiste pas");
+    }
+
+    const response = await this.prisma.reponse.findMany({
+      orderBy: {
+        id: 'desc',
+      },
+      where: {
+        vu: false,
+        commentaire: {
+          article: {
+            utilisateur: {
+              id: id,
+            },
+          },
+        },
+      },
+      select: {
+        id: true,
+        utilisateur: {
+          select: {
+            id: true,
+            nom: true,
+            prenom: true,
+            illustration: true,
+          },
+        },
+        commentaire: {
+          select: {
+            article: {
+              select: {
+                id: true,
+                titre: true,
+                slug: true,
+                idRedacteur: true,
+              },
+            },
+          },
+        },
+        contenu: true,
+        vu: true,
+        createdAt: true,
+      },
+    });
+
+    if (!response) {
+      throw new ForbiddenException("Il n'y a aucun commentaire!");
+    }
+
+    return response;
   }
 
   async updateResponseById(
@@ -151,6 +215,43 @@ export class ResponseService {
         },
         idCommentaire: true,
         contenu: true,
+        vu: true,
+        createdAt: true,
+      },
+    });
+  }
+
+  async updateResponseToSeen(id: number): Promise<Response> {
+    const responseExists = await this.prisma.reponse.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!responseExists) {
+      throw new ForbiddenException('Reponse introuvable');
+    }
+
+    return await this.prisma.reponse.update({
+      data: {
+        vu: true,
+      },
+      where: {
+        id,
+      },
+      select: {
+        id: true,
+        utilisateur: {
+          select: {
+            id: true,
+            nom: true,
+            prenom: true,
+            illustration: true,
+          },
+        },
+        idCommentaire: true,
+        contenu: true,
+        vu: true,
         createdAt: true,
       },
     });
@@ -183,6 +284,7 @@ export class ResponseService {
         },
         idCommentaire: true,
         contenu: true,
+        vu: true,
         createdAt: true,
       },
     });
