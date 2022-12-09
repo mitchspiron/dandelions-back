@@ -69,6 +69,7 @@ export class CommentService {
             titre: true,
             slug: true,
             idRedacteur: true,
+            etat: true,
           },
         },
         contenu: true,
@@ -95,6 +96,9 @@ export class CommentService {
       },
       where: {
         idArticle: Number(postExists.id),
+        article: {
+          etat: 5,
+        },
       },
       orderBy: {
         id: 'desc',
@@ -141,6 +145,7 @@ export class CommentService {
             titre: true,
             slug: true,
             idRedacteur: true,
+            etat: true,
           },
         },
         contenu: true,
@@ -202,6 +207,7 @@ export class CommentService {
             titre: true,
             slug: true,
             idRedacteur: true,
+            etat: true,
           },
         },
         contenu: true,

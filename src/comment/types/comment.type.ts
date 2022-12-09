@@ -19,6 +19,7 @@ export type GetComment = {
     titre: string;
     slug: string;
     idRedacteur: number;
+    etat: number;
   };
   contenu: string;
   vu: boolean;

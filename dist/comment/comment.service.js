@@ -68,6 +68,7 @@ let CommentService = class CommentService {
                         titre: true,
                         slug: true,
                         idRedacteur: true,
+                        etat: true,
                     },
                 },
                 contenu: true,
@@ -94,6 +95,9 @@ let CommentService = class CommentService {
             },
             where: {
                 idArticle: Number(postExists.id),
+                article: {
+                    etat: 5,
+                },
             },
             orderBy: {
                 id: 'desc',
@@ -137,6 +141,7 @@ let CommentService = class CommentService {
                         titre: true,
                         slug: true,
                         idRedacteur: true,
+                        etat: true,
                     },
                 },
                 contenu: true,
@@ -193,6 +198,7 @@ let CommentService = class CommentService {
                         titre: true,
                         slug: true,
                         idRedacteur: true,
+                        etat: true,
                     },
                 },
                 contenu: true,
