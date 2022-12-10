@@ -920,23 +920,25 @@ let EvenementService = class EvenementService {
         if (events.length == 0) {
             throw new common_1.ForbiddenException("Il n'y a pas d'évenement  archivé");
         }
-        const today = new Date();
-        const dd = String(today.getDate()).padStart(2, '0');
-        const mm = String(today.getMonth() + 1).padStart(2, '0');
-        const yyyy = today.getFullYear();
-        const date = yyyy + '-' + mm + '-' + dd;
-        events.forEach(async (event) => {
-            if (event.deadline.toISOString().split('T')[0] <= date) {
-                return await this.prisma.evenement.update({
-                    data: {
-                        isArchived: true,
-                    },
-                    where: {
-                        id: event.id,
-                    },
-                });
-            }
-        });
+        else {
+            const today = new Date();
+            const dd = String(today.getDate()).padStart(2, '0');
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const yyyy = today.getFullYear();
+            const date = yyyy + '-' + mm + '-' + dd;
+            events.forEach(async (event) => {
+                if (event.deadline.toISOString().split('T')[0] <= date) {
+                    return await this.prisma.evenement.update({
+                        data: {
+                            isArchived: true,
+                        },
+                        where: {
+                            id: event.id,
+                        },
+                    });
+                }
+            });
+        }
     }
 };
 EvenementService = __decorate([
