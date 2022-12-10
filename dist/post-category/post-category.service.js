@@ -26,6 +26,21 @@ let PostCategoryService = class PostCategoryService {
             throw new common_1.ForbiddenException("L'identifiant n'existe pas!");
         return PostCategoryById;
     }
+    async getCategoryBySlug(slug) {
+        const PostCategoryById = await this.prisma.categorie_article.findUnique({
+            where: {
+                slug,
+            },
+            select: {
+                id: true,
+                slug: true,
+                nomCategorie: true,
+            },
+        });
+        if (!PostCategoryById)
+            throw new common_1.ForbiddenException("L'identifiant n'existe pas!");
+        return PostCategoryById;
+    }
     async getPostCategory() {
         const postCategory = await this.prisma.categorie_article.findMany({
             include: {

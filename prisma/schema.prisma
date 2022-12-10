@@ -94,6 +94,7 @@ model evenement {
   deadline              DateTime                @db.Date()
   onHeader              Boolean
   onSubscribe           Boolean
+  isArchived            Boolean
   createdAt             DateTime                @default(now())
   entreprise            entreprise              @relation(fields: [idEntreprise], references: [id], onDelete: Cascade, map: "evenement_ibfk_1")
   inscription_evenement inscription_evenement[]
@@ -132,6 +133,15 @@ model role_utilisateur {
   utilisateur utilisateur[]
 }
 
+model demande_redacteur {
+  id            Int         @id @default(autoincrement())
+  idUtilisateur Int
+  acceptee      Boolean
+  utilisateur   utilisateur @relation(fields: [idUtilisateur], references: [id], onDelete: Cascade, map: "demande_redacteur_ibfk_1")
+
+  @@index([idUtilisateur], map: "idUtilisateur")
+}
+
 model utilisateur {
   id                    Int                     @id @default(autoincrement())
   nom                   String                  @db.VarChar(255)
@@ -149,6 +159,7 @@ model utilisateur {
   entreprise            entreprise[]
   inscription_evenement inscription_evenement[]
   reponse               reponse[]
+  demande_redacteur     demande_redacteur[]
 
   @@index([role], map: "role")
 }

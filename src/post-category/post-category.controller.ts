@@ -31,6 +31,12 @@ export class PostCategoryController {
     return await this.postCategoryService.getPostCategoryById(id);
   }
 
+  @Public()
+  @Get('/post/:slug')
+  async getCategoryBySlug(@Param('slug') slug: string): Promise<PostCategory> {
+    return await this.postCategoryService.getCategoryBySlug(slug);
+  }
+
   @Post()
   async createPostCategory(
     @Body() dto: PostCategoryDto,

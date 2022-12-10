@@ -52,14 +52,26 @@ let EvenementController = class EvenementController {
     async switchOnHeaderBySlug(slug, dto) {
         return await this.evenementService.switchOnHeaderBySlug(slug, dto);
     }
+    async switchIsArchivedBySlug(slug, dto) {
+        return await this.evenementService.switchIsArchivedBySlug(slug, dto);
+    }
     async updateIllustrationBySlug(slug, id, dto) {
         return await this.evenementService.updateIllustrationBySlug(slug, id, dto);
+    }
+    async updateArchivedById() {
+        return await this.evenementService.updateArchivedById();
     }
     async getEvenementAdmin(id) {
         return await this.evenementService.getEvenementAdmin(id);
     }
+    async getEvenementArchivedAdmin(id) {
+        return await this.evenementService.getEvenementArchivedAdmin(id);
+    }
     async filterEvenementAdmin(id, dto) {
         return await this.evenementService.filterEvenementAdmin(id, dto);
+    }
+    async filterEvenementArchivedAdmin(id, dto) {
+        return await this.evenementService.filterEvenementArchivedAdmin(id, dto);
     }
     async getEvenementBySlug(slug) {
         return await this.evenementService.getEvenementBySlug(slug);
@@ -138,6 +150,14 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], EvenementController.prototype, "switchOnHeaderBySlug", null);
 __decorate([
+    (0, common_1.Put)('switch-archived/:slug'),
+    __param(0, (0, common_1.Param)('slug')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, dto_1.SwitchIsArchivedDto]),
+    __metadata("design:returntype", Promise)
+], EvenementController.prototype, "switchIsArchivedBySlug", null);
+__decorate([
     (0, common_1.Put)('update-illustration/:slug/:id'),
     __param(0, (0, common_1.Param)('slug')),
     __param(1, (0, common_1.Param)('id', common_1.ParseIntPipe)),
@@ -148,12 +168,27 @@ __decorate([
 ], EvenementController.prototype, "updateIllustrationBySlug", null);
 __decorate([
     (0, decorators_1.Public)(),
+    (0, common_1.Put)('/archived-deadline'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], EvenementController.prototype, "updateArchivedById", null);
+__decorate([
+    (0, decorators_1.Public)(),
     (0, common_1.Get)('admin/:id'),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], EvenementController.prototype, "getEvenementAdmin", null);
+__decorate([
+    (0, decorators_1.Public)(),
+    (0, common_1.Get)('/archived/admin/:id'),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], EvenementController.prototype, "getEvenementArchivedAdmin", null);
 __decorate([
     (0, decorators_1.Public)(),
     (0, common_1.Post)('admin/filter/:id'),
@@ -163,6 +198,15 @@ __decorate([
     __metadata("design:paramtypes", [Number, dto_1.FilterEvenementDto]),
     __metadata("design:returntype", Promise)
 ], EvenementController.prototype, "filterEvenementAdmin", null);
+__decorate([
+    (0, decorators_1.Public)(),
+    (0, common_1.Post)('admin/filter/:id'),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, dto_1.FilterEvenementDto]),
+    __metadata("design:returntype", Promise)
+], EvenementController.prototype, "filterEvenementArchivedAdmin", null);
 __decorate([
     (0, decorators_1.Public)(),
     (0, common_1.Get)(':slug'),

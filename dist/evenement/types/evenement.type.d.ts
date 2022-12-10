@@ -29,10 +29,18 @@ export declare type GetEvenement = {
     onHeader: boolean;
     createdAt: Date;
     onSubscribe: boolean;
+    isArchived: boolean;
     inscription_evenement: {
         id: number;
         idUtilisateur: number;
     }[];
+};
+export declare type GetEvenementOnDeadline = {
+    id: number;
+    titre: string;
+    slug: string;
+    deadline: Date;
+    isArchived: boolean;
 };
 export declare type SwitchOnHeader = {
     id: number;
@@ -41,4 +49,8 @@ export declare type SwitchOnHeader = {
 export declare type SwitchOnSubscribe = {
     id: number;
     onSubscribe: boolean;
+};
+export declare type SwitchIsArchived = {
+    id: number;
+    isArchived: boolean;
 };

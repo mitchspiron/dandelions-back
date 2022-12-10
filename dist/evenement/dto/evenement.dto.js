@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SwitchOnSubscribeDto = exports.SwitchOnHeaderDto = exports.FilterEvenementDto = exports.UpdateIllustrationDto = exports.UpdateEvenementDto = exports.CreateEvenementDto = void 0;
+exports.SwitchIsArchivedDto = exports.SwitchOnSubscribeDto = exports.SwitchOnHeaderDto = exports.FilterEvenementDto = exports.UpdateIllustrationDto = exports.UpdateEvenementDto = exports.CreateEvenementDto = void 0;
 const class_validator_1 = require("class-validator");
 class CreateEvenementDto {
 }
@@ -106,4 +106,12 @@ __decorate([
     __metadata("design:type", Boolean)
 ], SwitchOnSubscribeDto.prototype, "onSubscribe", void 0);
 exports.SwitchOnSubscribeDto = SwitchOnSubscribeDto;
+class SwitchIsArchivedDto {
+}
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], SwitchIsArchivedDto.prototype, "isArchived", void 0);
+exports.SwitchIsArchivedDto = SwitchIsArchivedDto;
 //# sourceMappingURL=evenement.dto.js.map

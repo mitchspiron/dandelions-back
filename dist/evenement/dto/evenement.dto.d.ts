@@ -26,3 +26,6 @@ export declare class SwitchOnHeaderDto {
 export declare class SwitchOnSubscribeDto {
     onSubscribe: boolean;
 }
+export declare class SwitchIsArchivedDto {
+    isArchived: boolean;
+}

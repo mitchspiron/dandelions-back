@@ -27,6 +27,9 @@ let PostCategoryController = class PostCategoryController {
     async getPostCategoryById(id) {
         return await this.postCategoryService.getPostCategoryById(id);
     }
+    async getCategoryBySlug(slug) {
+        return await this.postCategoryService.getCategoryBySlug(slug);
+    }
     async createPostCategory(dto) {
         return await this.postCategoryService.createPostCategory(dto);
     }
@@ -52,6 +55,14 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], PostCategoryController.prototype, "getPostCategoryById", null);
+__decorate([
+    (0, decorators_1.Public)(),
+    (0, common_1.Get)('/post/:slug'),
+    __param(0, (0, common_1.Param)('slug')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], PostCategoryController.prototype, "getCategoryBySlug", null);
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),

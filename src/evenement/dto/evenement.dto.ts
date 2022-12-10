@@ -72,3 +72,9 @@ export class SwitchOnSubscribeDto {
   @IsBoolean()
   onSubscribe: boolean;
 }
+
+export class SwitchIsArchivedDto {
+  @IsNotEmpty()
+  @IsBoolean()
+  isArchived: boolean;
+}

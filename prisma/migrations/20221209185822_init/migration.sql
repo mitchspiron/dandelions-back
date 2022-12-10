@@ -10,8 +10,10 @@ CREATE TABLE `article` (
     `contenu` LONGTEXT NOT NULL,
     `top` BOOLEAN NOT NULL,
     `recommadee` BOOLEAN NOT NULL,
+    `vu` BOOLEAN NOT NULL,
     `etat` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
 
     UNIQUE INDEX `slug`(`slug`),
     INDEX `idCategorie`(`idCategorie`),
@@ -44,6 +46,7 @@ CREATE TABLE `commentaire` (
     `idUtilisateur` INTEGER NOT NULL,
     `idArticle` INTEGER NOT NULL,
     `contenu` TEXT NOT NULL,
+    `vu` BOOLEAN NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     INDEX `idArticle`(`idArticle`),
@@ -83,9 +86,10 @@ CREATE TABLE `evenement` (
     `illustration` VARCHAR(255) NOT NULL,
     `description` TEXT NOT NULL,
     `contenu` LONGTEXT NOT NULL,
-    `deadline` TIMESTAMP(0) NOT NULL,
+    `deadline` DATE NOT NULL,
     `onHeader` BOOLEAN NOT NULL,
     `onSubscribe` BOOLEAN NOT NULL,
+    `isArchived` BOOLEAN NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     UNIQUE INDEX `slug`(`slug`),
@@ -110,6 +114,7 @@ CREATE TABLE `reponse` (
     `idUtilisateur` INTEGER NOT NULL,
     `idCommentaire` INTEGER NOT NULL,
     `contenu` TEXT NOT NULL,
+    `vu` BOOLEAN NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     INDEX `idCommentaire`(`idCommentaire`),
@@ -122,6 +127,16 @@ CREATE TABLE `role_utilisateur` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `nomRole` VARCHAR(100) NOT NULL,
 
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `demande_redacteur` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `idUtilisateur` INTEGER NOT NULL,
+    `acceptee` BOOLEAN NOT NULL,
+
+    INDEX `idUtilisateur`(`idUtilisateur`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -175,6 +190,9 @@ ALTER TABLE `reponse` ADD CONSTRAINT `reponse_ibfk_1` FOREIGN KEY (`idUtilisateu
 
 -- AddForeignKey
 ALTER TABLE `reponse` ADD CONSTRAINT `reponse_ibfk_2` FOREIGN KEY (`idCommentaire`) REFERENCES `commentaire`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `demande_redacteur` ADD CONSTRAINT `demande_redacteur_ibfk_1` FOREIGN KEY (`idUtilisateur`) REFERENCES `utilisateur`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `utilisateur` ADD CONSTRAINT `utilisateur_ibfk_1` FOREIGN KEY (`role`) REFERENCES `role_utilisateur`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
