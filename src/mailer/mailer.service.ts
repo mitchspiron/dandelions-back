@@ -40,4 +40,28 @@ export class MailService {
       `,
     });
   }
+
+  async sendMailAcceptWriterRequest(to, nom, prenom) {
+    return await this.mailerService.sendMail({
+      to: to,
+      from: 'mitchspiron@outlook.com',
+      subject: 'DANDELIONS - DEMANDE REDACTION ACCEPTEE',
+      html: `
+        <p>Hello ${prenom} ${nom},</p>
+        <p>Votre demande pour devenir rédacteur vient d'être accepté.</p>
+      `,
+    });
+  }
+
+  async sendMailDeclineWriterRequest(to, nom, prenom) {
+    return await this.mailerService.sendMail({
+      to: to,
+      from: 'mitchspiron@outlook.com',
+      subject: 'DANDELIONS - DEMANDE REDACTION REFUSEE',
+      html: `
+        <p>Hello ${prenom} ${nom},</p>
+        <p>Votre demande pour devenir rédacteur vient d'être réfusée.</p>
+      `,
+    });
+  }
 }
