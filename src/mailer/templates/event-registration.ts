@@ -1,8 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.forgotTemplate = void 0;
-const forgotTemplate = (token) => {
-    return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+export const eventRegistrationTemplate = (
+  nom: string,
+  prenom: string,
+  event: string,
+  slug: string,
+) => {
+  return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
   <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -127,6 +129,7 @@ const forgotTemplate = (token) => {
                     <img
                       src="https://www.linkpicture.com/q/D-1-black_3.png"
                       class="logo"
+                      alt="Laravel Logo"
                       style="
                         box-sizing: border-box;
                         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
@@ -225,7 +228,7 @@ const forgotTemplate = (token) => {
                             text-align: left;
                           "
                         >
-                          Salut!
+                          Salut ${prenom} ${nom},
                         </h1>
                         <p
                           style="
@@ -241,8 +244,7 @@ const forgotTemplate = (token) => {
                             text-align: left;
                           "
                         >
-                          Vous recevez cet e-mail car nous avons reçu une demande
-                          de réinitialisation du mot de passe de votre compte.
+                        Votre inscription au coming-soon <b>${event}</b> a bien été enregistré.
                         </p>
                         <table
                           class="action"
@@ -335,7 +337,7 @@ const forgotTemplate = (token) => {
                                           "
                                         >
                                           <a
-                                            href="${process.env.URL_FRONT}/recuperer-mot-de-passe/${token}"
+                                            href="${process.env.URL_FRONT}/evenement/${slug}"
                                             class="button button-primary"
                                             target="_blank"
                                             rel="noopener"
@@ -360,7 +362,7 @@ const forgotTemplate = (token) => {
                                               border-right: 18px solid #2d3748;
                                               border-top: 8px solid #2d3748;
                                             "
-                                            >Réinitialiser</a
+                                            >Voir plus</a
                                           >
                                         </td>
                                       </tr>
@@ -371,22 +373,6 @@ const forgotTemplate = (token) => {
                             </td>
                           </tr>
                         </table>
-                        <p
-                          style="
-                            box-sizing: border-box;
-                            font-family: -apple-system, BlinkMacSystemFont,
-                              'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
-                              'Apple Color Emoji', 'Segoe UI Emoji',
-                              'Segoe UI Symbol';
-                            position: relative;
-                            font-size: 16px;
-                            line-height: 1.5em;
-                            margin-top: 0;
-                            text-align: left;
-                          "
-                        >
-                        Ce lien de réinitialisation du mot de passe expirera dans 15 minutes.
-                        </p>
                         <p
                           style="
                             box-sizing: border-box;
@@ -448,8 +434,8 @@ const forgotTemplate = (token) => {
                                 "
                               >
                                 Si vous ne parvenez pas à cliquer sur le bouton «
-                                Réinitialiser », copiez et collez l’URL ci-dessous
-                                dans votre navigateur Web:
+                                Voir plus », copiez et collez
+                                l’URL ci-dessous dans votre navigateur Web:
                                 <span
                                   class="break-all"
                                   style="
@@ -462,7 +448,7 @@ const forgotTemplate = (token) => {
                                     word-break: break-all;
                                   "
                                   ><a
-                                    href="${process.env.URL_FRONT}/recuperer-mot-de-passe/${token}"
+                                    href="${process.env.URL_FRONT}/evenement/${slug}"
                                     style="
                                       box-sizing: border-box;
                                       font-family: -apple-system,
@@ -473,7 +459,7 @@ const forgotTemplate = (token) => {
                                       position: relative;
                                       color: #3869d4;
                                     "
-                                    >${process.env.URL_FRONT}/recuperer-mot-de-passe/${token}</a
+                                    >${process.env.URL_FRONT}/evenement/${slug}</a
                                   ></span
                                 >
                               </p>
@@ -563,5 +549,3 @@ const forgotTemplate = (token) => {
   </html>
   `;
 };
-exports.forgotTemplate = forgotTemplate;
-//# sourceMappingURL=forgot.js.map

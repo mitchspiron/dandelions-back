@@ -2,6 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
 import { confirmationTemplate } from './templates/confirmation';
 import { forgotTemplate } from './templates/forgot';
+import { eventRegistrationTemplate } from './templates/event-registration';
+import { acceptWriterRequestTemplate } from './templates/accept-writer-request';
+import { declineWriterRequestTemplate } from './templates/decline-writer-request';
 
 @Injectable()
 export class MailService {
@@ -29,39 +32,33 @@ export class MailService {
     });
   }
 
-  async sendMailEventRegistration(to, nom, prenom, event) {
+  async sendMailEventRegistration(to, nom, prenom, event, slug) {
+    const html = eventRegistrationTemplate(nom, prenom, event, slug);
     return await this.mailerService.sendMail({
       to: to,
       from: 'mitchspiron@outlook.com',
       subject: 'INSCRIPTION COMING-SOON - DANDELIONS',
-      html: `
-        <p>Hello ${prenom} ${nom},</p>
-        <p>Votre inscription au coming-soon <h4>${event}</h4> a bien été enregistré.</p>
-      `,
+      html,
     });
   }
 
   async sendMailAcceptWriterRequest(to, nom, prenom) {
+    const html = acceptWriterRequestTemplate(nom, prenom);
     return await this.mailerService.sendMail({
       to: to,
       from: 'mitchspiron@outlook.com',
       subject: 'DANDELIONS - DEMANDE REDACTION ACCEPTEE',
-      html: `
-        <p>Hello ${prenom} ${nom},</p>
-        <p>Votre demande pour devenir rédacteur vient d'être accepté.</p>
-      `,
+      html,
     });
   }
 
   async sendMailDeclineWriterRequest(to, nom, prenom) {
+    const html = declineWriterRequestTemplate(nom, prenom);
     return await this.mailerService.sendMail({
       to: to,
       from: 'mitchspiron@outlook.com',
       subject: 'DANDELIONS - DEMANDE REDACTION REFUSEE',
-      html: `
-        <p>Hello ${prenom} ${nom},</p>
-        <p>Votre demande pour devenir rédacteur vient d'être réfusée.</p>
-      `,
+      html,
     });
   }
 }
