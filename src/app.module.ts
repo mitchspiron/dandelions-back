@@ -16,6 +16,7 @@ import { EventRegistrationModule } from './event-registration/event-registration
 import { CommentModule } from './comment/comment.module';
 import { ResponseModule } from './response/response.module';
 import { WriterRequestModule } from './writer-request/writer-request.module';
+import { SocketModule } from './socket/socket.module';
 
 @Module({
   controllers: [AppController],
@@ -36,6 +37,7 @@ import { WriterRequestModule } from './writer-request/writer-request.module';
     CommentModule,
     ResponseModule,
     WriterRequestModule,
+    SocketModule,
   ],
   providers: [
     {
