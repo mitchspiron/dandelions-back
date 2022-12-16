@@ -17,6 +17,7 @@ import { CommentModule } from './comment/comment.module';
 import { ResponseModule } from './response/response.module';
 import { WriterRequestModule } from './writer-request/writer-request.module';
 import { SocketModule } from './socket/socket.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @Module({
   controllers: [AppController],
@@ -38,6 +39,7 @@ import { SocketModule } from './socket/socket.module';
     ResponseModule,
     WriterRequestModule,
     SocketModule,
+    DashboardModule,
   ],
   providers: [
     {
