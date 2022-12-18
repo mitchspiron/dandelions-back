@@ -1,1 +1,0 @@
-{"version":3,"file":"user-role.module.js","sourceRoot":"","sources":["../../src/user-role/user-role.module.ts"],"names":[],"mappings":";;;;;;;;;AAAA,2CAAwC;AACxC,iEAA4D;AAC5D,2DAAsD;AAO/C,IAAM,cAAc,GAApB,MAAM,cAAc;CAAG,CAAA;AAAjB,cAAc;IAL1B,IAAA,eAAM,EAAC;QACN,OAAO,EAAE,EAAE;QACX,WAAW,EAAE,CAAC,yCAAkB,CAAC;QACjC,SAAS,EAAE,CAAC,mCAAe,CAAC;KAC7B,CAAC;GACW,cAAc,CAAG;AAAjB,wCAAc"}
