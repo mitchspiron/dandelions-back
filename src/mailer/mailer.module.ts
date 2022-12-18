@@ -19,11 +19,8 @@ import { MailService } from './mailer.service';
           pass: '9b15fa88e76a7c',
         }, */
         host: 'smtp-mail.outlook.com',
-        secure: true,
+        secure: false,
         port: 465,
-        tls: {
-          ciphers: 'SSLV3',
-        },
         auth: {
           user: 'mitchspiron@outlook.com',
           pass: 'Leomessi',
