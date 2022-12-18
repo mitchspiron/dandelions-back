@@ -6,31 +6,33 @@ import { MailService } from './mailer.service';
   imports: [
     MailerModule.forRoot({
       transport: {
-        service: 'hotmail',
+        /* service: 'hotmail',
         secure: false,
         tls: true,
         auth: {
           user: 'mitchspiron@outlook.com',
           pass: 'Leomessi',
-        },
+        }, */
         /* host: 'smtp.mailtrap.io',
         port: 2525,
         auth: {
           user: '4859631f5e1c5c',
           pass: '9b15fa88e76a7c',
         }, */
-        /* host: 'smtp-mail.outlook.com',
-        secure: false,
+        host: 'smtp-mail.outlook.com',
+        secureConnection: false,
         port: 587,
-        tls: true,
+        tls: {
+          ciphers: 'SSLv3',
+        },
         auth: {
           user: 'mitchspiron@outlook.com',
           pass: 'Leomessi',
-        }, */
+        },
       },
     }),
   ],
-  controllers: [],
+  exports: [MailService],
   providers: [MailService],
 })
 export class MailModule {}

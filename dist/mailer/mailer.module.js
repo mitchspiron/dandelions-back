@@ -18,10 +18,10 @@ MailModule = __decorate([
             mailer_1.MailerModule.forRoot({
                 transport: {
                     host: 'smtp-mail.outlook.com',
-                    secure: false,
+                    secureConnection: false,
                     port: 587,
                     tls: {
-                        ciphers: 'SSLV3',
+                        ciphers: 'SSLv3',
                     },
                     auth: {
                         user: 'mitchspiron@outlook.com',
@@ -30,7 +30,7 @@ MailModule = __decorate([
                 },
             }),
         ],
-        controllers: [],
+        exports: [mailer_service_1.MailService],
         providers: [mailer_service_1.MailService],
     })
 ], MailModule);
