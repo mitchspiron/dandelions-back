@@ -1,10 +1,10 @@
-//import { MailerModule } from '@nestjs-modules/mailer';
+import { MailerModule } from '@nestjs-modules/mailer';
 import { Module } from '@nestjs/common';
 import { MailService } from './mailer.service';
 
 @Module({
   imports: [
-    /*MailerModule.forRoot({
+    MailerModule.forRoot({
       transport: {
         /* service: 'hotmail',
         secure: false,
@@ -12,7 +12,13 @@ import { MailService } from './mailer.service';
         auth: {
           user: 'mitchspiron@outlook.com',
           pass: 'Leomessi',
-        },
+        }, */
+        /* host: 'smtp.mailtrap.io',
+        port: 2525,
+        auth: {
+          user: '4859631f5e1c5c',
+          pass: '9b15fa88e76a7c',
+        }, */
         host: 'smtp-mail.outlook.com',
         secureConnection: false,
         port: 587,
@@ -24,8 +30,9 @@ import { MailService } from './mailer.service';
           pass: 'Leomessi',
         },
       },
-    }), */
+    }),
   ],
+  exports: [MailService],
   providers: [MailService],
 })
 export class MailModule {}

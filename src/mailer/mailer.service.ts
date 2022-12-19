@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
-//import { MailerService } from '@nestjs-modules/mailer';
+import { MailerService } from '@nestjs-modules/mailer';
 import { confirmationTemplate } from './templates/confirmation';
 import { forgotTemplate } from './templates/forgot';
 import { eventRegistrationTemplate } from './templates/event-registration';
 import { acceptWriterRequestTemplate } from './templates/accept-writer-request';
 import { declineWriterRequestTemplate } from './templates/decline-writer-request';
-import * as nodemailer from 'nodemailer';
 
 @Injectable()
 export class MailService {
-  /* constructor(private readonly mailerService: MailerService) {} */
-  /* async sendMailConfirmation(to, token) {
+  constructor(private readonly mailerService: MailerService) {}
+
+  async sendMailConfirmation(to, token) {
     const html = confirmationTemplate(token);
 
     return await this.mailerService.sendMail({
@@ -60,8 +60,9 @@ export class MailService {
       subject: 'DANDELIONS - DEMANDE REDACTION REFUSEE',
       html,
     });
-  } */
+  }
 
+  /* 
   transporter = nodemailer.createTransport({
     host: 'smtp-mail.outlook.com',
     secureConnection: false,
@@ -126,4 +127,5 @@ export class MailService {
       html,
     });
   }
+  */
 }

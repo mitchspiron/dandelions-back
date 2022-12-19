@@ -1,8 +1,10 @@
+import { MailerService } from '@nestjs-modules/mailer';
 export declare class MailService {
-    transporter: any;
-    sendMailConfirmation(to: any, token: any): Promise<any>;
-    sendMailForgotPassword(to: any, token: any): Promise<any>;
-    sendMailEventRegistration(to: any, nom: any, prenom: any, event: any, slug: any): Promise<any>;
-    sendMailAcceptWriterRequest(to: any, nom: any, prenom: any): Promise<any>;
-    sendMailDeclineWriterRequest(to: any, nom: any, prenom: any): Promise<any>;
+    private readonly mailerService;
+    constructor(mailerService: MailerService);
+    sendMailConfirmation(to: any, token: any): Promise<SentMessageInfo>;
+    sendMailForgotPassword(to: any, token: any): Promise<SentMessageInfo>;
+    sendMailEventRegistration(to: any, nom: any, prenom: any, event: any, slug: any): Promise<SentMessageInfo>;
+    sendMailAcceptWriterRequest(to: any, nom: any, prenom: any): Promise<SentMessageInfo>;
+    sendMailDeclineWriterRequest(to: any, nom: any, prenom: any): Promise<SentMessageInfo>;
 }
