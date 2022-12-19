@@ -13,6 +13,7 @@ exports.MailService = void 0;
 const common_1 = require("@nestjs/common");
 const mailer_1 = require("@nestjs-modules/mailer");
 const confirmation_1 = require("./templates/confirmation");
+const forgot_1 = require("./templates/forgot");
 const event_registration_1 = require("./templates/event-registration");
 const accept_writer_request_1 = require("./templates/accept-writer-request");
 const decline_writer_request_1 = require("./templates/decline-writer-request");
@@ -30,11 +31,12 @@ let MailService = class MailService {
         });
     }
     async sendMailForgotPassword(to, token) {
+        const html = (0, forgot_1.forgotTemplate)(token);
         return await this.mailerService.sendMail({
             to: to,
             from: 'mitchspiron@outlook.com',
             subject: 'RECUPERATION MOT DE PASSE - DANDELIONS',
-            html: `<p>${token}</p>`,
+            html,
         });
     }
     async sendMailEventRegistration(to, nom, prenom, event, slug) {
