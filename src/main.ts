@@ -60,7 +60,7 @@ async function bootstrap() {
     origin: process.env.URL_FRONT,
   });
 
-  await app.listen(process.env.PORT);
+  await app.listen(3000);
   console.log('🚀 Server started at' + process.env.URL_BACK);
 }
 bootstrap();

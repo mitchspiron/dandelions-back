@@ -168,7 +168,8 @@ export class AuthUserService {
     await this.mailService
       .sendMailForgotPassword(dto.email, token[0])
       .then(() => console.log('Vérifier votre boîte email!'))
-      .catch(() => {
+      .catch((e) => {
+        console.log('email-error', e);
         throw new ForbiddenException(
           "Un problème s'est produit, vérifier votre connexion internet!",
         );

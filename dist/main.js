@@ -41,7 +41,7 @@ async function bootstrap() {
         allowedHeaders: 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization',
         origin: process.env.URL_FRONT,
     });
-    await app.listen(process.env.PORT);
+    await app.listen(3000);
     console.log('🚀 Server started at' + process.env.URL_BACK);
 }
 bootstrap();
