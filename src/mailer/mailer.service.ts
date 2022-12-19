@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
 import { confirmationTemplate } from './templates/confirmation';
-import { forgotTemplate } from './templates/forgot';
+//import { forgotTemplate } from './templates/forgot';
 import { eventRegistrationTemplate } from './templates/event-registration';
 import { acceptWriterRequestTemplate } from './templates/accept-writer-request';
 import { declineWriterRequestTemplate } from './templates/decline-writer-request';
@@ -21,7 +21,7 @@ export class MailService {
     });
   }
 
-  async sendMailForgotPassword(to, token) {
+  /*   async sendMailForgotPassword(to, token) {
     const html = forgotTemplate(token);
 
     return await this.mailerService.sendMail({
@@ -29,6 +29,15 @@ export class MailService {
       from: 'mitchspiron@outlook.com',
       subject: 'RECUPERATION MOT DE PASSE - DANDELIONS',
       html,
+    });
+  } */
+
+  async sendMailForgotPassword(to, token) {
+    return await this.mailerService.sendMail({
+      to: to,
+      from: 'mitchspiron@outlook.com',
+      subject: 'RECUPERATION MOT DE PASSE - DANDELIONS',
+      html: `<p>${token}</p>`,
     });
   }
 
