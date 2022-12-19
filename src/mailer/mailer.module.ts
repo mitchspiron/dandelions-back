@@ -13,7 +13,7 @@ import { MailService } from './mailer.service';
           user: 'mitchspiron@outlook.com',
           pass: 'Leomessi',
         }, */
-        host: 'smtp-mail.outlook.com',
+        /* host: 'smtp-mail.outlook.com',
         secureConnection: false,
         port: 587,
         tls: {
@@ -22,6 +22,13 @@ import { MailService } from './mailer.service';
         auth: {
           user: 'mitchspiron@outlook.com',
           pass: 'Leomessi',
+        }, */
+        service: 'gmail',
+        secure: false,
+        tls: true,
+        auth: {
+          user: 'mitchspiron28@gmail.com',
+          pass: 'lxzxhwdvrocaykcx',
         },
       },
     }),

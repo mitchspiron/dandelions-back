@@ -17,15 +17,12 @@ MailModule = __decorate([
         imports: [
             mailer_1.MailerModule.forRoot({
                 transport: {
-                    host: 'smtp-mail.outlook.com',
-                    secureConnection: false,
-                    port: 587,
-                    tls: {
-                        ciphers: 'SSLv3',
-                    },
+                    service: 'gmail',
+                    secure: false,
+                    tls: true,
                     auth: {
-                        user: 'mitchspiron@outlook.com',
-                        pass: 'Leomessi',
+                        user: 'mitchspiron28@gmail.com',
+                        pass: 'lxzxhwdvrocaykcx',
                     },
                 },
             }),
