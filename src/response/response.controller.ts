@@ -11,7 +11,7 @@ import {
 import { Public } from '../common/decorators';
 import { CreateResponseDto, UpdateResponseDto } from './dto';
 import { ResponseService } from './response.service';
-import { Response } from './types';
+import { Response, UnseenResponse } from './types';
 
 @Controller('response')
 export class ResponseController {
@@ -41,12 +41,26 @@ export class ResponseController {
     return await this.responseService.getResponseById(id);
   }
 
+  @Get('/unseen/:id')
+  async getUnseenResponse(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<UnseenResponse[]> {
+    return await this.responseService.getUnseenResponse(id);
+  }
+
   @Put(':id')
   async updateResponseById(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateResponseDto,
   ): Promise<Response> {
     return await this.responseService.updateResponseById(id, dto);
+  }
+
+  @Put('/to-seen/:id')
+  async updateResponseToSeen(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<Response> {
+    return await this.responseService.updateResponseToSeen(id);
   }
 
   @Delete(':id')

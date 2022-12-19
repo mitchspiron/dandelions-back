@@ -17,6 +17,7 @@ import { editFileName, imageFileFilter } from '../utils/file-upload.utils';
 import {
   CreateEvenementDto,
   FilterEvenementDto,
+  SwitchIsArchivedDto,
   SwitchOnHeaderDto,
   SwitchOnSubscribeDto,
   UpdateEvenementDto,
@@ -26,6 +27,7 @@ import { EvenementService } from './evenement.service';
 import {
   CreateEvenement,
   GetEvenement,
+  SwitchIsArchived,
   SwitchOnHeader,
   SwitchOnSubscribe,
 } from './types';
@@ -81,8 +83,8 @@ export class EvenementController {
 
   @Public()
   @Get('four-last')
-  async getFourLastEvenement(): Promise<GetEvenement[]> {
-    return await this.evenementService.getFourLastEvenement();
+  async getThreeLastEvenement(): Promise<GetEvenement[]> {
+    return await this.evenementService.getThreeLastEvenement();
   }
 
   @Put('switch-subscribed/:slug')
@@ -101,6 +103,14 @@ export class EvenementController {
     return await this.evenementService.switchOnHeaderBySlug(slug, dto);
   }
 
+  @Put('switch-archived/:slug')
+  async switchIsArchivedBySlug(
+    @Param('slug') slug: string,
+    @Body() dto: SwitchIsArchivedDto,
+  ): Promise<SwitchIsArchived> {
+    return await this.evenementService.switchIsArchivedBySlug(slug, dto);
+  }
+
   @Put('update-illustration/:slug/:id')
   async updateIllustrationBySlug(
     @Param('slug') slug: string,
@@ -108,6 +118,12 @@ export class EvenementController {
     @Body() dto: UpdateIllustrationDto,
   ): Promise<CreateEvenement> {
     return await this.evenementService.updateIllustrationBySlug(slug, id, dto);
+  }
+
+  @Public()
+  @Put('/archived-deadline')
+  async updateArchivedById() {
+    return await this.evenementService.updateArchivedById();
   }
 
   @Public()
@@ -119,12 +135,29 @@ export class EvenementController {
   }
 
   @Public()
+  @Get('/archived/admin/:id')
+  async getEvenementArchivedAdmin(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<GetEvenement[]> {
+    return await this.evenementService.getEvenementArchivedAdmin(id);
+  }
+
+  @Public()
   @Post('admin/filter/:id')
   async filterEvenementAdmin(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: FilterEvenementDto,
   ): Promise<GetEvenement[]> {
     return await this.evenementService.filterEvenementAdmin(id, dto);
+  }
+
+  @Public()
+  @Post('admin/filter/:id')
+  async filterEvenementArchivedAdmin(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: FilterEvenementDto,
+  ): Promise<GetEvenement[]> {
+    return await this.evenementService.filterEvenementArchivedAdmin(id, dto);
   }
 
   @Public()

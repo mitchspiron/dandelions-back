@@ -61,6 +61,7 @@ export class EventRegistrationService {
         userExist.nom,
         userExist.prenom,
         event.titre,
+        event.slug,
       )
       .then(() => console.log('Vérifier votre boîte email!'))
       .catch((e) => {

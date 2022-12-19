@@ -3,6 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import {
   CreateEvenementDto,
   FilterEvenementDto,
+  SwitchIsArchivedDto,
   SwitchOnHeaderDto,
   SwitchOnSubscribeDto,
   UpdateEvenementDto,
@@ -11,6 +12,7 @@ import {
 import {
   CreateEvenement,
   GetEvenement,
+  SwitchIsArchived,
   SwitchOnHeader,
   SwitchOnSubscribe,
 } from './types';
@@ -77,6 +79,7 @@ export class EvenementService {
         deadline: new Date(dto.deadline),
         onHeader: false,
         onSubscribe: dto.onSubscribe,
+        isArchived: false,
       },
     });
   }
@@ -85,6 +88,9 @@ export class EvenementService {
     const evenement = await this.prisma.evenement.findMany({
       orderBy: {
         id: 'desc',
+      },
+      where: {
+        isArchived: false,
       },
       select: {
         id: true,
@@ -106,6 +112,7 @@ export class EvenementService {
         onHeader: true,
         createdAt: true,
         onSubscribe: true,
+        isArchived: true,
         inscription_evenement: {
           select: {
             id: true,
@@ -129,6 +136,7 @@ export class EvenementService {
       },
       where: {
         onHeader: true,
+        isArchived: false,
       },
       select: {
         id: true,
@@ -150,6 +158,7 @@ export class EvenementService {
         onHeader: true,
         createdAt: true,
         onSubscribe: true,
+        isArchived: true,
         inscription_evenement: {
           select: {
             id: true,
@@ -172,6 +181,7 @@ export class EvenementService {
         id: 'desc',
       },
       where: {
+        isArchived: false,
         OR: [
           {
             titre: {
@@ -210,6 +220,7 @@ export class EvenementService {
         onHeader: true,
         createdAt: true,
         onSubscribe: true,
+        isArchived: true,
         inscription_evenement: {
           select: {
             id: true,
@@ -226,12 +237,15 @@ export class EvenementService {
     return evenement;
   }
 
-  async getFourLastEvenement(): Promise<GetEvenement[]> {
+  async getThreeLastEvenement(): Promise<GetEvenement[]> {
     const evenement = await this.prisma.evenement.findMany({
       orderBy: {
         id: 'desc',
       },
-      take: 4,
+      where: {
+        isArchived: false,
+      },
+      take: 3,
       select: {
         id: true,
         entreprise: {
@@ -252,6 +266,7 @@ export class EvenementService {
         onHeader: true,
         createdAt: true,
         onSubscribe: true,
+        isArchived: true,
         inscription_evenement: {
           select: {
             id: true,
@@ -282,6 +297,7 @@ export class EvenementService {
           id: 'desc',
         },
         where: {
+          isArchived: false,
           entreprise: {
             utilisateur: {
               id: Number(id),
@@ -308,6 +324,7 @@ export class EvenementService {
           onHeader: true,
           createdAt: true,
           onSubscribe: true,
+          isArchived: true,
           inscription_evenement: {
             select: {
               id: true,
@@ -327,6 +344,9 @@ export class EvenementService {
     const evenement = await this.prisma.evenement.findMany({
       orderBy: {
         id: 'desc',
+      },
+      where: {
+        isArchived: false,
       },
       select: {
         id: true,
@@ -348,6 +368,109 @@ export class EvenementService {
         onHeader: true,
         createdAt: true,
         onSubscribe: true,
+        isArchived: true,
+        inscription_evenement: {
+          select: {
+            id: true,
+            idUtilisateur: true,
+          },
+        },
+      },
+    });
+
+    if (!evenement) {
+      throw new ForbiddenException("Il n'y a aucun évenement!");
+    }
+
+    return evenement;
+  }
+
+  async getEvenementArchivedAdmin(id: number): Promise<GetEvenement[]> {
+    const user = await this.prisma.utilisateur.findUnique({
+      where: {
+        id: Number(id),
+      },
+    });
+    if (!user) {
+      throw new ForbiddenException("L'utilisateur sélectionné n'éxiste pas");
+    } else if (user.role !== 1) {
+      const evenement = await this.prisma.evenement.findMany({
+        orderBy: {
+          id: 'desc',
+        },
+        where: {
+          isArchived: true,
+          entreprise: {
+            utilisateur: {
+              id: Number(id),
+            },
+          },
+        },
+        select: {
+          id: true,
+          entreprise: {
+            select: {
+              id: true,
+              nom: true,
+              illustration: true,
+              slug: true,
+              descriptionA: true,
+            },
+          },
+          titre: true,
+          slug: true,
+          illustration: true,
+          description: true,
+          contenu: true,
+          deadline: true,
+          onHeader: true,
+          createdAt: true,
+          onSubscribe: true,
+          isArchived: true,
+          inscription_evenement: {
+            select: {
+              id: true,
+              idUtilisateur: true,
+            },
+          },
+        },
+      });
+
+      if (!evenement) {
+        throw new ForbiddenException("Il n'y a aucun évenement!");
+      }
+
+      return evenement;
+    }
+
+    const evenement = await this.prisma.evenement.findMany({
+      orderBy: {
+        id: 'desc',
+      },
+      where: {
+        isArchived: true,
+      },
+      select: {
+        id: true,
+        entreprise: {
+          select: {
+            id: true,
+            nom: true,
+            illustration: true,
+            slug: true,
+            descriptionA: true,
+          },
+        },
+        titre: true,
+        slug: true,
+        illustration: true,
+        description: true,
+        contenu: true,
+        deadline: true,
+        onHeader: true,
+        createdAt: true,
+        onSubscribe: true,
+        isArchived: true,
         inscription_evenement: {
           select: {
             id: true,
@@ -381,6 +504,7 @@ export class EvenementService {
           id: 'desc',
         },
         where: {
+          isArchived: false,
           entreprise: {
             utilisateur: {
               id: Number(id),
@@ -410,6 +534,7 @@ export class EvenementService {
           onHeader: true,
           createdAt: true,
           onSubscribe: true,
+          isArchived: true,
           inscription_evenement: {
             select: {
               id: true,
@@ -431,6 +556,7 @@ export class EvenementService {
         id: 'desc',
       },
       where: {
+        isArchived: false,
         titre: {
           contains: dto.searchkey,
         },
@@ -455,6 +581,118 @@ export class EvenementService {
         onHeader: true,
         createdAt: true,
         onSubscribe: true,
+        isArchived: true,
+        inscription_evenement: {
+          select: {
+            id: true,
+            idUtilisateur: true,
+          },
+        },
+      },
+    });
+
+    if (!evenement) {
+      throw new ForbiddenException("Il n'y a aucun évenement!");
+    }
+
+    return evenement;
+  }
+
+  async filterEvenementArchivedAdmin(
+    id: number,
+    dto: FilterEvenementDto,
+  ): Promise<GetEvenement[]> {
+    const user = await this.prisma.utilisateur.findUnique({
+      where: {
+        id: Number(id),
+      },
+    });
+    if (!user) {
+      throw new ForbiddenException("L'utilisateur sélectionné n'éxiste pas");
+    } else if (user.role !== 1) {
+      const evenement = await this.prisma.evenement.findMany({
+        orderBy: {
+          id: 'desc',
+        },
+        where: {
+          isArchived: true,
+          entreprise: {
+            utilisateur: {
+              id: Number(id),
+            },
+          },
+          titre: {
+            contains: dto.searchkey,
+          },
+        },
+        select: {
+          id: true,
+          entreprise: {
+            select: {
+              id: true,
+              nom: true,
+              illustration: true,
+              slug: true,
+              descriptionA: true,
+            },
+          },
+          titre: true,
+          slug: true,
+          illustration: true,
+          description: true,
+          contenu: true,
+          deadline: true,
+          onHeader: true,
+          createdAt: true,
+          onSubscribe: true,
+          isArchived: true,
+          inscription_evenement: {
+            select: {
+              id: true,
+              idUtilisateur: true,
+            },
+          },
+        },
+      });
+
+      if (!evenement) {
+        throw new ForbiddenException("Il n'y a aucun évenement!");
+      }
+
+      return evenement;
+    }
+
+    const evenement = await this.prisma.evenement.findMany({
+      orderBy: {
+        id: 'desc',
+      },
+      where: {
+        isArchived: true,
+        titre: {
+          contains: dto.searchkey,
+        },
+      },
+      select: {
+        id: true,
+        entreprise: {
+          select: {
+            id: true,
+            nom: true,
+            illustration: true,
+            slug: true,
+            descriptionA: true,
+          },
+        },
+        titre: true,
+        slug: true,
+        illustration: true,
+        description: true,
+        contenu: true,
+        deadline: true,
+        onHeader: true,
+        createdAt: true,
+        onSubscribe: true,
+        isArchived: true,
         inscription_evenement: {
           select: {
             id: true,
@@ -496,6 +734,7 @@ export class EvenementService {
         onHeader: true,
         createdAt: true,
         onSubscribe: true,
+        isArchived: true,
         inscription_evenement: {
           select: {
             id: true,
@@ -750,5 +989,64 @@ export class EvenementService {
         onSubscribe: true,
       },
     });
+  }
+
+  async switchIsArchivedBySlug(
+    slug: string,
+    dto: SwitchIsArchivedDto,
+  ): Promise<SwitchIsArchived> {
+    const eventBySlug = await this.prisma.evenement.findUnique({
+      where: {
+        slug,
+      },
+    });
+
+    if (!eventBySlug) {
+      throw new ForbiddenException("Cet évenement n'existe pas!");
+    }
+
+    return await this.prisma.evenement.update({
+      data: {
+        isArchived: dto.isArchived,
+      },
+      where: {
+        slug,
+      },
+      select: {
+        id: true,
+        isArchived: true,
+      },
+    });
+  }
+
+  async updateArchivedById() {
+    const events = await this.prisma.evenement.findMany({
+      where: {
+        isArchived: false,
+      },
+    });
+
+    if (events.length == 0) {
+      throw new ForbiddenException("Il n'y a pas d'évenement  archivé");
+    } else {
+      const today = new Date();
+      const dd = String(today.getDate()).padStart(2, '0');
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const yyyy = today.getFullYear();
+      const date = yyyy + '-' + mm + '-' + dd;
+
+      events.forEach(async (event) => {
+        if (event.deadline.toISOString().split('T')[0] <= date) {
+          return await this.prisma.evenement.update({
+            data: {
+              isArchived: true,
+            },
+            where: {
+              id: event.id,
+            },
+          });
+        }
+      });
+    }
   }
 }

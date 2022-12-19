@@ -332,7 +332,7 @@ export const forgotTemplate = (token: any) => {
                                           "
                                         >
                                           <a
-                                            href="http://localhost:8080/recuperer-mot-de-passe/${token}"
+                                            href="${process.env.URL_FRONT}/recuperer-mot-de-passe/${token}"
                                             class="button button-primary"
                                             target="_blank"
                                             rel="noopener"
@@ -459,7 +459,7 @@ export const forgotTemplate = (token: any) => {
                                     word-break: break-all;
                                   "
                                   ><a
-                                    href="http://localhost:8080/recuperer-mot-de-passe/${token}"
+                                    href="${process.env.URL_FRONT}/recuperer-mot-de-passe/${token}"
                                     style="
                                       box-sizing: border-box;
                                       font-family: -apple-system,
@@ -470,7 +470,7 @@ export const forgotTemplate = (token: any) => {
                                       position: relative;
                                       color: #3869d4;
                                     "
-                                    >http://localhost:8080/recuperer-mot-de-passe/${token}</a
+                                    >${process.env.URL_FRONT}/recuperer-mot-de-passe/${token}</a
                                   ></span
                                 >
                               </p>

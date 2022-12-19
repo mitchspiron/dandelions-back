@@ -29,6 +29,8 @@ import { PostService } from './post.service';
 import {
   CreatePost,
   GetPost,
+  GetPostWithoutContent,
+  PostToSeen,
   SwitchRecommanded,
   SwitchTop,
   UpdatePost,
@@ -88,8 +90,18 @@ export class PostController {
 
   @Public()
   @Get('admin/:id')
-  async getPost(@Param('id', ParseIntPipe) id: number): Promise<GetPost[]> {
+  async getPost(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<GetPostWithoutContent[]> {
     return await this.postService.getPost(id);
+  }
+
+  @Public()
+  @Get('/unseen/:id')
+  async getUnseenPost(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<GetPostWithoutContent[]> {
+    return await this.postService.getUnseenPost(id);
   }
 
   @Public()
@@ -111,19 +123,19 @@ export class PostController {
 
   @Public()
   @Get('take-first-post')
-  async takeFirstLastestPost(): Promise<GetPost[]> {
+  async takeFirstLastestPost(): Promise<GetPostWithoutContent[]> {
     return await this.postService.takeFirstLastestPost();
   }
 
   @Public()
   @Get('skip-first-post')
-  async skipFisrtLastestPost(): Promise<GetPost[]> {
+  async skipFisrtLastestPost(): Promise<GetPostWithoutContent[]> {
     return await this.postService.skipFisrtLastestPost();
   }
 
   @Public()
   @Get('published')
-  async getPublishedPost(): Promise<GetPost[]> {
+  async getPublishedPost(): Promise<GetPostWithoutContent[]> {
     return await this.postService.getPublishedPost();
   }
 
@@ -131,7 +143,7 @@ export class PostController {
   @Get('published/:slug')
   async getPublishedPostBySlug(
     @Param('slug') slug: string,
-  ): Promise<GetPost[]> {
+  ): Promise<GetPostWithoutContent[]> {
     return await this.postService.getPublishedPostBySlug(slug);
   }
 
@@ -146,13 +158,13 @@ export class PostController {
 
   @Public()
   @Get('recommanded')
-  async getRecommandedPost(): Promise<GetPost[]> {
+  async getRecommandedPost(): Promise<GetPostWithoutContent[]> {
     return await this.postService.getRecommandedPost();
   }
 
   @Public()
   @Get('top')
-  async getTopPost(): Promise<GetPost[]> {
+  async getTopPost(): Promise<GetPostWithoutContent[]> {
     return await this.postService.getTopPost();
   }
 
@@ -160,6 +172,11 @@ export class PostController {
   @Get(':slug')
   async getPostBySlug(@Param('slug') slug: string): Promise<GetPost> {
     return await this.postService.getPostBySlug(slug);
+  }
+
+  @Put('/to-seen/:slug')
+  async updatePostToSeen(@Param('slug') slug: string): Promise<PostToSeen> {
+    return await this.postService.updatePostToSeen(slug);
   }
 
   @Put(':slug/:id')

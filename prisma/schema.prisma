@@ -19,8 +19,10 @@ model article {
   contenu           String            @db.LongText
   top               Boolean
   recommadee        Boolean
+  vu                Boolean
   etat              Int
   createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
   categorie_article categorie_article @relation(fields: [idCategorie], references: [id], onDelete: Cascade, map: "article_ibfk_1")
   utilisateur       utilisateur       @relation(fields: [idRedacteur], references: [id], onDelete: Cascade, map: "article_ibfk_2")
   etat_article      etat_article      @relation(fields: [etat], references: [id], onDelete: Cascade, map: "article_ibfk_3")
@@ -49,6 +51,7 @@ model commentaire {
   idUtilisateur Int
   idArticle     Int
   contenu       String      @db.Text
+  vu            Boolean
   createdAt     DateTime    @default(now())
   utilisateur   utilisateur @relation(fields: [idUtilisateur], references: [id], onDelete: Cascade, map: "commentaire_ibfk_1")
   article       article     @relation(fields: [idArticle], references: [id], onDelete: Cascade, map: "commentaire_ibfk_2")
@@ -91,6 +94,7 @@ model evenement {
   deadline              DateTime                @db.Date()
   onHeader              Boolean
   onSubscribe           Boolean
+  isArchived            Boolean
   createdAt             DateTime                @default(now())
   entreprise            entreprise              @relation(fields: [idEntreprise], references: [id], onDelete: Cascade, map: "evenement_ibfk_1")
   inscription_evenement inscription_evenement[]
@@ -114,6 +118,7 @@ model reponse {
   idUtilisateur Int
   idCommentaire Int
   contenu       String      @db.Text
+  vu            Boolean
   createdAt     DateTime    @default(now())
   utilisateur   utilisateur @relation(fields: [idUtilisateur], references: [id], onDelete: Cascade, map: "reponse_ibfk_1")
   commentaire   commentaire @relation(fields: [idCommentaire], references: [id], onDelete: Cascade, map: "reponse_ibfk_2")
@@ -126,6 +131,15 @@ model role_utilisateur {
   id          Int           @id @default(autoincrement())
   nomRole     String        @db.VarChar(100)
   utilisateur utilisateur[]
+}
+
+model demande_redacteur {
+  id            Int         @id @default(autoincrement())
+  idUtilisateur Int
+  acceptee      Boolean
+  utilisateur   utilisateur @relation(fields: [idUtilisateur], references: [id], onDelete: Cascade, map: "demande_redacteur_ibfk_1")
+
+  @@index([idUtilisateur], map: "idUtilisateur")
 }
 
 model utilisateur {
@@ -145,6 +159,7 @@ model utilisateur {
   entreprise            entreprise[]
   inscription_evenement inscription_evenement[]
   reponse               reponse[]
+  demande_redacteur     demande_redacteur[]
 
   @@index([role], map: "role")
 }
