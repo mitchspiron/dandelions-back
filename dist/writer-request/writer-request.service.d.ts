@@ -9,10 +9,10 @@ export declare class WriterRequestService {
     createWriterRequest(dto: WriterRequestDto): Promise<WriterRequest>;
     getWriterRequest(): Promise<WriterRequest[]>;
     acceptWriterRequest(id: number, user: number): Promise<import(".prisma/client").demande_redacteur | {
+        id: number;
         nom: string;
         prenom: string;
         email: string;
-        id: number;
     }>;
     declineWriterRequest(id: number): Promise<WriterRequest>;
 }

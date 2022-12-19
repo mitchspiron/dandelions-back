@@ -7,30 +7,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MailModule = void 0;
-const mailer_1 = require("@nestjs-modules/mailer");
 const common_1 = require("@nestjs/common");
 const mailer_service_1 = require("./mailer.service");
 let MailModule = class MailModule {
 };
 MailModule = __decorate([
     (0, common_1.Module)({
-        imports: [
-            mailer_1.MailerModule.forRoot({
-                transport: {
-                    host: 'smtp-mail.outlook.com',
-                    secureConnection: false,
-                    port: 587,
-                    tls: {
-                        ciphers: 'SSLv3',
-                    },
-                    auth: {
-                        user: 'mitchspiron@outlook.com',
-                        pass: 'Leomessi',
-                    },
-                },
-            }),
-        ],
-        exports: [mailer_service_1.MailService],
+        imports: [],
         providers: [mailer_service_1.MailService],
     })
 ], MailModule);
