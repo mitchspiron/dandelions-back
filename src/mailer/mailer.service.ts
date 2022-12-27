@@ -5,6 +5,8 @@ import { forgotTemplate } from './templates/forgot';
 import { eventRegistrationTemplate } from './templates/event-registration';
 import { acceptWriterRequestTemplate } from './templates/accept-writer-request';
 import { declineWriterRequestTemplate } from './templates/decline-writer-request';
+import { contactTemplate } from './templates/contact';
+import { ContactDto } from './dto';
 
 @Injectable()
 export class MailService {
@@ -67,6 +69,16 @@ export class MailService {
       to: to,
       from: 'mitchspiron@outlook.com',
       subject: 'DANDELIONS - DEMANDE REDACTION REFUSEE',
+      html,
+    });
+  }
+
+  async sendMailContact(dto: ContactDto) {
+    const html = contactTemplate(dto);
+    return await this.mailerService.sendMail({
+      to: 'mitchspiron@outlook.com',
+      from: dto.from,
+      subject: 'DANDELIONS - NOUVEAU CONTACT',
       html,
     });
   }

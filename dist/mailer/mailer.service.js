@@ -17,6 +17,7 @@ const forgot_1 = require("./templates/forgot");
 const event_registration_1 = require("./templates/event-registration");
 const accept_writer_request_1 = require("./templates/accept-writer-request");
 const decline_writer_request_1 = require("./templates/decline-writer-request");
+const contact_1 = require("./templates/contact");
 let MailService = class MailService {
     constructor(mailerService) {
         this.mailerService = mailerService;
@@ -63,6 +64,15 @@ let MailService = class MailService {
             to: to,
             from: 'mitchspiron@outlook.com',
             subject: 'DANDELIONS - DEMANDE REDACTION REFUSEE',
+            html,
+        });
+    }
+    async sendMailContact(dto) {
+        const html = (0, contact_1.contactTemplate)(dto);
+        return await this.mailerService.sendMail({
+            to: 'mitchspiron@outlook.com',
+            from: dto.from,
+            subject: 'DANDELIONS - NOUVEAU CONTACT',
             html,
         });
     }
