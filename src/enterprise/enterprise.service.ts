@@ -71,7 +71,11 @@ export class EnterpriseService {
   }
 
   async getEnterprise(): Promise<Enterprise[]> {
-    const enterprises = await this.prisma.entreprise.findMany();
+    const enterprises = await this.prisma.entreprise.findMany({
+      orderBy: {
+        id: 'desc',
+      },
+    });
 
     if (!enterprises)
       throw new ForbiddenException("Il n'y a aucun entreprise!");
@@ -125,13 +129,20 @@ export class EnterpriseService {
     if (!redacteurExists) {
       throw new ForbiddenException("Le redacteur sélectionné n'éxiste pas");
     } else if (redacteur?.role_utilisateur?.id == 1) {
-      const enterprises = await this.prisma.entreprise.findMany();
+      const enterprises = await this.prisma.entreprise.findMany({
+        orderBy: {
+          id: 'desc',
+        },
+      });
 
       if (!enterprises)
         throw new ForbiddenException("Il n'y a aucun entreprise!");
       return enterprises;
     } else {
       const enterprises = await this.prisma.entreprise.findMany({
+        orderBy: {
+          id: 'desc',
+        },
         where: {
           idRedacteur: id,
         },

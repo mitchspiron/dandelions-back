@@ -176,7 +176,7 @@ export class EvenementController {
   }
 
   @Delete(':slug/:id')
-  async deletePostBySlug(
+  async deleteEvenementBySlug(
     @Param('slug') slug: string,
     @Param('id', ParseIntPipe) id: number,
   ): Promise<CreateEvenement> {

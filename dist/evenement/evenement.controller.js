@@ -79,7 +79,7 @@ let EvenementController = class EvenementController {
     async updateEvenementBySlug(slug, id, dto) {
         return await this.evenementService.updateEvenementBySlug(slug, id, dto);
     }
-    async deletePostBySlug(slug, id) {
+    async deleteEvenementBySlug(slug, id) {
         return await this.evenementService.deleteEvenementBySlug(slug, id);
     }
 };
@@ -231,7 +231,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Number]),
     __metadata("design:returntype", Promise)
-], EvenementController.prototype, "deletePostBySlug", null);
+], EvenementController.prototype, "deleteEvenementBySlug", null);
 EvenementController = __decorate([
     (0, common_1.Controller)('evenement'),
     __metadata("design:paramtypes", [evenement_service_1.EvenementService])

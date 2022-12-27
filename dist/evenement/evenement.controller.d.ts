@@ -25,5 +25,5 @@ export declare class EvenementController {
     filterEvenementArchivedAdmin(id: number, dto: FilterEvenementDto): Promise<GetEvenement[]>;
     getEvenementBySlug(slug: string): Promise<GetEvenement>;
     updateEvenementBySlug(slug: string, id: number, dto: UpdateEvenementDto): Promise<CreateEvenement>;
-    deletePostBySlug(slug: string, id: number): Promise<CreateEvenement>;
+    deleteEvenementBySlug(slug: string, id: number): Promise<CreateEvenement>;
 }

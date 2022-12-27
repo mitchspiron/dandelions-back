@@ -1113,7 +1113,7 @@ export class PostService {
       postBySlug.idRedacteur !== id &&
       redacteur?.role_utilisateur?.id !== 1
     ) {
-      throw new ForbiddenException("Cette article n'est pas la votre!");
+      throw new ForbiddenException("Cet article n'est pas la votre!");
     }
 
     return await this.prisma.article.delete({

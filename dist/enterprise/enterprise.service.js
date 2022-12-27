@@ -68,7 +68,11 @@ let EnterpriseService = class EnterpriseService {
         });
     }
     async getEnterprise() {
-        const enterprises = await this.prisma.entreprise.findMany();
+        const enterprises = await this.prisma.entreprise.findMany({
+            orderBy: {
+                id: 'desc',
+            },
+        });
         if (!enterprises)
             throw new common_1.ForbiddenException("Il n'y a aucun entreprise!");
         return enterprises;
@@ -118,13 +122,20 @@ let EnterpriseService = class EnterpriseService {
             throw new common_1.ForbiddenException("Le redacteur sélectionné n'éxiste pas");
         }
         else if (((_b = redacteur === null || redacteur === void 0 ? void 0 : redacteur.role_utilisateur) === null || _b === void 0 ? void 0 : _b.id) == 1) {
-            const enterprises = await this.prisma.entreprise.findMany();
+            const enterprises = await this.prisma.entreprise.findMany({
+                orderBy: {
+                    id: 'desc',
+                },
+            });
             if (!enterprises)
                 throw new common_1.ForbiddenException("Il n'y a aucun entreprise!");
             return enterprises;
         }
         else {
             const enterprises = await this.prisma.entreprise.findMany({
+                orderBy: {
+                    id: 'desc',
+                },
                 where: {
                     idRedacteur: id,
                 },

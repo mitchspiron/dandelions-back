@@ -818,7 +818,7 @@ let EvenementService = class EvenementService {
             },
         });
         if (!evenementBySlug) {
-            throw new common_1.ForbiddenException("Cet evenement n'existe pas!");
+            throw new common_1.ForbiddenException("Cet évènement n'existe pas!");
         }
         if (fs.existsSync(`./images/${evenementBySlug.illustration}`)) {
             fs.unlinkSync(`./images/${evenementBySlug.illustration}`);

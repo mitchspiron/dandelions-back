@@ -1022,7 +1022,7 @@ let PostService = class PostService {
         });
         if (postBySlug.idRedacteur !== id &&
             ((_a = redacteur === null || redacteur === void 0 ? void 0 : redacteur.role_utilisateur) === null || _a === void 0 ? void 0 : _a.id) !== 1) {
-            throw new common_1.ForbiddenException("Cette article n'est pas la votre!");
+            throw new common_1.ForbiddenException("Cet article n'est pas la votre!");
         }
         return await this.prisma.article.delete({
             where: {

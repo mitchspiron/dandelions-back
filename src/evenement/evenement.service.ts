@@ -901,7 +901,7 @@ export class EvenementService {
     });
 
     if (!evenementBySlug) {
-      throw new ForbiddenException("Cet evenement n'existe pas!");
+      throw new ForbiddenException("Cet évènement n'existe pas!");
     }
 
     if (fs.existsSync(`./images/${evenementBySlug.illustration}`)) {
