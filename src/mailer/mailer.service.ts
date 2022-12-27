@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
 import { confirmationTemplate } from './templates/confirmation';
 import { forgotTemplate } from './templates/forgot';
@@ -75,12 +75,19 @@ export class MailService {
 
   async sendMailContact(dto: ContactDto) {
     const html = contactTemplate(dto);
-    return await this.mailerService.sendMail({
-      to: 'mitchspiron@outlook.com',
-      from: dto.from,
-      subject: 'DANDELIONS - NOUVEAU CONTACT',
-      html,
-    });
+    return await this.mailerService
+      .sendMail({
+        to: 'mitchspiron@outlook.com',
+        from: dto.from,
+        subject: 'DANDELIONS - NOUVEAU CONTACT',
+        html,
+      })
+      .then(() => console.log('Vérifier votre boîte email!'))
+      .catch(() => {
+        throw new ForbiddenException(
+          "Un problème s'est produit, vérifier votre connexion internet!",
+        );
+      });
   }
 
   /* 

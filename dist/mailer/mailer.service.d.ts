@@ -8,5 +8,5 @@ export declare class MailService {
     sendMailEventRegistration(to: any, nom: any, prenom: any, event: any, slug: any): Promise<SentMessageInfo>;
     sendMailAcceptWriterRequest(to: any, nom: any, prenom: any): Promise<SentMessageInfo>;
     sendMailDeclineWriterRequest(to: any, nom: any, prenom: any): Promise<SentMessageInfo>;
-    sendMailContact(dto: ContactDto): Promise<SentMessageInfo>;
+    sendMailContact(dto: ContactDto): Promise<void>;
 }

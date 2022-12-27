@@ -69,11 +69,16 @@ let MailService = class MailService {
     }
     async sendMailContact(dto) {
         const html = (0, contact_1.contactTemplate)(dto);
-        return await this.mailerService.sendMail({
+        return await this.mailerService
+            .sendMail({
             to: 'mitchspiron@outlook.com',
             from: dto.from,
             subject: 'DANDELIONS - NOUVEAU CONTACT',
             html,
+        })
+            .then(() => console.log('Vérifier votre boîte email!'))
+            .catch(() => {
+            throw new common_1.ForbiddenException("Un problème s'est produit, vérifier votre connexion internet!");
         });
     }
 };
