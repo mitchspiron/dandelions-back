@@ -126,7 +126,7 @@ export const contactTemplate = (dto: ContactDto) => {
                     <img
                       src="https://www.linkpicture.com/q/D-1-black_3.png"
                       class="logo"
-                      alt="Laravel Logo"
+                      alt="Dandelions Logo"
                       style="
                         box-sizing: border-box;
                         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
