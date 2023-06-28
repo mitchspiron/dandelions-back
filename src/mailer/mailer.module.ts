@@ -11,8 +11,8 @@ import { MailService } from './mailer.service';
         secure: false,
         tls: true,
         auth: {
-          user: 'mitchspiron@outlook.com',
-          pass: 'Leomessi',
+          user: 'mitchspiro',
+          pass: 'xxxxxxxxxxx',
         }, */
         /* host: 'smtp-mail.outlook.com',
         secureConnection: false,
@@ -21,14 +21,14 @@ import { MailService } from './mailer.service';
           ciphers: 'SSLv3',
         },
         auth: {
-          user: 'mitchspiron@outlook.com',
-          pass: 'Leomessi',
+          user: 'mitchspiron',
+          pass: 'XXXXXXXXXXXX',
         }, */
         service: 'gmail',
         secure: false,
         tls: true,
         auth: {
-          user: 'mitchspiron28@gmail.com',
+          user: 'mitchspiron',
           pass: 'lxzxhwdvrocaykcx',
         },
       },
