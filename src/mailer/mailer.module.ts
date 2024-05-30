@@ -10,8 +10,8 @@ import { MailService } from './mailer.service';
         secure: false,
         tls: true,
         auth: {
-          user: 'mitchspiron@outlook.com',
-          pass: 'Leomessi',
+          user: '',
+          pass: '',
         }, */
         host: 'smtp-mail.outlook.com',
         secureConnection: false,
@@ -20,8 +20,8 @@ import { MailService } from './mailer.service';
           ciphers: 'SSLv3',
         },
         auth: {
-          user: 'mitchspiron@outlook.com',
-          pass: 'Leomessi',
+          user: '',
+          pass: '',
         },
       },
     }),
